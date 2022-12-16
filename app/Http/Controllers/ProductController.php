@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\OrderFilterValues;
 use App\Models\Category;
 use App\Models\Option;
 use App\Models\Product;
@@ -142,8 +143,8 @@ class ProductController extends Controller
                         });
                 });
             })
-            ->when($request->has('order') && $request->input('order')!="", function ($query) use ($request) {
-                $query->orderBy($request->input('order'),'desc');
+            ->when($request->has('order'), function ($query) use ($request) {
+                $query->orderBy(OrderFilterValues::exists($request->input('order'))?$request->input('order'):OrderFilterValues::default()->column(),'desc');
             })
             ->paginate(8);
 

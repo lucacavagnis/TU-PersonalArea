@@ -10,6 +10,16 @@ class Company extends Model
 {
     use HasFactory;
 
+    public function users(){
+        return $this->hasMany(User::class);
+    }
+
+    public function products()
+    {
+        return$this->hasMany(Product::class);
+    }
+
+
     protected function supervisors(): Attribute
     {
         return Attribute::make(

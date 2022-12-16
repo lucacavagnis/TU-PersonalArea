@@ -44,10 +44,12 @@ class User extends Authenticatable
     ];
 
     /**
-     * Get the phone associated with the user.
+     * Get the company associated with the user.
      */
     public function company()
     {
         return $this->belongsTo(Company::class);
     }
+
+
 }
