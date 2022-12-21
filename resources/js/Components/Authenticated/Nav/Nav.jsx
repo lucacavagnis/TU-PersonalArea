@@ -1,11 +1,11 @@
 import {Link} from "@inertiajs/inertia-react";
 import ApplicationLogo from "@/Components/ApplicationLogo";
-import NavLink from "@/Components/Nav/NavLink";
-import NavDropdown from "@/Components/Nav/NavDropdown";
-import ResponsiveNavLink from "@/Components/Nav/ResponsiveNavLink";
+import NavLink from "@/Components/Authenticated/Nav/NavLink";
+import NavDropdown from "@/Components/Authenticated/Nav/NavDropdown";
+import ResponsiveNavLink from "@/Components/Authenticated/Nav/ResponsiveNavLink";
 import {useContext, useState} from "react";
 import {TfiBag} from "react-icons/all";
-import SideCart from "@/Components/Cart/SideCart";
+import SideCart from "@/Components/Authenticated/Cart/SideCart";
 import {CartContext} from "@/Layouts/AuthenticatedLayout";
 
 export default function Nav({auth}){
@@ -34,7 +34,7 @@ export default function Nav({auth}){
             <div className="flex justify-between h-16">
                 <div className="flex">
                     <div className="shrink-0 flex items-center">
-                        <Link href="/">
+                        <Link href="/resources/js/Pages">
                             <ApplicationLogo className="block h-9 w-auto text-gray-500" />
                         </Link>
                     </div>

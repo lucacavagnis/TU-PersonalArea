@@ -1,26 +1,13 @@
 import React, {useContext, useState} from 'react';
-import Nav from "@/Components/Nav/Nav";
-
-export const CartContext=React.createContext();
+import Nav from "@/Components/Admin/Nav/Nav";
 
 
-export default function Authenticated({ auth, header, children }) {
-    const [sideCartActive,setSideCartActive]=useState(false);
 
-    const closeCart=(e)=>{
-        if(e)
-            e.preventDefault();
-        setSideCartActive(false);
-    }
+export default function Admin({ auth, header, children }) {
 
-    const openCart=(e)=>{
-        if(e)
-            e.preventDefault();
-        setSideCartActive(true);
-    }
+
 
     return (
-        <CartContext.Provider value={{sideCartActive,openCart,closeCart}}>
             <div className="min-h-screen bg-gray-100">
                 <Nav auth={auth}/>
 
@@ -32,6 +19,5 @@ export default function Authenticated({ auth, header, children }) {
 
                 <main>{children}</main>
             </div>
-        </CartContext.Provider>
     );
 }

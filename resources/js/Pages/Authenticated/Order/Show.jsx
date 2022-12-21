@@ -2,10 +2,10 @@ import React from 'react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import Tab from "@/Components/Tab";
 import { Head } from '@inertiajs/inertia-react';
-import ProductSummary from "@/Components/Product/ProductSammury";
+import ProductSummary from "@/Components/Authenticated/Product/ProductSammury";
 import {capitalize} from "lodash/string";
 import Price from "@/Components/Price";
-import Status from "@/Components/Order/Status";
+import Status from "@/Components/Authenticated/Order/Status";
 import Button from "@/Components/Buttons/Button";
 
 export default function Index(props) {

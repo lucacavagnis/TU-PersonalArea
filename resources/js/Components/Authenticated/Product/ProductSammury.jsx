@@ -1,6 +1,6 @@
 import React from 'react';
 import Tab from "@/Components/Tab";
-import ProductImage from "@/Components/Product/ProductImage";
+import ProductImage from "@/Components/Authenticated/Product/ProductImage";
 import {Link} from "@inertiajs/inertia-react";
 import Price from "@/Components/Price";
 

@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import {MdExpandLess} from "react-icons/all";
-import ServiceCheckBox from "@/Components/Product/ServiceCheckBox";
-import ServiceText from "@/Components/Product/ServiceText";
+import ServiceCheckBox from "@/Components/Authenticated/Product/ServiceCheckBox";
+import ServiceText from "@/Components/Authenticated/Product/ServiceText";
 
 export default function ProductsServiced(props){
     const getServices=(n)=>{

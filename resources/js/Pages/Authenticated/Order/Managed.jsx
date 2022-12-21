@@ -4,8 +4,8 @@ import Button from "@/Components/Buttons/Button";
 import Tab from "@/Components/Tab";
 import {Head, useForm} from '@inertiajs/inertia-react';
 import TextArea from "@/Components/TextArea";
-import Status from "@/Components/Order/Status";
-import ProductAttributes from "@/Components/Product/ProductAttributes";
+import Status from "@/Components/Authenticated/Order/Status";
+import ProductAttributes from "@/Components/Authenticated/Product/ProductAttributes";
 import Attribute from "@/Components/Attribute";
 
 export default function Managed(props) {

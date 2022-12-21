@@ -37,7 +37,7 @@ class Product extends Model
 
     private function getQtyRequested($attributes){
         $cart=Session::get('cart');
-        return $cart->hasByProductId($attributes['id'])?($cart->getByProductId($attributes['id'])->qty):0;
+        return $cart&&$cart->hasByProductId($attributes['id'])?($cart->getByProductId($attributes['id'])->qty):0;
     }
 
     protected function remainingDays(): Attribute

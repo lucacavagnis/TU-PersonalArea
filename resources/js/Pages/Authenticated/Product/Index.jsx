@@ -2,7 +2,7 @@ import React from 'react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import Button from "@/Components/Buttons/Button";
 import {Head, useForm} from '@inertiajs/inertia-react';
-import ProductImage from "@/Components/Product/ProductImage";
+import ProductImage from "@/Components/Authenticated/Product/ProductImage";
 import Pagination from "@/Components/Pagination";
 import TextInput from "@/Components/TextInput";
 import Select from "@/Components/Select";

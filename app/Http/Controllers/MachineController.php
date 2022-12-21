@@ -25,7 +25,7 @@ class MachineController extends Controller
                 return $machine->place->province;
             });
 
-        return Inertia::render('Machine/Index',[
+        return Inertia::render('Authenticated/Machine/Index',[
             'machines'=> $machines,
         ]);
     }

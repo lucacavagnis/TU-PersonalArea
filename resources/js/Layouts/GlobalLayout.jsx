@@ -1,5 +1,5 @@
 import React, {useContext, useState} from 'react';
-import Nav from "@/Components/Nav/Nav";
+import Nav from "@/Components/Authenticated/Nav/Nav";
 
 export const CartContext=React.createContext();
 

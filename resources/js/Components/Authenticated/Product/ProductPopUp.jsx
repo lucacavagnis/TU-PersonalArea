@@ -1,7 +1,7 @@
 import {React, useContext, useEffect, useRef} from 'react';
 import Button from "@/Components/Buttons/Button";
-import ProductsServiced from "@/Components/Product/ProductsServiced";
-import PopUp from "@/Components/Product/PopUp";
+import ProductsServiced from "@/Components/Authenticated/Product/ProductsServiced";
+import PopUp from "@/Components/Authenticated/Product/PopUp";
 import {CartContext} from "@/Layouts/AuthenticatedLayout";
 
 const ProductPopUp=(props)=>{

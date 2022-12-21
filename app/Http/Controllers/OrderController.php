@@ -37,7 +37,7 @@ class OrderController extends Controller
         else
             $orders=Order::where('user_id',Auth::id())->with(['place','orderProducts'])->orderby('created_at','desc')->get();
 
-        return Inertia::render('Order/Index',[
+        return Inertia::render('Authenticated/Order/Index',[
             'orders'=>$orders,
         ]);
     }
@@ -124,7 +124,7 @@ class OrderController extends Controller
      */
     public function show(Order $order)
     {
-        return Inertia::render('Order/Show',[
+        return Inertia::render('Authenticated/Order/Show',[
             'order'=>$order->load(['user','place','orderProducts.product','orderProducts.orderProductServices','approver']),
         ]);
     }
@@ -180,7 +180,7 @@ class OrderController extends Controller
         $order->save();
         OrderConfirmed::dispatch($order);
 
-        return Inertia::render('Order/Confirm',[
+        return Inertia::render('Authenticated/Order/Confirm',[
                 'order'=>$order]
         );
     }
@@ -200,7 +200,7 @@ class OrderController extends Controller
 
         OrderPending::dispatch($order);
 
-        return Inertia::render('Order/Pending',[
+        return Inertia::render('Authenticated/Order/Pending',[
                 'order'=>$order]
         );
     }
@@ -227,9 +227,9 @@ class OrderController extends Controller
         }
 
         return $first?
-         Inertia::render('Order/Approved',
+         Inertia::render('Authenticated/Order/Approved',
             ['order'=>$order]
-        ):Inertia::render('Order/Managed',
+        ):Inertia::render('Authenticated/Order/Managed',
                 ['order'=>$order->load('approver')]
             );
     }
@@ -256,9 +256,9 @@ class OrderController extends Controller
 
 
         return $first?
-            Inertia::render('Order/Rejected',
+            Inertia::render('Authenticated/Order/Rejected',
                 ['order'=>$order]
-            ):Inertia::render('Order/Managed',
+            ):Inertia::render('Authenticated/Order/Managed',
                 ['order'=>$order]
             );
     }

@@ -2,8 +2,8 @@ import React from 'react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import Tab from "@/Components/Tab";
 import { Head } from '@inertiajs/inertia-react';
-import OrdersTable from "@/Components/Order/OrdersTable";
-import SupervisorOrdersTable from "@/Components/Order/SupervisoOrdersTable";
+import OrdersTable from "@/Components/Authenticated/Order/OrdersTable";
+import SupervisorOrdersTable from "@/Components/Authenticated/Order/SupervisoOrdersTable";
 
 export default function Index(props) {
     console.log(props);

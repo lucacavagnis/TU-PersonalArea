@@ -34,11 +34,6 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/admin', function(){
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('admin');
-
-
 Route::get('/products/history',[ProductController::class,'history'])->middleware(['auth', 'verified'])->name('products.history');
 Route::resource('products',ProductController::class)->middleware(['auth', 'verified']);
 

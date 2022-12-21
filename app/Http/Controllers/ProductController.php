@@ -63,7 +63,7 @@ class ProductController extends Controller
         })->get();
 
         $cartProduct=Session::get('cart')->getByProductId($product->id);
-            return Inertia::render('Product/Show',[
+            return Inertia::render('Authenticated/Product/Show',[
                 'product'=>$product,
                 'services'=>$services,
                 'cart_qta'=>$cartProduct?$cartProduct->qty:0,
@@ -148,7 +148,7 @@ class ProductController extends Controller
             })
             ->paginate(8);
 
-        return Inertia::render('Product/Index',[
+        return Inertia::render('Authenticated/Product/Index',[
             'products'=>$products,
             'available'=>$available,
             'input'=>$request->all(),

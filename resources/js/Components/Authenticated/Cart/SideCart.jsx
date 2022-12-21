@@ -3,7 +3,7 @@ import Price from "@/Components/Price";
 import Button from "@/Components/Buttons/Button";
 import CloseButton from "@/Components/Buttons/CloseButton";
 import {CartContext} from "@/Layouts/AuthenticatedLayout";
-import ProductImage from "@/Components/Product/ProductImage";
+import ProductImage from "@/Components/Authenticated/Product/ProductImage";
 
 export default function SideCart(props){
     console.log(props);

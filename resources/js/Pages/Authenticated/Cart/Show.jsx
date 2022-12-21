@@ -10,7 +10,7 @@ import {Inertia} from "@inertiajs/inertia";
 import InputLabel from "@/Components/InputLabel";
 import InputError from "@/Components/InputError";
 import PrimaryButton from "@/Components/Buttons/PrimaryButton";
-import ProductImage from "@/Components/Product/ProductImage";
+import ProductImage from "@/Components/Authenticated/Product/ProductImage";
 
 export default function Show(props) {
 

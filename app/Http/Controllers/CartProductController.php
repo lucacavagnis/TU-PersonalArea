@@ -21,7 +21,7 @@ class CartProductController extends Controller
     {
         $cart=Session::get('cart');
         $cart=$cart->getFullData();
-        return Inertia::render('Cart/Show',[
+        return Inertia::render('Authenticated/Cart/Show',[
             'cart'=>$cart,
         ]);
     }

@@ -20,6 +20,14 @@ class UserSeeder extends Seeder
         $user=new User;
         $user->name="Luca Cavagnis";
         $user->company_id=1;
+        $user->role=0;
+        $user->email="luca.cavagnis.work@gmail.com";
+        $user->password=Hash::make("ViVaIlCaVa99");
+        $user->save();
+
+        $user=new User;
+        $user->name="Luca Cavagnis";
+        $user->company_id=1;
         $user->role=2;
         $user->email="l.cavagnis@tutto-ufficio.it";
         $user->password=Hash::make("ViVaIlCaVa99");

@@ -1,7 +1,7 @@
 import React from 'react';
 import Table from "@/Components/Table/Table";
 import Button from "@/Components/Buttons/Button";
-import Status from "@/Components/Order/Status";
+import Status from "@/Components/Authenticated/Order/Status";
 import {upperCase} from "lodash/string";
 
 export default function SupervisorOrdersTable({orders}){

@@ -2,8 +2,8 @@ import React from 'react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import Tab from "@/Components/Tab";
 import { Head } from '@inertiajs/inertia-react';
-import OrdersTable from "@/Components/Order/OrdersTable";
-import MachinesTable from "@/Components/Machine/MachinesTable";
+import OrdersTable from "@/Components/Authenticated/Order/OrdersTable";
+import MachinesTable from "@/Components/Authenticated/Machine/MachinesTable";
 
 export default function Index(props) {
     let machines=props.machines;
