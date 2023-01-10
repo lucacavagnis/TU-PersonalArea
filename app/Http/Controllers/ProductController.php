@@ -112,7 +112,7 @@ class ProductController extends Controller
      */
     public function history(Request $request)
     {
-        return $this->renderProdcuts($request,false);
+        return $this->renderProdcuts($request);
     }
 
     /**
@@ -121,19 +121,35 @@ class ProductController extends Controller
      * @param bool $available
      * @return \Inertia\Response
      */
-    private function renderProdcuts(Request $request, bool $available=true)
+    private function renderProdcuts(Request $request)
     {
-        $products=Product::where('company_id',Auth::user()->company_id)
-            ->where(function ($query) use ($available){
-                if($available)
-                     return $query->where('qty_available','>',0)->where('expire_date','>',Carbon::now());
-                else
-                    return $query->where('qty_available','<=',0)->orWhere('expire_date','<=',Carbon::now());
 
-            })
+
+        $products=Product::where('company_id',Auth::user()->company_id)
+            /* Check availability */
             ->where(function($query) use ($request){
-                $query->when($request->has('search') && $request->input('search')!="", function ($query) use ($request) {
-                    $query->where('name','like','%'.$request->input('search').'%')
+                $available=$request->input('available','true')==='true';
+                $out_of_stock=$request->input('out_of_stock','true')==='true';
+                $expired=$request->input('expired','true')==='true';
+
+                return $query
+                    ->when($available,function ($query) use ($request){
+                        return $query->where(function($query){
+                            return $query->where('qty_available','>',0)->where(function($query) {
+                                return $query->where('expire_date','>=',Carbon::now())->orWhere('property',1);
+                            });
+                        });
+                    })
+                    ->when($out_of_stock,function ($query) use ($request){
+                            return $query->orWhere('qty_available','=',0);
+                    })
+                    ->when($expired,function ($query) use ($request){
+                            return $query->orWhere('expire_date','<',Carbon::now());
+                    });
+            })
+            /* Search */
+            ->when($request->has('search') && $request->input('search')!="", function ($query) use ($request) {
+                    return $query->where('name','like','%'.$request->input('search').'%')
                         ->orWhereHas('category', function($query) use ($request){
                             return $query->where('name','like','%'.$request->input('search').'%');
                         })
@@ -141,16 +157,12 @@ class ProductController extends Controller
                         ->orWhereHas('subcategory', function($query) use ($request){
                             return $query->where('name','like','%'.$request->input('search').'%');
                         });
-                });
-            })
-            ->when($request->has('order'), function ($query) use ($request) {
-                $query->orderBy(OrderFilterValues::exists($request->input('order'))?$request->input('order'):OrderFilterValues::default()->column(),'desc');
-            })
-            ->paginate(8);
+                })
+           ->orderBy(OrderFilterValues::exists($request->input('order','name'))?$request->input('order','name'):OrderFilterValues::default()->column(),'desc')
+            ->paginate(16)->withQueryString();
 
         return Inertia::render('Authenticated/Product/Index',[
             'products'=>$products,
-            'available'=>$available,
             'input'=>$request->all(),
         ]);
     }

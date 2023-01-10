@@ -11,7 +11,7 @@ export default function ProductsServiced(props){
             switch (service.type){
                 default:
                 case 'checkbox':
-                    return <ServiceCheckBox handleChange={(e)=>props.handleChange(e)} name={n+'-'+service.id}>{service.name}</ServiceCheckBox>
+                    return <ServiceCheckBox handleChange={(e)=>props.handleChange(e)} name={n+'-'+service.id} checked={props.data[n+'-'+service.id]}>{service.name}</ServiceCheckBox>
                 case 'ip':
                     return <ServiceText handleChange={(e)=>props.handleChange(e)} name={n+'-'+service.id} placeholder="127.0.0.1">{service.name}</ServiceText>
             }
@@ -37,7 +37,7 @@ export default function ProductsServiced(props){
 }
 
 function OptionsDropDown(props){
-    const [open,setOpen]=useState(false);
+    const [open,setOpen]=useState(true);
 
     const toggleOpen=()=>{
         setOpen((prev)=>!prev);

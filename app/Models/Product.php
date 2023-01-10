@@ -55,7 +55,9 @@ class Product extends Model
         'expire_date'=>'date:d/m/Y',
         'under_escort_notified'=>'boolean',
         'expiring_notified'=>'boolean',
-        'expired_notified'=>'boolean'
+        'expired_notified'=>'boolean',
+        'property'=>'boolean',
+        'payed'=>'boolean',
     ];
 
 

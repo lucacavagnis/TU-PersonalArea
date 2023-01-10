@@ -16,11 +16,13 @@ export default function ProductSummary({order_product}){
             </ProductImage>
         </div>
         <div className="w-3/4 relative">
-            <Link className="font-semibold hover:underline" href={route('products.show',order_product.product.id)}>{order_product.product.name}</Link>
-            <p className="text-sm">{order_product.product.prot_number} - {order_product.product.prot_date}</p>
-            <p className="text-sm">{order_product.quantity+ " prodotti richiesti"}</p>
-            {optioned_products>0 && (<p className="text-sm text-indigo-700">{optioned_products + " prodotti configurati"}</p>)}
-            <Price value={order_product.product.reserved_price*order_product.quantity} className="absolute bottom-0 left-0 font-bold"/>
+            <Link className="font-semibold hover:underline" href={route('products.show',order_product.product.id)}>{order_product.quantity + " x " + order_product.product.name}</Link>
+            {!order_product.product.property &&
+                <>
+                    <p className="text-sm">{order_product.product.prot_number} - {order_product.product.prot_date}</p>
+                    <p className="text-sm text-indigo-700">{optioned_products + " prodotti configurati"}</p>
+                    <div className="absolute bottom-0 left-0 font-bold"><span>{order_product.quantity + " x " }</span> <Price value={order_product.product.reserved_price} /> <span> = </span> <Price value={order_product.product.reserved_price*order_product.quantity}/></div>
+                </>}
         </div>
     </Tab>);
 

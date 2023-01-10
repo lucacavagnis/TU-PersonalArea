@@ -1,4 +1,4 @@
-import {React} from 'react';
+import React from 'react';
 import CloseButton from "@/Components/Buttons/CloseButton";
 
 const PopUp=(props)=>{
