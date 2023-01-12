@@ -84,9 +84,9 @@ export default function Show(props) {
                     </div>
                     <div className="w-3/5 relative">
                         <Link className="font-semibold hover:underline" href={route('products.show',product.data.id)}>{product.data.name}</Link>
-                        <p className="text-sm">{product.data.prot_number} - {product.data.prot_date}</p>
+                        {!product.data.property && <><p className="text-sm">{product.data.prot_number} - {product.data.prot_date}</p>
                         <p className="text-sm text-indigo-700">{optioned_products + " prodotti configurati"}</p>
-                        <div className="absolute bottom-0 left-0 "><Price value={product.data.reserved_price*product.qty} className="font-bold mr-2"/><span className="text-sm">({product.qty}x<Price value={product.data.reserved_price}/>)</span></div>
+                        <div className="absolute bottom-0 left-0 "><Price value={product.data.reserved_price*product.qty} className="font-bold mr-2"/><span className="text-sm">({product.qty}x<Price value={product.data.reserved_price}/>)</span></div></>}
                     </div>
                     <div className="w-1/6 relative">
                         <TfiClose className="absolute right-0 scale-75 top-0 cursor-pointer" onClick={(e)=>deleteProduct(e,id)}/>

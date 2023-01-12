@@ -10,6 +10,7 @@ use App\Mail\OrderApprovalRequest as OrderApprovalRequestMail;
 use App\Mail\OrderApproved as OrderApprovedMail;
 use App\Mail\OrderConfirmed as OrderConfirmedMail;
 use App\Mail\OrderPending as OrderUnderApprovalMail;
+use App\Mail\OrderReceived;
 use App\Mail\OrderRejected as OrderRejectedMail;
 use Illuminate\Support\Facades\Mail;
 
@@ -31,6 +32,10 @@ class OrderEventSubscriber
         Mail::to($event->order->user)
             ->cc('luca.cavagnis.work@gmail.com')
             ->send(new OrderApprovedMail($event->order));
+
+        Mail::to('l.cavagnis@tutto-ufficio.it')
+            ->cc('luca.cavagnis.work@gmail.com')
+            ->send(new OrderReceived($event->order));
     }
 
     public function handleOrderRejected($event) {
@@ -43,6 +48,10 @@ class OrderEventSubscriber
         Mail::to($event->order->user)
             ->cc('luca.cavagnis.work@gmail.com')
             ->send(new OrderConfirmedMail($event->order));
+
+        Mail::to('l.cavagnis@tutto-ufficio.it')
+            ->cc('luca.cavagnis.work@gmail.com')
+            ->send(new OrderReceived($event->order));
     }
 
     /**

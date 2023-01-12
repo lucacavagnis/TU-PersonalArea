@@ -1,22 +1,27 @@
 import React from 'react';
 
 
-const Table=({className,children})=>{
+const Table=({className="",children})=>{
     return(
-            <div className={className}>
+            <table className={"w-full box-content "+className}>
                 {children}
-            </div>
+            </table>
     )
 }
 
-const Row=({className,children})=>{
-    return(<div className={"flex items-center "+className}>{children}</div>)
+const Row=({className="",children})=>{
+    return(<tr className={className}>{children}</tr>)
 }
 
-const Field=({className,children})=>{
-    return(<div className={className+" mr-1"}>{children}</div>)
+const Field=({className="",children})=>{
+    return(<td className={className+" mr-1"}>{children}</td>)
+}
+
+const Header=({className="",children})=>{
+    return(<th className={className+" mr-1"}>{children}</th>)
 }
 
 Table.Row=Row;
 Table.Field=Field;
+Table.Header=Header;
 export default Table;

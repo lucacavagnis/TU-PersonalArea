@@ -58,7 +58,7 @@ export default function Index(props) {
                                 <DataParagraph title="referente"><span>{order.user.name}</span><a className="block text-sm text-indigo-500" href={"mailto:"+order.user.email}> {order.user.email}</a></DataParagraph>
                                 <DataParagraph title="ufficio" >{order.office}</DataParagraph>
                                 <DataParagraph title="indirizzo"><span>{order.place.address_first_line}</span><span className="block">{order.place.address_second_line}</span></DataParagraph>
-                                <DataParagraph title="numero proddtti">{qty}</DataParagraph>
+                                <DataParagraph title="numero prodotti">{qty}</DataParagraph>
                                 <DataParagraph title="Totale" ><Price value={total} /></DataParagraph>
                                 {order.status && order.status==="pending" && props.auth.user.company.supervision && props.auth.user.role===1 && (
                                     <div className="flex"><Button className="mr-2" href={route('orders.approve',order.id)}>Approva</Button><Button className="bg-white text-rose-700 border border-rose-700 hover:bg-rose-700 hover:text-white" href={route('orders.reject',order.id)}>Rifiuta</Button></div>

@@ -213,7 +213,6 @@ class OrderController extends Controller
      */
     public function approve(Order $order)
     {
-        Log::debug($order);
         $first=false;
         if($order->status==="pending")
         {
