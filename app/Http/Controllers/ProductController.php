@@ -26,7 +26,12 @@ class ProductController extends Controller
      */
     public function index(Request $request)
     {
-        return $this->renderProdcuts($request);
+        $products=Product::orderBy('created_at','desc')->get();
+
+        return Inertia::render('Admin/Product/Index',[
+            'products'=>$products,
+        ]);
+
     }
 
     /**
@@ -111,6 +116,16 @@ class ProductController extends Controller
      * @return \Inertia\Response
      */
     public function history(Request $request)
+    {
+        return $this->renderProdcuts($request);
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Inertia\Response
+     */
+    public function dashboard(Request $request)
     {
         return $this->renderProdcuts($request);
     }

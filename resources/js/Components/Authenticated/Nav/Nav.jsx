@@ -34,22 +34,16 @@ export default function Nav({auth}){
             <div className="flex justify-between h-16">
                 <div className="flex">
                     <div className="shrink-0 flex items-center">
-                        <Link href={route('products.index')}>
+                        <Link href={route('products.dashboard')}>
                             <ApplicationLogo className="block h-9 w-auto text-gray-500" />
                         </Link>
                     </div>
 
                     <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                        <NavLink href={route('products.index')} active={route().current('products.index')}>
+                        <NavLink href={route('products.dashboard')} active={route().current('products.dashboard')}>
                             Prodotti
                         </NavLink>
                     </div>
-
-                    {/*<div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                        <NavLink href={route('products.history')} active={route().current('products.history')}>
-                            Esauriti e Scaduti
-                        </NavLink>
-                    </div>*/}
 
                     <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                         <NavLink href={route('orders.index')} active={route().current('orders.index')}>

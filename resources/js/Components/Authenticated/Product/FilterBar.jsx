@@ -27,7 +27,7 @@ const FilterBar=({open,toggleOpen,input})=>{
 
     const submit=(e)=>{
         e.preventDefault();
-        get(route('products.index'),{
+        get(route('products.dashboard'),{
             only:['products'],
             preserveState: true,
             preserveScroll: true,

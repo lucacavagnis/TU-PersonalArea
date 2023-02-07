@@ -21,7 +21,7 @@ use Inertia\Inertia;
 */
 
 Route::get('/', function () {
-    return Redirect::route('products.index');
+    return Redirect::route('products.dashboard');
     /* return Inertia::render('Guest/Welcome', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
@@ -35,7 +35,8 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/products/history',[ProductController::class,'history'])->middleware(['auth', 'verified'])->name('products.history');
-Route::resource('products',ProductController::class)->middleware(['auth', 'verified']);
+Route::get('/products/dashboard',[ProductController::class,'dashboard'])->middleware(['auth', 'verified'])->name('products.dashboard');
+Route::resource('products',ProductController::class)->only(['show'])->middleware(['auth', 'verified']);
 
 Route::get('/orders/emailApprove/{order}/',[OrderController::class,'approve'])->middleware(['auth', 'verified','signed'])->name('orders.emailApprove');
 Route::get('/orders/approve/{order}/',[OrderController::class,'approve'])->middleware(['auth', 'verified'])->name('orders.approve');

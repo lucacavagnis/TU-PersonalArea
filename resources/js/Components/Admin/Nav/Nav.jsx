@@ -6,7 +6,6 @@ import NavLink from "@/Components/Admin/Nav/NavLink";
 import NavDropdown from "@/Components/Admin/Nav/NavDropdown";
 
 export default function Nav({auth}){
-    console.log(auth)
 
     return(
             <nav className="group z-50 bg-gray-900 fixed flex-shrink-0 max-w-xs hover:w-full h-screen top-0 left-0 w-20 transition-all overflow-hidden duration-500">
@@ -28,13 +27,13 @@ export default function Nav({auth}){
                                 </NavDropdown.Trigger>
 
                                 <NavDropdown.Content>
-                                    <NavDropdown.Link href={route('logout')} method="post" as="button">
+                                    <NavDropdown.Link href={route('products.index')} method="get" as="button">
                                         Prodotti
                                     </NavDropdown.Link>
-                                    <NavDropdown.Link href={route('logout')} method="post" as="button">
+                                    <NavDropdown.Link href={route('products.index')} method="get" as="button">
                                         Categorie
                                     </NavDropdown.Link>
-                                    <NavDropdown.Link href={route('logout')} method="post" as="button">
+                                    <NavDropdown.Link href={route('products.index')} method="get" as="button">
                                         Sottocategorie
                                     </NavDropdown.Link>
                                 </NavDropdown.Content>

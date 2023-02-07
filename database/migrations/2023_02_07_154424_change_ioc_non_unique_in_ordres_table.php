@@ -13,8 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->string("username")->default("");
+        Schema::table('ordres', function (Blueprint $table) {
+            $table->string('ioc', 100)->change();
         });
     }
 
@@ -25,8 +25,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn("username");
+        Schema::table('ordres', function (Blueprint $table) {
+            $table->string('ioc', 100)->unique()->change();
         });
     }
 };

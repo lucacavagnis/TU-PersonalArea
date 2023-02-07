@@ -29,7 +29,7 @@ export default function SideCart(props){
             </div>
             {products.length>0 && (<div className="text-center border-t b-slate-500">
                 <Button type="link" href={route('cart.index')} className="w-full text-center py-4 mb-2">Checkout</Button>
-                <div><span className="inline">oppure </span><Button kind="tertiary" type="link" href={route('products.index')} className="inline text-base">Continua gli acquisti</Button></div>
+                <div><span className="inline">oppure </span><Button kind="tertiary" type="link" href={route('products.dashboard')} className="inline text-base">Continua gli acquisti</Button></div>
             </div>)}
         </div>
     );

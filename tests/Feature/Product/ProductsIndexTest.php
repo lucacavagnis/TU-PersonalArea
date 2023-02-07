@@ -21,7 +21,7 @@ class ProductsIndexTest extends TestCase
     {
         $user=$this->user();
 
-        $response = $this->actingAs($user)->get(route('products.index'));
+        $response = $this->actingAs($user)->get(route('products.dashboard'));
 
         $response->assertStatus(200);
     }
@@ -30,15 +30,15 @@ class ProductsIndexTest extends TestCase
     {
         $user=$this->user();
 
-        $response = $this->actingAs($user)->get(route('products.index'),['order'=>'name']);
+        $response = $this->actingAs($user)->get(route('products.dashboard'),['order'=>'name']);
 
         $response->assertStatus(200);
 
-        $response = $this->actingAs($user)->get(route('products.index'),['order'=>Str::random()]);
+        $response = $this->actingAs($user)->get(route('products.dashboard'),['order'=>Str::random()]);
 
         $response->assertStatus(200);
 
-        $response = $this->actingAs($user)->get(route('products.index'),['search'=>Str::random()]);
+        $response = $this->actingAs($user)->get(route('products.dashboard'),['search'=>Str::random()]);
 
         $response->assertStatus(200);
 

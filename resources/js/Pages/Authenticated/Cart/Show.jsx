@@ -314,7 +314,7 @@ export default function Show(props) {
                         <Tab>
                             <h2 className="font-bold">Il tuo carrello è vuoto</h2>
                             <p>Aggiungi pordotti al tuo carrello per procedere con l'ordine.</p>
-                            <PrimaryButton type="link" href={route('products.index')}>
+                            <PrimaryButton type="link" href={route('products.dashboard')}>
                                 Visualizza prodotti
                             </PrimaryButton>
                         </Tab>
