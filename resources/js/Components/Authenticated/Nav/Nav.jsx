@@ -12,7 +12,7 @@ export default function Nav({auth}){
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
     const cartProductNumber = () => {
             var qty_total=0;
-            console.log(auth);
+
             if(auth.cart!=null)
             auth.cart.products.forEach((product)=>{
                 qty_total+=product.qty;
@@ -34,7 +34,7 @@ export default function Nav({auth}){
             <div className="flex justify-between h-16">
                 <div className="flex">
                     <div className="shrink-0 flex items-center">
-                        <Link href="/resources/js/Pages">
+                        <Link href={route('products.index')}>
                             <ApplicationLogo className="block h-9 w-auto text-gray-500" />
                         </Link>
                     </div>
@@ -45,11 +45,11 @@ export default function Nav({auth}){
                         </NavLink>
                     </div>
 
-                    <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    {/*<div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                         <NavLink href={route('products.history')} active={route().current('products.history')}>
                             Esauriti e Scaduti
                         </NavLink>
-                    </div>
+                    </div>*/}
 
                     <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                         <NavLink href={route('orders.index')} active={route().current('orders.index')}>

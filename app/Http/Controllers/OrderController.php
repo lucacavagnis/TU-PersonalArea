@@ -69,6 +69,7 @@ class OrderController extends Controller
        $order->office= $request->input('office');
        $order->ioc= $request->input('ioc');
        $order->status= $request->input('started');
+       $order->notes=$request->input('notes');
        $order->save();
 
 
@@ -110,7 +111,7 @@ class OrderController extends Controller
 
 
 
-       if(Auth::user()->company->supervision && Auth::user()->role!=1 && count(Auth::user()->company->supervisors)>0)
+       if($this->needApproval($order))
            return Redirect::route('orders.pending',$order->id);
        else
            return Redirect::route('orders.confirm',$order->id);
@@ -263,8 +264,16 @@ class OrderController extends Controller
     }
 
     private function onlyFrom(string $route){
-        //Log::debug(url()->previous()."!=".route($route)."(".$route.")?");
         abort_if(url()->previous()!=route($route),404);
+    }
+
+    private function needApproval(Order $order){
+        $productsUnpayed=false;
+        foreach ($order->orderProducts() as $product)
+            if(!$product->payed && !$product->property)
+                $productsUnpayed=true;
+
+        return $order->user->company->supervision && $order->user->role!=1 && count($order->user->company->supervisors)>0 && $productsUnpayed;
     }
 
 }

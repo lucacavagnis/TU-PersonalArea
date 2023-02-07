@@ -136,20 +136,26 @@ class ProductController extends Controller
                     ->when($available,function ($query) use ($request){
                         return $query->where(function($query){
                             return $query->where('qty_available','>',0)->where(function($query) {
-                                return $query->where('expire_date','>=',Carbon::now())->orWhere('property',1);
+                                return $query->where('expire_date','>=',Carbon::now())->orWhere('property',1)->orWhere('payed',1);
                             });
                         });
                     })
                     ->when($out_of_stock,function ($query) use ($request){
-                            return $query->orWhere('qty_available','=',0);
+                        return $query->orWhere(function($query){
+                            return $query->where('qty_available','=',0)->where('payed',0)->where('property',0);
+                        });
                     })
                     ->when($expired,function ($query) use ($request){
-                            return $query->orWhere('expire_date','<',Carbon::now());
+                            return $query->orWhere(function($query){
+                                return $query->where('expire_date','<',Carbon::now())->where('payed',0)->where('property',0);
+                            });
+
                     });
             })
             /* Search */
             ->when($request->has('search') && $request->input('search')!="", function ($query) use ($request) {
                     return $query->where('name','like','%'.$request->input('search').'%')
+                        ->orWhere('sku','like','%'.$request->input('search').'%')
                         ->orWhereHas('category', function($query) use ($request){
                             return $query->where('name','like','%'.$request->input('search').'%');
                         })

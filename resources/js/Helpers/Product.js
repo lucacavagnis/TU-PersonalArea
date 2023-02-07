@@ -23,3 +23,7 @@ export const qtyTextColor=(product)=>{
 
     return qtyLightCLass;
 }
+
+export const isExpired=(product)=>{
+    return product.remaining_days===0;
+}

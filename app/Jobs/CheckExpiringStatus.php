@@ -36,15 +36,12 @@ class CheckExpiringStatus implements ShouldQueue
      */
     public function handle()
     {
-        $products=Product::all();
+        $products=Product::where('property',0)->where('payed',0);
         foreach ($products as $product){
-            Log::debug($product->name.' checking');
             $days=Carbon::now()->diffInDays(Carbon::parse($product->expire_date),false);
-            Log::debug($days);
             if(!$product->expiring_notified){
                 if($days<$product->company->expiring_limit)
                 {
-                    Log::debug($product->name.' expiring');
                     ProductExpiring::dispatch($product);
                     $product->expiring_notified=true;
                     $product->save();
@@ -54,7 +51,6 @@ class CheckExpiringStatus implements ShouldQueue
             if(!$product->expired_notified){
                 if($days<0)
                 {
-                    Log::debug($product->name.' expired');
                     ProductExpired::dispatch($product);
                     $product->expired_notified=true;
                     $product->save();

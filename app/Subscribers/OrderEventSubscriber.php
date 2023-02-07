@@ -49,7 +49,7 @@ class OrderEventSubscriber
             ->cc('luca.cavagnis.work@gmail.com')
             ->send(new OrderConfirmedMail($event->order));
 
-        Mail::to('l.cavagnis@tutto-ufficio.it')
+        Mail::to('info@tutto-ufficio.it')
             ->cc('luca.cavagnis.work@gmail.com')
             ->send(new OrderReceived($event->order));
     }

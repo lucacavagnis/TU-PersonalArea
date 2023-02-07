@@ -11,9 +11,9 @@ import InputLabel from "@/Components/InputLabel";
 import InputError from "@/Components/InputError";
 import PrimaryButton from "@/Components/Buttons/PrimaryButton";
 import ProductImage from "@/Components/Authenticated/Product/ProductImage";
+import TextArea from "@/Components/TextArea";
 
 export default function Show(props) {
-
 
     const {post,data,setData,errors}=useForm({
         office:'',
@@ -23,7 +23,7 @@ export default function Show(props) {
         city:'',
         postal_code:'',
         address:'',
-
+        notes:'',
     });
 
     const cart=props.cart;
@@ -54,12 +54,26 @@ export default function Show(props) {
     const total =(value=0)=>{
         let totalCost=0;
         cart.products.map((product)=>{
+            if(!product.data.payed)
             totalCost+=product.data.reserved_price*product.qty;
         })
         return(
             <Price className="float-right font-bold" value={totalCost+value}/>
         )
     }
+
+    const needApproval = ()=>{
+        let productsNotPayed=false;
+        let user=props.auth.user;
+        cart.products.forEach((product)=>{
+            if(!product.data.payed && !product.data.property)
+                productsNotPayed=true;
+        })
+
+        return user.company.supervision && user.role!==1 && productsNotPayed;
+    }
+
+    console.log(needApproval())
 
     const onHandleChange = (event) => {
         Inertia.visit(route('cart.update',event.target.name.split('-')[0]),{
@@ -86,7 +100,7 @@ export default function Show(props) {
                         <Link className="font-semibold hover:underline" href={route('products.show',product.data.id)}>{product.data.name}</Link>
                         {!product.data.property && <><p className="text-sm">{product.data.prot_number} - {product.data.prot_date}</p>
                         <p className="text-sm text-indigo-700">{optioned_products + " prodotti configurati"}</p>
-                        <div className="absolute bottom-0 left-0 "><Price value={product.data.reserved_price*product.qty} className="font-bold mr-2"/><span className="text-sm">({product.qty}x<Price value={product.data.reserved_price}/>)</span></div></>}
+                        {!product.data.payed && <div className="absolute bottom-0 left-0 "><Price value={product.data.reserved_price*product.qty} className="font-bold mr-2"/><span className="text-sm">({product.qty}x<Price value={product.data.reserved_price}/>)</span></div>}</>}
                     </div>
                     <div className="w-1/6 relative">
                         <TfiClose className="absolute right-0 scale-75 top-0 cursor-pointer" onClick={(e)=>deleteProduct(e,id)}/>
@@ -265,12 +279,29 @@ export default function Show(props) {
 
                                         </div>
 
+                                        <div className="mb-2 border-b b-grey-500 py-5">
+                                            <div className="mb-4">
+                                                <InputLabel forInput="notes" value="Note" required={true}/>
+
+                                                <TextArea
+                                                    name="notes"
+                                                    value={data.address}
+                                                    className="mt-1 block w-full"
+                                                    autoComplete="address"
+                                                    required={false}
+                                                    isFocused={false}
+                                                    handleChange={onTextChange}
+                                                />
+                                            </div>
+
+                                        </div>
 
                                         <div className="border-b border-grey-300 mt-5 pb-5 h-16">
                                             <div className="w-full h-8" ><span className="float-left font-bold">Subtotale</span><span>{total()}</span></div>
                                             <p className="float-left">+ Spese di trasporto</p><span><Price value={20} className="float-right"/></span>
                                         </div>
                                         <div className="w-full h-10 mt-5" ><span className="float-left font-bold">Totale</span><span>{total(20)}</span></div>
+                                        {needApproval() && <div className="w-full mt-5"><p className="text-rose-500">Attenzione: nel carrello ci sono prodotti che richiedono approvazione da un superiore. Per urgenze esegui un ordine separato senza prodotti che devono ancora essere fatturati.</p></div>}
                                         <Button type="submit" className="w-full py-4 text-center text-lg">Invia ordine</Button>
                                         <div className="w-full text-center py-4"><Link as="button" className="text-center text-indigo-700 font-semibold" onClick={(e)=>emptyCart(e)}>Svuota il carrello</Link></div>
                                     </form>

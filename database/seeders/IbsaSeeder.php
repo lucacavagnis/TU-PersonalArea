@@ -34,7 +34,7 @@ class IbsaSeeder extends Seeder
         $company->save();
 
         $this->userSeeder($company);
-        $this->productSeeder($company);
+        /*$this->productSeeder($company);*/
     }
 
     private function userSeeder(Company $company){
@@ -55,14 +55,13 @@ class IbsaSeeder extends Seeder
         $user->save();
     }
 
-    private function productSeeder(Company $company){
+    /*private function productSeeder(Company $company){
         $product = new Product;
         $product->sku="LE20UW005EIX";
         $product->name="Notebook Lenovo ThinkPAd X12 Detachable";
         $product->desc="Intel® Core™ i5-1130G7 1.8 GHz; Ram 16 GB; Hard Disk 512 GB SSD M.2 NVMe PCIe; Grafica Intel® Iris Xe Graphics; Sistema Operativo Windows 11/10 Professional 64 bit; Connessioni Wi-Fi, Bluetooth, 4G-LTE; Monitor 12.3” IPS Full HD (1920x1080); Peso 0,76 Kg";
         $product->price=1729.00;
         $product->reserved_price=1605.00;
-        $product->image="LE20UW005EIX.png";
         $product->qty_total=7;
         $product->qty_available=3;
         $product->prot_number="22/ST1430";
@@ -72,6 +71,7 @@ class IbsaSeeder extends Seeder
         $product->category_id=1;
         $product->subcategory_id=1;
         $product->company_id=$company->id;
+        $product->property=1;
         $product->save();
 
         $product = new Product;
@@ -80,7 +80,6 @@ class IbsaSeeder extends Seeder
         $product->desc="Processore Intel® Core™ i5-1135G7 2.4 GHz; Ram 8 GB; Hard Disk 256 GB SSD M.2 NVMe PCIe; Grafica Intel® Iris Xe Graphics; Sistema Operativo Windows 11 Professional 64 bit; Connessioni Lan,Wi-Fi, Bluetooth, 4G-LTE; Monitor 14” UWVA Full HD (1920x1080); Peso 1,38 Kg";
         $product->price=837.00;
         $product->reserved_price=762.00;
-        $product->image="HP59R96EA.jpg";
         $product->qty_total=10;
         $product->qty_available=6;
         $product->prot_number="22/ST1042";
@@ -98,7 +97,6 @@ class IbsaSeeder extends Seeder
         $product->desc="Processore Intel® Core™ i5-1135G7 2.4 GHz; Ram 8 GB; Hard Disk 256 GB SSD M.2 NVMe PCIe; Grafica Intel® Iris Xe Graphics; Sistema Operativo Windows 11 Professional 64 bit; Connessioni Lan,Wi-Fi, Bluetooth, 4G-LTE; Monitor 15.6” UWVA Full HD (1920x1080); Peso 1,74 Kg";
         $product->price=848.00;
         $product->reserved_price=768.00;
-        $product->image="HP59S01EA.png";
         $product->qty_total=15;
         $product->qty_available=9;
         $product->prot_number="22/ST1042";
@@ -116,7 +114,6 @@ class IbsaSeeder extends Seeder
         $product->desc="Processore Intel® Core™ i5-1135G7 2.4 GHz; Ram 8 GB; Hard Disk 256 GB SSD M.2 NVMe PCIe; Grafica Intel® Iris Xe Graphics; Sistema Operativo Windows 11 Professional 64 bit; Connessioni Lan,Wi-Fi, Bluetooth, 4G-LTE; Monitor 15.6” UWVA Full HD (1920x1080); Peso 1,74 Kg";
         $product->price=761.00;
         $product->reserved_price=586.00;
-        $product->image="HP4K804EA.jpg";
         $product->qty_total=30;
         $product->qty_available=20;
         $product->prot_number="22/ST1042";
@@ -144,7 +141,6 @@ class IbsaSeeder extends Seeder
                          Garanzia di tre anni di serie";
         $product->price=342.00;
         $product->reserved_price=275.00;
-        $product->image="BRMFCJ4535DWXL.jpg";
         $product->qty_total=50;
         $product->qty_available=30;
         $product->prot_number="22/ST0343";
@@ -162,7 +158,6 @@ class IbsaSeeder extends Seeder
         $product->desc="Smartphone Smart-Ex 02 DZ2";
         $product->price=1260.00;
         $product->reserved_price=1421.80;
-        $product->image="PLTERLMO075.jpg";
         $product->qty_total=3;
         $product->qty_available=0;
         $product->prot_number="22/ST1429";
@@ -180,7 +175,6 @@ class IbsaSeeder extends Seeder
         $product->desc="WebCam Logitech C920 HD Pro";
         $product->price=109.00;
         $product->reserved_price=82;
-        $product->image="LOG960-001055.png";
         $product->qty_total=10;
         $product->qty_available=7;
         $product->prot_number="22/ST1210";
@@ -198,7 +192,6 @@ class IbsaSeeder extends Seeder
         $product->desc="Mouse Logitech USB";
         $product->price=8.99;
         $product->reserved_price=7;
-        $product->image="LOG910-003357.jpg";
         $product->qty_total=5;
         $product->qty_available=0;
         $product->prot_number="22/ST1210";
@@ -216,7 +209,6 @@ class IbsaSeeder extends Seeder
         $product->desc="Mouse Logitech wireless";
         $product->price=12.99;
         $product->reserved_price=11;
-        $product->image="LOG910-004424.png";
         $product->qty_total=30;
         $product->qty_available=30;
         $product->prot_number="22/ST1210";
@@ -234,7 +226,6 @@ class IbsaSeeder extends Seeder
         $product->desc="Pendrive Kingston 32GB USB 3.0";
         $product->price=9.8;
         $product->reserved_price=8;
-        $product->image="KIDTX32GB.jpg";
         $product->qty_total=10;
         $product->qty_available=2;
         $product->prot_number="22/ST1210";
@@ -246,5 +237,18 @@ class IbsaSeeder extends Seeder
         $product->company_id=$company->id;
         $product->save();
 
-    }
+        $product = new Product;
+        $product->name="Notebook Lenovo ThinkPAd X12 Detachable";
+        $product->desc="Intel® Core™ i5-1130G7 1.8 GHz; Ram 16 GB; Hard Disk 512 GB SSD M.2 NVMe PCIe; Grafica Intel® Iris Xe Graphics; Sistema Operativo Windows 11/10 Professional 64 bit; Connessioni Wi-Fi, Bluetooth, 4G-LTE; Monitor 12.3” IPS Full HD (1920x1080); Peso 0,76 Kg";
+        $product->qty_total=7;
+        $product->qty_available=3;
+        $product->warehouse_code="F14";
+        $product->category_id=1;
+        $product->subcategory_id=1;
+        $product->company_id=$company->id;
+        $product->property=1;
+        $product->payed=0;
+        $product->save();
+
+    }*/
 }

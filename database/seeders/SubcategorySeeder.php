@@ -39,6 +39,42 @@ class SubcategorySeeder extends Seeder
         $subcategory->name="copier";
         $subcategory->save();
 
+        $subcategory=new Subcategory;
+        $subcategory->name="switch";
+        $subcategory->save();
+
+        $subcategory=new Subcategory;
+        $subcategory->name="battery";
+        $subcategory->save();
+
+        $subcategory=new Subcategory;
+        $subcategory->name="accessory";
+        $subcategory->save();
+
+        $subcategory=new Subcategory;
+        $subcategory->name="cable";
+        $subcategory->save();
+
+        $subcategory=new Subcategory;
+        $subcategory->name="monitor";
+        $subcategory->save();
+
+        $subcategory=new Subcategory;
+        $subcategory->name="docking";
+        $subcategory->save();
+
+        $subcategory=new Subcategory;
+        $subcategory->name="telephone";
+        $subcategory->save();
+
+        $subcategory=new Subcategory;
+        $subcategory->name="barcode reader";
+        $subcategory->save();
+
+        $subcategory=new Subcategory;
+        $subcategory->name="tablet";
+        $subcategory->save();
+
         $this->call([
             ProductSeeder::class,
         ]);

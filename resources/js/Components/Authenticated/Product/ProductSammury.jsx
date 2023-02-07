@@ -21,7 +21,7 @@ export default function ProductSummary({order_product}){
                 <>
                     <p className="text-sm">{order_product.product.prot_number} - {order_product.product.prot_date}</p>
                     <p className="text-sm text-indigo-700">{optioned_products + " prodotti configurati"}</p>
-                    <div className="absolute bottom-0 left-0 font-bold"><span>{order_product.quantity + " x " }</span> <Price value={order_product.product.reserved_price} /> <span> = </span> <Price value={order_product.product.reserved_price*order_product.quantity}/></div>
+                    {!order_product.product.payed && <div className="absolute bottom-0 left-0 font-bold"><span>{order_product.quantity + " x " }</span> <Price value={order_product.product.reserved_price} /> <span> = </span> <Price value={order_product.product.reserved_price*order_product.quantity}/></div>}
                 </>}
         </div>
     </Tab>);

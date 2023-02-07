@@ -20,7 +20,7 @@ class OrderSeeder extends Seeder
     public function run()
     {
         $order = new Order;
-        $order->user_id=1;
+        $order->user_id=2;
         $order->date=Carbon::now();
         $order->office="Web & Marketing";
         $order->ioc="4RGN6";
@@ -30,7 +30,7 @@ class OrderSeeder extends Seeder
         $order->save();
 
         $order1 = new Order;
-        $order1->user_id=1;
+        $order1->user_id=2;
         $order1->date=Carbon::now()->subDay();
         $order1->office="Web & Marketing";
         $order1->ioc="4RGN6";

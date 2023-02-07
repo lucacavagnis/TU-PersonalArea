@@ -6,7 +6,6 @@ import {CartContext} from "@/Layouts/AuthenticatedLayout";
 import ProductImage from "@/Components/Authenticated/Product/ProductImage";
 
 export default function SideCart(props){
-    console.log(props);
 
     const {sideCartActive,closeCart}=useContext(CartContext)
 

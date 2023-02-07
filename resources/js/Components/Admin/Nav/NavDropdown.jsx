@@ -1,7 +1,7 @@
 import React, { useState, useContext, Fragment } from 'react';
 import { Link } from '@inertiajs/inertia-react';
 import { Transition } from '@headlessui/react';
-import {MdArrowDropDown} from "react-icons/all";
+import {RiArrowDownSLine} from "react-icons/all";
 
 const DropDownContext = React.createContext();
 
@@ -24,12 +24,12 @@ const Trigger = ({ children }) => {
 
     return (
         <>
-            <div onClick={toggleOpen} className="cursor-pointer">{children}<span className="float-right"><MdArrowDropDown></MdArrowDropDown></span></div>
+            <div onClick={toggleOpen} className="cursor-pointer relative">{children}<span className={(open?"rotate-180":"")+" transition-transform absolute top-1/2 -translate-y-1/2 right-2 group-hover:opacity-100 opacity-0 transition-opacity duration-500 ease-out"}><RiArrowDownSLine className="text-white"></RiArrowDownSLine></span></div>
         </>
     );
 };
 
-const Content = ({ align = 'right', width = 'w-full', contentClasses = 'py-1 bg-slate-700', children }) => {
+const Content = ({ align = 'right', width = 'w-full', contentClasses = 'py-1 px-5 group-hover:px-1 bg-slate-700', children }) => {
     const { open, setOpen } = useContext(DropDownContext);
 
     let alignmentClasses = 'origin-top';
@@ -53,7 +53,7 @@ const Content = ({ align = 'right', width = 'w-full', contentClasses = 'py-1 bg-
                 leaveTo="transform opacity-0 scale-95"
             >
                 <div
-                    className={'mt-2 rounded-md shadow-lg ' + alignmentClasses + ' ' + width}
+                    className={'mt-2 rounded-md overflow-hidden shadow-lg ' + alignmentClasses + ' ' + width}
                     onClick={() => setOpen(false)}
                 >
                     <div className={`rounded-md ring-1 ring-black ring-opacity-5 flex flex-col ` + contentClasses}>{children}</div>
@@ -69,7 +69,7 @@ const DropdownLink = ({ href, method = 'post', as = 'a', children }) => {
             href={href}
             method={method}
             as={as}
-            className="block w-full px-4 py-2 text-left text-sm leading-5 text-white focus:outline-none transition duration-150 ease-in-out"
+            className="block overflow-hidden w-full px-0 group-hover:px-4 py-2 text-left text-sm leading-5 text-white focus:outline-none transition duration-150 ease-in-out rounded hover:bg-slate-600"
         >
             {children}
         </Link>

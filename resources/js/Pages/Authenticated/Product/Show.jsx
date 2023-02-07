@@ -8,13 +8,15 @@ import ProductImage from "@/Components/Authenticated/Product/ProductImage";
 import ProductAttributes from "@/Components/Authenticated/Product/ProductAttributes";
 import TextInput from "@/Components/TextInput";
 import Button from "@/Components/Buttons/Button";
-import {lightColor} from "@/Helpers/Product";
+import {isExpired, lightColor} from "@/Helpers/Product";
 import {Inertia} from "@inertiajs/inertia";
 import Tags from "@/Components/Authenticated/Product/Tags";
 import Quantity from "@/Components/Authenticated/Product/Quantity";
 export default function Show(props) {
 
-    const expired=!props.product.property?props.product.remaining_days===0:false;
+    console.log(props)
+
+    const expired=isExpired(props.product);
 
     const qtyRemaining=props.product.qty_available-props.product.qty_requested;
 
@@ -35,7 +37,7 @@ export default function Show(props) {
                     <Tab className="flex justify-between w-full">
                         <div className="w-1/2 mr-4 relative">
                             <div className="absolute top-1 left-1">
-                                {!props.product.property && <span className={(expired?"bg-rose-500":"bg-slate-500")+" uppercase text-sm p-2 rounded font-bold text-white"}>{!expired?"Scade il "+props.product.expire_date:"Scaduto"}</span>}
+                                {!props.product.property && !props.product.payed && <span className={(expired?"bg-rose-500":"bg-slate-500")+" uppercase text-sm p-2 rounded font-bold text-white"}>{!expired?"Scade il "+props.product.expire_date:"Scaduto"}</span>}
                             </div>
                            <ProductImage name={props.product.image} className="h-full"/>
                         </div>
@@ -57,11 +59,11 @@ export default function Show(props) {
                             </div>
 
                             <div className="mb-8">
-                                    {props.product.qty_available>0 && !expired && <BuyInput  {...props}/>}
-
-                                    {(props.product.qty_available===0 || expired ) && props.auth.user.role===1 && props.product.property &&
+                                    {((props.product.qty_available>0 && !expired) || props.product.property || props.product.payed)?
+                                        <BuyInput  {...props}/>:
                                         <Button type="link" href="">Ordina di nuovo</Button>
-                                        }
+                                    }
+
                             </div>
                         </div>
                     </Tab>

@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\CompanyController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +16,8 @@ use Inertia\Inertia;
 |
 */
 
-Route::get('/dashboard', function(){
+Route::get('/', function(){
     return Inertia::render('Admin/Dashboard');
-})->name('dashboard');
+})->name('admin.dashboard');
+
+Route::resource('companies',CompanyController::class);

@@ -5,6 +5,7 @@ export const CartContext=React.createContext();
 
 
 export default function Authenticated({ auth, header, children }) {
+
     const [sideCartActive,setSideCartActive]=useState(false);
 
     const closeCart=(e)=>{

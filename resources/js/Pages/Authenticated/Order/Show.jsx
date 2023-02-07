@@ -19,8 +19,10 @@ export default function Index(props) {
 
     let qty=0;
     let total=0;
+
     order.order_products.map((order_product)=>{
         qty+=order_product.quantity;
+        if(!order_product.product.payed)
         total+=order_product.product.reserved_price*order_product.quantity;
     })
 

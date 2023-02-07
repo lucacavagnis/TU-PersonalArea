@@ -14,6 +14,7 @@ class Order extends Model
 {
     use HasFactory;
 
+
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -54,6 +55,16 @@ class Order extends Model
         );
     }
 
+    private function approvalNeeded($attributes){
+        $productsUnpayed=false;
+        $user=$attributes['user'];
+
+        foreach ($attributes['order_products'] as $product)
+            if(!$product->payed)
+                $productsUnpayed=true;
+
+        return $user->company->supervision && $user->role!=1 && count($user->company->supervisors)>0 && $productsUnpayed;
+    }
 
     protected function serializeDate(DateTimeInterface $date)
     {

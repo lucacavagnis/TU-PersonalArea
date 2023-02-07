@@ -34,5 +34,6 @@ class Company extends Model
     protected $casts=[
         'supervision'=>'boolean',
         'machines'=>'boolean',
+        'services'=>'boolean',
     ];
 }

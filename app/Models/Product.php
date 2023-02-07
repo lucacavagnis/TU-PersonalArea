@@ -6,6 +6,8 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 
 class Product extends Model
@@ -35,6 +37,21 @@ class Product extends Model
         );
     }
 
+protected function image(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value, $attributes) =>  $this->getImageFileName($attributes),
+        );
+    }
+
+    private function getImageFileName($attributes){
+        $name=null;
+        $name=File::exists(public_path('images/'.$attributes['sku'].'.jpg'))?$attributes['sku'].'.jpg':$name;
+        $name=File::exists(public_path('images/'.$attributes['sku'].'.png'))?$attributes['sku'].'.png':$name;
+
+        return $name;
+    }
+
     private function getQtyRequested($attributes){
         $cart=Session::get('cart');
         return $cart&&$cart->hasByProductId($attributes['id'])?($cart->getByProductId($attributes['id'])->qty):0;
@@ -48,10 +65,9 @@ class Product extends Model
         );
     }
 
-    protected $appends=['qty_requested','remaining_days'];
+    protected $appends=['qty_requested','remaining_days','image'];
 
     protected $casts=[
-        'prot_date'=>'date:d/m/Y',
         'expire_date'=>'date:d/m/Y',
         'under_escort_notified'=>'boolean',
         'expiring_notified'=>'boolean',

@@ -11,7 +11,7 @@ Un ordine è in attesa della tua approvazione per procedere.
     | Prodotto      | Qty         | Prezzo |
     | :------------- |:-------------|:-------------|
     @foreach($order->orderProducts()->get() as $orderProduct)
-    | {{$orderProduct->product->name}}    | {{$orderProduct->quantity}}    | {{$orderProduct->product->reserved_price}}    |
+    | {{$orderProduct->product->name}}    | {{$orderProduct->quantity}}    | {{$orderProduct->product->payed?0:$orderProduct->product->reserved_price}}    |
     @endforeach
 </x-mail::table>
 
