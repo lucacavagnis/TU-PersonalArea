@@ -63,6 +63,7 @@ export default function Index(props) {
 }
 
 const Product=({element})=>{
+    console.log(element);
     const qtyRemaining=element.qty_available-element.qty_requested;
     const expired=isExpired(element);
     const outOfStock=qtyRemaining===0;
@@ -76,7 +77,7 @@ const Product=({element})=>{
                     {/*!element.property && <h4 className="uppercase text-sm">{element.prot_number} - {element.prot_date}</h4>*/}
                 </div>
                 <div>
-                    <Quantity product={element} size="small" />
+                    <Quantity product={element.physical_product} size="small" />
                     <Button href={route("products.show",element.id)}>
                         Visualizza
                     </Button>

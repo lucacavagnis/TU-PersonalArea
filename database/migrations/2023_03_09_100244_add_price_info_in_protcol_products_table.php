@@ -11,11 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('warehouse_slots', function (Blueprint $table) {
-            $table->id();
-            $table->string('rack');
-            $table->string('shelf');
-            $table->timestamps();
+        Schema::table('protocol_products', function (Blueprint $table) {
+            $table->unsignedFloat('price');
+            $table->unsignedFloat('original_price');
         });
     }
 
@@ -24,6 +22,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('warehouse_slots');
+        Schema::table('protcol_products', function (Blueprint $table) {
+            $table->dropColumn('price');
+            $table->dropColumn('original_price');
+        });
     }
 };

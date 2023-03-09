@@ -25,7 +25,7 @@ class OrderSeeder extends Seeder
         $order->office="Web & Marketing";
         $order->ioc="4RGN6";
         $order->status="pending";
-        $order->feedback="";
+        $order->notes="";
         $order->place_id=2;
         $order->save();
 
@@ -37,7 +37,7 @@ class OrderSeeder extends Seeder
         $order1->status="approved";
         $order1->approver_id=2;
         $order1->approved_at=Carbon::now();
-        $order1->feedback="";
+        $order1->notes="";
         $order1->place_id=3;
         $order1->save();
 

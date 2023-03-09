@@ -142,7 +142,7 @@ class ProductController extends Controller
 
         $products=Product::where('company_id',Auth::user()->company_id)
             /* Check availability */
-            ->where(function($query) use ($request){
+            /*->where(function($query) use ($request){
                 $available=$request->input('available','true')==='true';
                 $out_of_stock=$request->input('out_of_stock','true')==='true';
                 $expired=$request->input('expired','true')==='true';
@@ -166,7 +166,7 @@ class ProductController extends Controller
                             });
 
                     });
-            })
+            })*/
             /* Search */
             ->when($request->has('search') && $request->input('search')!="", function ($query) use ($request) {
                     return $query->where('name','like','%'.$request->input('search').'%')
@@ -174,13 +174,13 @@ class ProductController extends Controller
                         ->orWhereHas('category', function($query) use ($request){
                             return $query->where('name','like','%'.$request->input('search').'%');
                         })
-                        ->orWhere('prot_number','like','%'.$request->input('search').'%')
+                        /*->orWhereHas('prot_number','like','%'.$request->input('search').'%')*/
                         ->orWhereHas('subcategory', function($query) use ($request){
                             return $query->where('name','like','%'.$request->input('search').'%');
                         });
                 })
            ->orderBy(OrderFilterValues::exists($request->input('order','name'))?$request->input('order','name'):OrderFilterValues::default()->column(),'desc')
-            ->paginate(16)->withQueryString();
+            ->with(['physicalProduct','physicalProduct.protocolProduct','physicalProduct.protocolProduct.protocol']) ->paginate(16)->withQueryString();
 
         return Inertia::render('Authenticated/Product/Index',[
             'products'=>$products,

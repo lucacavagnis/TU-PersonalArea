@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
@@ -30,6 +31,12 @@ class Product extends Model
     {
         return $this->belongsTo(Subcategory::class);
     }
+
+    public function physicalProduct(): HasOne{
+        return $this->hasOne(PhysicalProduct::class);
+    }
+
+
 
     protected function qtyRequested(): Attribute
     {

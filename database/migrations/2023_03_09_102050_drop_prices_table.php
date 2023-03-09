@@ -11,12 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('warehouse_slots', function (Blueprint $table) {
-            $table->id();
-            $table->string('rack');
-            $table->string('shelf');
-            $table->timestamps();
-        });
+        Schema::dropIfExists('prices');
     }
 
     /**
@@ -24,6 +19,12 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('warehouse_slots');
+        Schema::create('prices', function (Blueprint $table) {
+            $table->id();
+            $table->float('value');
+            $table->float('original_value');
+            $table->unsignedBigInteger('product_id');
+            $table->timestamps();
+        });
     }
 };
