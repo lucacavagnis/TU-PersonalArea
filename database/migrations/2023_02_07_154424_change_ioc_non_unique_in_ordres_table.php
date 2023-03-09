@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('ordres', function (Blueprint $table) {
+        Schema::table('orders', function (Blueprint $table) {
             $table->string('ioc', 100)->change();
         });
     }
@@ -25,7 +25,7 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('ordres', function (Blueprint $table) {
+        Schema::table('orders', function (Blueprint $table) {
             $table->string('ioc', 100)->unique()->change();
         });
     }
