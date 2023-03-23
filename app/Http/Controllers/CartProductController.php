@@ -42,20 +42,37 @@ class CartProductController extends Controller
      * @param  \App\Http\Requests\StoreCartProductRequest  $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(StoreCartProductRequest $request)
+
+    public function storeOne(StoreCartProductRequest $request)
     {
-        $id=$request->input('product_id');
+        $id=$request->input('product_data_id');
+        $product=$request->input('product_id');
         $qty=$request->input('qty');
-        $services=$request->getServices();
+        /*$services=$request->getServices();*/
 
-        $request->checkAvaibility();
+        /*$request->checkAvaibility();*/
 
-        Session::get('cart')->addProduct($id,$qty,$services);
+        Session::get('cart')->addProduct($id,$product,$qty,array());
 
-        if($request->input('redirect'))
-            return Redirect::route('cart.index');
-        else
-            return Redirect::route('products.show',$id);
+        return Redirect::route('productData.show',$id);
+    }
+
+    public function storeMany(StoreCartProductRequest $request)
+    {
+        $id=$request->input('product_data_id');
+        $products=$request->input('products');
+        /*$services=$request->getServices();*/
+
+        foreach ($products as $product){
+            Log::debug($product);
+            $request->checkAvaibility();
+
+            Session::get('cart')->addProduct($id,$product['id'],$product['qty'],array());
+        }
+
+
+
+        return Redirect::route('productData.show',$id);
     }
 
     /**

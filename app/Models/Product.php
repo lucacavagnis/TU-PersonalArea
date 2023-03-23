@@ -6,6 +6,10 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 use Illuminate\Support\Facades\File;
@@ -16,27 +20,37 @@ class Product extends Model
 {
     use HasFactory;
 
-
-    public function company()
+    public function company(): BelongsTo
     {
         return $this->belongsTo(Company::class);
     }
-
-    public function category()
+    public function protocolProduct(): HasOne{
+        return $this->hasOne(ProtocolProduct::class,'product_id');
+    }
+    public function protocol(): HasOneThrough
     {
-        return $this->belongsTo(Category::class);
+        return $this->through('protocolProduct')->has('protocol');
     }
 
-    public function subcategory()
+    public function data(): BelongsTo
     {
-        return $this->belongsTo(Subcategory::class);
+        return $this->belongsTo(ProductData::class);
     }
 
-    public function physicalProduct(): HasOne{
-        return $this->hasOne(PhysicalProduct::class);
+    public function orderProducts(): HasMany
+    {
+        return $this->hasMany(OrderProduct::class);
     }
 
+    public function orders(): BelongsToMany
+    {
+        return $this->belongsToMany(Order::class,'order_products')->withPivot('quantity')->as('orderProduct');
+    }
 
+    public function warehouseSlots(): BelongsToMany
+    {
+        return $this->belongsToMany(WarehouseSlot::class,'product_locations','product_id','warehouse_id')->withPivot('qty')->as('product_location');
+    }
 
     protected function qtyRequested(): Attribute
     {
@@ -45,44 +59,11 @@ class Product extends Model
         );
     }
 
-protected function image(): Attribute
-    {
-        return Attribute::make(
-            get: fn ($value, $attributes) =>  $this->getImageFileName($attributes),
-        );
-    }
-
-    private function getImageFileName($attributes){
-        $name=null;
-        $name=File::exists(public_path('images/'.$attributes['sku'].'.jpg'))?$attributes['sku'].'.jpg':$name;
-        $name=File::exists(public_path('images/'.$attributes['sku'].'.png'))?$attributes['sku'].'.png':$name;
-
-        return $name;
-    }
-
     private function getQtyRequested($attributes){
         $cart=Session::get('cart');
-        return $cart&&$cart->hasByProductId($attributes['id'])?($cart->getByProductId($attributes['id'])->qty):0;
+        return $cart&&$cart->hasByProductId($attributes['data_id'])&&$cart->getByProductId($attributes['data_id'])->hasByProductId($attributes['id'])?
+            ($cart->getByProductId($attributes['data_id'])->getByProductId($attributes['id'])->qty):0;
     }
 
-    protected function remainingDays(): Attribute
-    {
-        $days=Carbon::parse(Carbon::now())->diffInDays($this->expire_date,false);
-        return Attribute::make(
-            get: fn ($value,$attributes) => max($days, 0),
-        );
-    }
-
-    protected $appends=['qty_requested','remaining_days','image'];
-
-    protected $casts=[
-        'expire_date'=>'date:d/m/Y',
-        'under_escort_notified'=>'boolean',
-        'expiring_notified'=>'boolean',
-        'expired_notified'=>'boolean',
-        'property'=>'boolean',
-        'payed'=>'boolean',
-    ];
-
-
+    protected $appends=['qty_requested'];
 }

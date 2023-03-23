@@ -1,7 +1,7 @@
 import Price from "@/Components/Price";
 
-export default function ReservedPrice(props){
+export default function ReservedPrice({fullPrice,reservedPrice,className}){
     return(
-        <div><p className={props.className}><Price value={props.fullPrice} className="line-through text-slate-500"/> <Price value={props.reservedPrice} /></p></div>
+        <div><p className={className}><Price value={fullPrice} className="line-through text-slate-500"/> <Price value={reservedPrice} /></p></div>
     )
 }

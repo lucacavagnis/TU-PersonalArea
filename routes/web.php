@@ -3,11 +3,13 @@
 use App\Http\Controllers\CartProductController;
 use App\Http\Controllers\MachineController;
 use App\Http\Controllers\OrderController;
-use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProductDataController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProtocolController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,7 +23,7 @@ use Inertia\Inertia;
 */
 
 Route::get('/', function () {
-    return Redirect::route('products.dashboard');
+    return Redirect::route('productData.dashboard');
     /* return Inertia::render('Guest/Welcome', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
@@ -34,9 +36,11 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/products/history',[ProductController::class,'history'])->middleware(['auth', 'verified'])->name('products.history');
-Route::get('/products/dashboard',[ProductController::class,'dashboard'])->middleware(['auth', 'verified'])->name('products.dashboard');
-Route::resource('products',ProductController::class)->only(['show'])->middleware(['auth', 'verified']);
+Route::get('/productData/history',[ProductDataController::class,'history'])->middleware(['auth', 'verified'])->name('productData.history');
+Route::get('/productData/dashboard',[ProductDataController::class,'dashboard'])->middleware(['auth', 'verified'])->name('productData.dashboard');
+Route::resource('productData',ProductDataController::class)->only(['show'])->middleware(['auth', 'verified']);
+
+Route::resource('products',ProductController::class)->middleware(['auth', 'verified']);
 
 Route::get('/orders/emailApprove/{order}/',[OrderController::class,'approve'])->middleware(['auth', 'verified','signed'])->name('orders.emailApprove');
 Route::get('/orders/approve/{order}/',[OrderController::class,'approve'])->middleware(['auth', 'verified'])->name('orders.approve');
@@ -47,8 +51,12 @@ Route::get('/orders/confirm/{order}/',[OrderController::class,'confirm'])->middl
 Route::resource('orders',OrderController::class)->middleware(['auth', 'verified']);
 
 Route::delete('/cart/empty',[CartProductController::class,'empty'])->name('cart.empty')->middleware(['auth', 'verified']);
+Route::post('/cart/store/one',[CartProductController::class,'storeOne'])->name('cart.store.one')->middleware(['auth', 'verified']);
+Route::post('/cart/store/many',[CartProductController::class,'storeMany'])->name('cart.store.many')->middleware(['auth', 'verified']);
 Route::resource('cart',CartProductController::class)->middleware(['auth', 'verified']);
 
 Route::resource('machines', MachineController::class)->middleware(['auth','verified','option:machines']);
+
+Route::resource('protocols',ProtocolController::class)->middleware(['auth', 'verified']);
 
 require __DIR__.'/auth.php';

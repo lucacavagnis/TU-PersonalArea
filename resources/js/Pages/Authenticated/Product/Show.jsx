@@ -8,17 +8,55 @@ import ProductImage from "@/Components/Authenticated/Product/ProductImage";
 import ProductAttributes from "@/Components/Authenticated/Product/ProductAttributes";
 import TextInput from "@/Components/TextInput";
 import Button from "@/Components/Buttons/Button";
-import {isExpired, lightColor} from "@/Helpers/Product";
 import {Inertia} from "@inertiajs/inertia";
-import Tags from "@/Components/Authenticated/Product/Tags";
 import Quantity from "@/Components/Authenticated/Product/Quantity";
+import {TfiZoomIn} from "react-icons/all";
+import Table from "@/Components/Table/Table";
+import {upperCase} from "lodash/string";
+import Status from "@/Components/Authenticated/Order/Status";
+import {isCa, isTu} from "@/Helpers/Product";
+import OrdersTable from "@/Components/Authenticated/Order/OrdersTable";
+import {BuyInput, CartButton, ProductDataTab} from "@/Pages/Authenticated/ProductData/Show";
 export default function Show(props) {
+    const product=props.product;
+    const productData=product.data;
+    const orders=product.orders;
+    const slots=product.warehouse_slots;
+
+
+    const {data,setData,post,reset} = useForm({
+        product_data_id: productData.id,
+        product_id: product.id,
+        qty: 0,
+    });
 
     console.log(props)
 
-    const expired=isExpired(props.product);
+    const submit=(e,contextAction)=>{
+        e.preventDefault();
+        post(route('cart.store.one'),{
+            preserveScroll: true,
+            onSuccess: ()=>{
+                reset();
+                contextAction();
+            }
+        })
+    }
 
-    const qtyRemaining=props.product.qty_available-props.product.qty_requested;
+    const totalSelectedProduct=()=>{
+        let t=0;
+        data.products.forEach((p)=>{
+            t+=p.qty;
+        })
+        return t;
+    }
+
+    const onRangeChange=(e)=>{
+        e.preventDefault();
+        setData(e.target.name,e.target.value)
+    }
+
+
 
 
     return (
@@ -34,39 +72,42 @@ export default function Show(props) {
 
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
-                    <Tab className="flex justify-between w-full">
-                        <div className="w-1/2 mr-4 relative">
-                            <div className="absolute top-1 left-1">
-                                {!props.product.property && !props.product.payed && <span className={(expired?"bg-rose-500":"bg-slate-500")+" uppercase text-sm p-2 rounded font-bold text-white"}>{!expired?"Scade il "+props.product.expire_date:"Scaduto"}</span>}
-                            </div>
-                           <ProductImage name={props.product.image} className="h-full"/>
-                        </div>
-
-                        <div className="w-1/2 ml-4">
-                            <div className="mb-8">
-                                <Tags product={props.product}  extended={true}/>
-                                <h1 className="font-bold">{props.product.name}</h1>
-                                <span className="mb-2 block text-sm">{props.product.sku}</span>
-                                <ReservedPrice fullPrice={props.product.price} reservedPrice={props.product.reserved_price} className="text-2xl mb-4 font-semibold"/>
-                                <Quantity product={props.product} />
+                    <div className="mb-4 flex w-full">
+                        <Tab containerClassName="w-5/6 mr-2">
+                            <div className="flex jusitfy-between">
+                                <div className="w-1/2">
+                                    <div className="flex items-center"><h3 className="text-slate-500 uppercase mr-4">{isTu(product)?"Da Tutto Uffico":"Da Terzi"}</h3>{isTu(product) && <Button kind="tertiary" href={route('protocols.show',product.protocol_product.protocol.id)}>Vedi portcollo</Button>}</div>
+                                    <p>{isCa(product)?"Conto aperto":"Conto deposito"}</p>
+                                    <p>{"Qt.à iniziale: "+ product.qty_total}</p>
+                                </div>
+                                <div className="w-1/2">
+                                    {(product.qty_available-product.qty_requested)>0 && <div>
+                                    <BuyInput name="qty" product={product} qty={data.qty} onChange={onRangeChange}/>
+                                    <CartButton submit={submit}/></div>}
+                                </div>
                             </div>
 
-                            <div className="mb-8">
-                                {!props.product.property &&
-                                    <ProductAttributes product={props.product} />
-                                }
-                                <p className="mb-4">{props.product.desc}</p>
-                            </div>
 
-                            <div className="mb-8">
-                                    {((props.product.qty_available>0 && !expired) || props.product.property || props.product.payed)?
-                                        <BuyInput  {...props}/>:
-                                        <Button type="link" href="">Ordina di nuovo</Button>
-                                    }
 
-                            </div>
-                        </div>
+                        </Tab>
+                        <Tab containerClassName="w-1/6 ml-2">
+                            <h3 className="font-bold mb-2">Magazzino</h3>
+                            {slots.length!==0?slots.map((slot)=>{
+                            return(
+                                <p className="py-2 my-1 border-b">{slot.product_location.qty + " in " + slot.rack+slot.shelf}</p>
+                                )}
+                            ):<p>Non presente in magazzino</p>}
+                        </Tab>
+                    </div>
+
+                    <ProductDataTab product={productData} />
+
+                    <Tab>
+                        <h2 className="font-bold mb-4">Ordini di evasione del lotto</h2>
+                        <OrdersTable orders={orders} />
                     </Tab>
+
+
                 </div>
             </div>
 
@@ -75,99 +116,4 @@ export default function Show(props) {
     );
 }
 
-const BuyInput = (props) => {
 
-    const {openCart}=useContext(CartContext)
-
-    const { data, setData, post, processing, transform} = useForm({
-        qty: 0,
-        product_id: props.product.id,
-        redirect: '',
-    });
-
-
-    const redirect = useRef(false);
-
-    const inertiaSubmit = (e) => {
-        e.preventDefault()
-        Inertia.post(route('cart.store'),{...data, redirect: redirect.current},{
-            onSuccess: ()=>{
-                triggerClose();
-                openCart(e);
-            },
-        })
-    }
-
-    const submit = (e) => {
-        if(!props.product.property)
-            triggerOpen()
-        else
-            inertiaSubmit(e)
-
-    };
-
-    const onClick = (e,isRedirect) => {
-        e.preventDefault();
-        redirect.current=isRedirect;
-        submit(e);
-    };
-
-    const onHandleChange = (event) => {
-        setData(event.target.name, event.target.type === 'checkbox' ? event.target.checked : event.target.value);
-    };
-
-    const [open, setOpen] = useState(false);
-
-    const triggerClose = (e) => {
-        if(e)
-            e.preventDefault();
-
-        setOpen(false);
-    }
-
-    const triggerOpen = (e) => {
-        if(e)
-            e.preventDefault();
-
-        if(data.qty>0)
-            setOpen(true);
-    }
-
-    return(
-        <>
-            <ProductPopUp
-                product={props.product}
-                services={props.services}
-                onHandleChange={onHandleChange}
-                data={data}
-                processing={processing}
-                open={open}
-                triggerClose={triggerClose}
-                submit={inertiaSubmit}
-            />
-
-            <TextInput
-                type="number"
-                name="qty"
-                className="mt-1 block w-full"
-                autoComplete="qty"
-                value={data.qty}
-                isFocused={true}
-                max={(props.product.qty_available-props.cart_qta)}
-                handleChange={onHandleChange}
-                min={0}
-            />
-
-            <div className="flex w-full justify-start">
-                <Button  type="submit" className="mr-4" onClick={(e)=>onClick(e,false)} disabled={processing || data.qty<1}>
-                    Aggiungi al carrello
-                </Button>
-
-                <Button type="submit" onClick={(e)=>onClick(e,true)} disabled={processing || data.qty<1}>
-                    Acquista subito
-                </Button>
-            </div>
-     </>
-    )
-
-}

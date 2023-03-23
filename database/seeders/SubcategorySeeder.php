@@ -75,6 +75,10 @@ class SubcategorySeeder extends Seeder
         $subcategory->name="tablet";
         $subcategory->save();
 
+        $subcategory=new Subcategory;
+        $subcategory->name="printer";
+        $subcategory->save();
+
         $this->call([
             ProductSeeder::class,
         ]);

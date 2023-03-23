@@ -14,4 +14,9 @@ class ProtocolProduct extends Model
     {
         return $this->belongsTo(Protocol::class);
     }
+
+    public function product(): BelongsTo
+    {
+        return $this->belongsTo(Product::class);
+    }
 }

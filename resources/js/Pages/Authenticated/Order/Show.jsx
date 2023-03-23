@@ -78,7 +78,7 @@ export default function Index(props) {
     );
 }
 
-const DataParagraph=({title, children})=>{
+export const DataParagraph=({title, children})=>{
     return(
         <div>
             <h4 className="font-bold">{capitalize(title)}</h4>

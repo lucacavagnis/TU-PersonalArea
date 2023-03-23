@@ -27,8 +27,8 @@ const FilterBar=({open,toggleOpen,input})=>{
 
     const submit=(e)=>{
         e.preventDefault();
-        get(route('products.dashboard'),{
-            only:['products'],
+        get(route('productData.dashboard'),{
+            only:['products','input'],
             preserveState: true,
             preserveScroll: true,
         });
@@ -58,7 +58,6 @@ const FilterBar=({open,toggleOpen,input})=>{
                         <CustomCheckbox name="npayed" label="Non pagato" checked={data.nowned} handleChange={onHandleChange}/>
                     </Dropdown>*/}
                     <Dropdown name="Disponibilità" height="h-24">
-                        <CustomCheckbox name="available" label="Disponibili" checked={data.available}  handleChange={onHandleChange}/>
                         <CustomCheckbox name="out_of_stock" label="Esauriti" checked={data.out_of_stock}  handleChange={onHandleChange}/>
                         <CustomCheckbox name="expired" label="Scaduti" checked={data.expired} handleChange={onHandleChange}/>
                     </Dropdown>

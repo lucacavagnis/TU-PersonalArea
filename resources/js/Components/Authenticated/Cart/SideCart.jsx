@@ -11,8 +11,8 @@ export default function SideCart(props){
 
     const cart=props.cart;
 
-    const products=cart.products.length===0?[]:
-        Object.entries(cart.products).map((product)=>{
+    const products=cart.products_data.length===0?[]:
+        Object.entries(cart.products_data).map((product)=>{
         return(
             <Product product={product} />
         )}
@@ -29,7 +29,7 @@ export default function SideCart(props){
             </div>
             {products.length>0 && (<div className="text-center border-t b-slate-500">
                 <Button type="link" href={route('cart.index')} className="w-full text-center py-4 mb-2">Checkout</Button>
-                <div><span className="inline">oppure </span><Button kind="tertiary" type="link" href={route('products.dashboard')} className="inline text-base">Continua gli acquisti</Button></div>
+                <div><span className="inline">oppure </span><Button kind="tertiary" type="link" href={route('productData.dashboard')} className="inline text-base">Continua gli acquisti</Button></div>
             </div>)}
         </div>
     );
@@ -43,6 +43,7 @@ const Product=(props)=>{
         return (Object.keys(services).length);
     }
 
+
     return(
         <div className="flex h-32 mb-4">
             <ProductImage name={product.data.image} className="w-1/4 rounded-lg mr-2 border b-slate-300">
@@ -50,12 +51,12 @@ const Product=(props)=>{
             </ProductImage>
             <div className="w-3/4 flex flex-col justify-between ml-2 pb-4">
                 <div>
+                    <span className="text-slate-500">{product.data.sku}</span>
                     <h3 className="font-bold">{product.data.name}</h3>
-                    <span className="text-sm text-indigo-700">{productsWithServices(product.configured_products)+" prodotti configurati"}</span>
+                    <span className="text-sm text-indigo-700">{"Da " + 0 + " lotti"}</span>
                 </div>
                 <div className="w-full flex justify-between">
-                    <span className="text-slate-500">{"Qt.à "+ product.qty}</span>
-                    <Price value={product.data.reserved_price*product.qty} className="font-bold"/>
+                    <span className="font-semibold">{product.qty + " unità richieste"}</span>
                 </div>
             </div>
         </div>

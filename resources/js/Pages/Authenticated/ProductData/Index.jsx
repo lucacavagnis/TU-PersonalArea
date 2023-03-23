@@ -12,6 +12,8 @@ import {isExpired} from "@/Helpers/Product";
 export default function Index(props) {
     let products=props.products.data;
 
+    console.log(props)
+
     const  [open,setOpen]=useState(false);
 
     const toggleOpen=(e)=>{
@@ -22,7 +24,7 @@ export default function Index(props) {
 
     products = products.map((product)=>{
         return(
-            <Product element={product} available={props.available}/>
+            <Product product={product} available={props.available}/>
         )
     })
 
@@ -37,7 +39,8 @@ export default function Index(props) {
 
             <div className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                    <div className="flex justify-end mb-4"><Button onClick={toggleOpen}>Filtra e Ordina</Button></div>
+                    <div className="flex justify-between items-center mb-4"><h3 className="font-semibold text-lg mb-2 ">{props.input.search && ("Risultati per: "+props.input.search)}</h3><Button onClick={toggleOpen}>Filtra e Ordina</Button></div>
+
 
 
             {products.length > 0 && (
@@ -62,23 +65,18 @@ export default function Index(props) {
     );
 }
 
-const Product=({element})=>{
-    console.log(element);
-    const qtyRemaining=element.qty_available-element.qty_requested;
-    const expired=isExpired(element);
-    const outOfStock=qtyRemaining===0;
+const Product=({product})=>{
     return(
-        <li key={element.id} className={((!expired&&!outOfStock)||element.payed||element.property?"":"outline outline-rose-300 outline-2")+" bg-white overflow-hidden shadow-sm sm:rounded-lg w-[calc(25%-1rem)] mr-2 ml-2 mb-4"}>
+        <li key={product.id} className={(product.products_sum_qty_available>0?"":"outline outline-rose-300 outline-2")+" bg-white overflow-hidden shadow-sm sm:rounded-lg w-[calc(25%-1rem)] mr-2 ml-2 mb-4"}>
             <div className="p-6 bg-white border-b border-gray-200 h-full flex flex-col justify-between">
                 <div>
-                    <ProductImage name={element.image} className="h-48"/>
-                    <Tags product={element}/>
-                    <h3 className="font-bold text-sm uppercase">{element.name}</h3>
-                    {/*!element.property && <h4 className="uppercase text-sm">{element.prot_number} - {element.prot_date}</h4>*/}
+                    <ProductImage name={product.image} className="h-48"/>
+                    <span className="tex-sm uppercase text-slate-500">{product.sku}</span>
+                    <h3 className="font-bold text-sm uppercase mb-2">{product.name}</h3>
                 </div>
                 <div>
-                    <Quantity product={element.physical_product} size="small" />
-                    <Button href={route("products.show",element.id)}>
+                    <Quantity partial={product.products_sum_qty_available-product.qty_requested} total={product.products_sum_qty_total} size="small" />
+                    <Button href={route("productData.show",product.id)}>
                         Visualizza
                     </Button>
                 </div>

@@ -41,7 +41,7 @@ class HandleInertiaRequests extends Middleware
         return array_merge(parent::share($request), [
             'auth' => [
                 'user' => $request->user()?$request->user()->load('company'):null,
-                'cart' => $cart?$cart->getFullData():null,
+                'cart' => $cart?$cart->getProductsData():null,
             ],
             'ziggy' => function () use ($request) {
                 return array_merge((new Ziggy)->toArray(), [

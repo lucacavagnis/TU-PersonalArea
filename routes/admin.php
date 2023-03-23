@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\CompanyController;
-use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProductDataController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -22,4 +22,4 @@ Route::get('/', function(){
 })->name('admin.dashboard');
 
 Route::resource('companies',CompanyController::class);
-Route::resource('products',ProductController::class)->except(['show']);
+Route::resource('products',ProductDataController::class)->except(['show']);

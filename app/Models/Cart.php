@@ -7,53 +7,61 @@ use Illuminate\Support\Facades\Log;
 
 class Cart
 {
-    public array $products=array();
-
-    public function deleteProduct(int $id){
-        $this->remove($id);
-    }
-
-    public function updateProduct(int $id,int $qty){
-        $product=$this->get($id);
-        $product->qty=$qty;
-        if($product->qty<count($product->configured_products))
-            array_pop($product->configured_products);
-    }
-
-    public function addProduct(int $id, int $qty, array $services){
-        if($this->hasByProductId($id))
-        {
-            $product=$this->getByProductId($id);
-            Log::debug(print_r($product,true));
-            $product->qty+=$qty;
-            $product->configured_products=array_merge($product->configured_products,$services);
-        }
-        else{
-            $product= new CartProduct;
-            $product->id=$id;
-            $product->qty=$qty;
-            $product->configured_products=$services;
-            $this->products[]=$product;
-        }
-    }
+    public array $products_data=array();
+    public int $total=0;
 
     public function has(int $key) : bool{
-        return array_key_exists($key,$this->products);
+        return array_key_exists($key,$this->products_data);
     }
     public function hasByProductId(int $id) : bool{
-        foreach($this->products as $product) {
-            if ($product->id == $id)
-                return true;
-        }
+            foreach($this->products_data as $product) {
+                if ($product->id == $id)
+                    return true;
+            }
         return false;
     }
 
-    public function get(int $key) : CartProduct|null{
-        return $this->has($key)?$this->products[$key]:null;
+    public function deleteData(int $data_id): void
+    {
+        $this->remove($data_id);
+    }
+    public function deleteProduct(int $data_id, int $product_id): void
+    {
+        $this->getByProductId($data_id)->remove($product_id);
     }
 
-    public function getByProductId(int $id) : CartProduct|null{
-        foreach($this->products as $product){
+    public function updateProduct(int $data_id, int $product_id,int $qty): void
+    {
+        $product=$this->get($data_id);
+        $product->qty=$qty;
+    }
+
+    public function addProduct(int $data_id, int $product_id, int $qty, array $services): void
+    {
+        $this->total+=$qty;
+
+        if($this->hasByProductId($data_id))
+        {
+            $product_data=$this->getByProductId($data_id);
+            $product_data->qty+=$qty;
+        }
+        else{
+            $product_data= new CartProductData;
+            $product_data->id=$data_id;
+            $product_data->qty=$qty;
+            $this->products_data[]=$product_data;
+        }
+
+        $product_data->addProduct($product_id,$qty,$services);
+
+    }
+
+    public function get(int $key) : CartProductData|null{
+        return $this->has($key)?$this->products_data[$key]:null;
+    }
+
+    public function getByProductId(int $id) : CartProductData|null{
+        foreach($this->products_data as $product){
             if($product->id==$id)
                 return $product;
         }
@@ -61,24 +69,28 @@ class Cart
         return null;
     }
 
-    public function remove(int $key){
+    public function remove(int $key): void
+    {
             if($this->has($key)) {
-                unset($this->products[$key]);
-                $this->products=array_values($this->products);
+                unset($this->products_data[$key]);
+                $this->products_data=array_values($this->products_data);
             }
     }
 
-    public function empty(){
-        $this->products=array();
+    public function empty(): void
+    {
+        $this->products_data=array();
     }
 
-    public function getFullData(){
-        $products=$this;
-        foreach ($products->products as $cartProduct){
-            $cartProduct->data=Product::where('id',$cartProduct->id)->first();
+    public function getProductsData(): Cart
+    {
+        $cart=$this;
+        foreach ($cart->products_data as $cartProduct){
+            $cartProduct->data=ProductData::where('id',$cartProduct->id)->first();
         }
-        return $products;
+        return $cart;
     }
+
 
 
 }

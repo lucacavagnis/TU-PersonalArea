@@ -11,6 +11,8 @@ export default function OrdersTable({orders}){
 
 
         return(
+            <>
+            {orders.length!==0?
             <Table>
                 <Table.Row className={"text-slate-500 pb-2 pt-2 border-b border-t border-slate-100 "+rowClasses}>
                     <Table.Header className={headerClasses}>Codice interno</Table.Header>
@@ -23,23 +25,20 @@ export default function OrdersTable({orders}){
 
                 {orders.map((order)=>{
 
-                    let qty=0;
-                    order.order_products.map((order_product)=>{
-                        qty+=order_product.quantity;
-                    })
-
                     return(
                         <Table.Row key={order.id} className={"border-b border-slate-100 text-sm"+" "+rowClasses}>
                             <Table.Field>{upperCase(order.ioc)}</Table.Field>
                             <Table.Field><Status status={order.status} /></Table.Field>
                             <Table.Field>{order.place.address_first_line} <br /> {order.place.address_second_line}</Table.Field>
                             <Table.Field>{order.date}</Table.Field>
-                            <Table.Field>{qty}</Table.Field>
+                            <Table.Field>{order.order_product.quantity}</Table.Field>
                             <Table.Field><Button type="link" kind="tertiary" href={route('orders.show',order.id)} className="mt-0 align-middle">Dettagli</Button></Table.Field>
                         </Table.Row>
                     )
                 })}
-            </Table>
+            </Table>:
+                    <p>Nessun ordine esistente</p>}
+            </>
         )
     }
 

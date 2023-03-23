@@ -9,6 +9,7 @@ use DateTimeZone;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Order extends Model
 {
@@ -33,6 +34,11 @@ class Order extends Model
     public function orderProducts()
     {
         return $this->hasMany(OrderProduct::class);
+    }
+
+    public function products(): BelongsToMany
+    {
+        return $this->belongsToMany(Product::class);
     }
 
     protected function date(): Attribute
@@ -71,7 +77,7 @@ class Order extends Model
         return $date->setTimezone(new DateTimeZone('Europe/Rome'))->format('d/m/Y H:i:s');
     }
 
-
+    protected $with=['place'];
 
 
 

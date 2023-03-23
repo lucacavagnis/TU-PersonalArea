@@ -16,8 +16,9 @@ class StoreCartProductRequest extends FormRequest
      */
     public function authorize()
     {
-        $product = Product::find($this->input('product_id'));
-        return $product && Gate::allows('order-product',$product);
+        /*$product = ProductData::find($this->input('product_id'));
+        return $product && Gate::allows('order-product',$product);*/
+        return true;
     }
 
     /**
@@ -40,12 +41,12 @@ class StoreCartProductRequest extends FormRequest
      * @throws \Illuminate\Validation\ValidationException
      */
     public function checkAvaibility(){
-        $product=Product::find($this->input('product_id'));
+        /*$product=ProductData::find($this->input('product_id'));
 
         if($this->input('qty')>$product->qty_available || $this->input('qty')<1)
             throw ValidationException::withMessages([
                 'qty' => 'Qauntità non disponibile',
-            ]);
+            ]);*/
     }
 
     public function getServices(){
