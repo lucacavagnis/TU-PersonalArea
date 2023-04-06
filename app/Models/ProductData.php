@@ -39,21 +39,67 @@ class ProductData extends Model
         );
     }
 
-    protected function qtyRequested(): Attribute
+    protected function lastPrice(): Attribute
     {
         return Attribute::make(
-            get: fn ($value, $attributes) =>  $this->getQtyRequested($attributes['id']),
+            get: function($value, $attributes){
+                return $this->getPrice($attributes['id'],'price');            },
         );
     }
 
-    private function getQtyRequested($id){
+    protected function lastOriginalPrice(): Attribute
+    {
+        return Attribute::make(
+            get: function($value, $attributes){
+                return $this->getPrice($attributes['id'],'original_price');
+            },
+        );
+    }
+
+    private function getPrice($id,$property){
+        $protocol= ProtocolProduct::where('product_id',$id)->join('protocols','protocols.id',"=",'protocol_products.protocol_id')->orderBy('protocols.date','desc')->first();
+        return $protocol!=null?$protocol->{$property}:null;
+    }
+
+    public function getLastProduct(){
+
+    }
+
+    protected function qtyRequested(): Attribute
+    {
+        return Attribute::make(
+            get: function($value, $attributes){
+                return $this->getQtySum($attributes['id'],'qty_requested');
+
+                },
+        );
+    }
+
+    protected function qtyAvailable(): Attribute
+    {
+        return Attribute::make(
+            get: function($value, $attributes){
+                return $this->getQtySum($attributes['id'],'qty_available');
+
+            },
+        );
+    }
+    protected function qtyTotal(): Attribute
+    {
+        return Attribute::make(
+            get: function($value, $attributes){
+                return $this->getQtySum($attributes['id'],'qty_total');
+            },
+        );
+    }
+
+    private function getQtySum($id,$property){
         $total=0;
         $product=ProductData::find($id);
         $products=$product->products;
         foreach ($products as $p)
-            $total+=$p->qty_requested;
+            $total+=$p->{$property};
         return $total;
-
     }
 
     private function getImageFileName($attributes){

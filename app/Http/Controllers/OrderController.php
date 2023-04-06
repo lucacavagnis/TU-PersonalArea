@@ -15,6 +15,7 @@ use App\Models\OrderProduct;
 use App\Models\OrderProductService;
 use App\Models\Product;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
@@ -27,18 +28,29 @@ class OrderController extends Controller
      *
      * @return \Inertia\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         if(Auth::user()->role==1)
             $orders=Order::whereHas('user',function($q){
                 $q->where('company_id',Auth::user()->company_id);
             })
-                ->with(['place','orderProducts','user'])->orderby('created_at','desc')->get();
+                ->with(['place','user']);
         else
-            $orders=Order::where('user_id',Auth::id())->with(['place','orderProducts'])->orderby('created_at','desc')->get();
+            $orders=Order::where('user_id',Auth::id())->with(['place']);
+
+        $orders=$orders
+            ->when($request->input('search'),function($query) use ($request){
+            return $query
+                ->where('date','like','%'.$request->input('search').'%')
+                ->orWhere('ioc','like','%'.$request->input('search').'%')
+                ->orWhere('status','like','%'.$request->input('search').'%');
+        })
+            ->orderBy($request->input('orderBy','date'),$request->input('orderDir',"desc"))
+            ->paginate(10)->appends($request->except('page'));
 
         return Inertia::render('Authenticated/Order/Index',[
             'orders'=>$orders,
+            'inputs'=>$request->input(),
         ]);
     }
 
@@ -126,7 +138,7 @@ class OrderController extends Controller
     public function show(Order $order)
     {
         return Inertia::render('Authenticated/Order/Show',[
-            'order'=>$order->load(['user','place','orderProducts.product','orderProducts.orderProductServices','approver']),
+            'order'=>$order->load(['user','place','orderProducts.product.data','orderProducts.product.protocolProduct','approver']),
         ]);
     }
 

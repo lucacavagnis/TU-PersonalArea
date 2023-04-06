@@ -1,45 +1,86 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Table from "@/Components/Table/Table";
 import Button from "@/Components/Buttons/Button";
 import Status from "@/Components/Authenticated/Order/Status";
 import {upperCase} from "lodash/string";
+import {Inertia} from "@inertiajs/inertia";
+import Protocol from "@/Helpers/Protocol";
+import Pagination from "@/Components/Pagination";
 
-export default function OrdersTable({orders}){
-    const rowClasses="[&>*]:py-4";
-    const headerClasses="text-left";
+export default function OrdersTable(props){
+    let orders=props.orders.data
+    let inputs=props.inputs
+    const [data,setData]=useState({
+        orderBy: inputs&&inputs.orderBy?inputs.orderBy:"date",
+        orderDir: inputs&&inputs.orderDir?inputs.orderDir:"desc",
+        search: inputs&&inputs.search?inputs.search:'',
+        page: inputs&&inputs.page?inputs.page:1,
+    })
 
+    const columnTitleOnClick=(name,dir)=>{
+        setData(data=>({...data, orderDir:dir, orderBy: name}))
+        Inertia.get(window.location.href,{...data, orderDir:dir, orderBy: name},{
+            only: ['orders','inputs'],
+        })
+    }
 
+    const searchUpdate=(e)=>{
+        setData(data=>({...data, search:e.target.value}))
+    }
 
-        return(
-            <>
-            {orders.length!==0?
-            <Table>
-                <Table.Row className={"text-slate-500 pb-2 pt-2 border-b border-t border-slate-100 "+rowClasses}>
-                    <Table.Header className={headerClasses}>Codice interno</Table.Header>
-                    <Table.Header className={headerClasses}>Status</Table.Header>
-                    <Table.Header className={headerClasses}>Indirizzo</Table.Header>
-                    <Table.Header className={headerClasses}>Data</Table.Header>
-                    <Table.Header className={headerClasses}>Q.tà</Table.Header>
-                    <Table.Header className={headerClasses}></Table.Header>
-                </Table.Row>
+    const searchSubmit=()=>{
+        Inertia.get(window.location.href,data,{
+            only: ['orders','inputs'],
+        })
+    }
 
-                {orders.map((order)=>{
+    return(<>
 
-                    return(
-                        <Table.Row key={order.id} className={"border-b border-slate-100 text-sm"+" "+rowClasses}>
-                            <Table.Field>{upperCase(order.ioc)}</Table.Field>
-                            <Table.Field><Status status={order.status} /></Table.Field>
-                            <Table.Field>{order.place.address_first_line} <br /> {order.place.address_second_line}</Table.Field>
-                            <Table.Field>{order.date}</Table.Field>
-                            <Table.Field>{order.order_product.quantity}</Table.Field>
-                            <Table.Field><Button type="link" kind="tertiary" href={route('orders.show',order.id)} className="mt-0 align-middle">Dettagli</Button></Table.Field>
+            {(orders && orders.length>0 || inputs.search!=="")?
+                (<>
+                    <Table.Search keyword={data.search} update={searchUpdate} submit={searchSubmit}/>
+                    <Table>
+                        <Table.Row>
+                            <Table.Header name="ioc" sortable={true} onClick={columnTitleOnClick} initial={data.orderDir} current={data.orderBy}>
+                                Codice interno
+                            </Table.Header>
+                            <Table.Header name="status" sortable={true} onClick={columnTitleOnClick} initial={data.orderDir} current={data.orderBy}>
+                                Status
+                            </Table.Header>
+                            <Table.Header name="place.address_first_line" sortable={true} onClick={columnTitleOnClick} initial={data.orderDir} current={data.orderBy}>
+                                Indirizzo
+                            </Table.Header>
+                            <Table.Header name="date" sortable={true} onClick={columnTitleOnClick} initial={data.orderDir} current={data.orderBy}>
+                                Data
+                            </Table.Header>
+                            <Table.Header>
+                            </Table.Header>
                         </Table.Row>
-                    )
-                })}
-            </Table>:
-                    <p>Nessun ordine esistente</p>}
-            </>
-        )
+                        {orders.map((o)=>{
+                            return(
+                                <Table.Row key={o.id}>
+                                    <Table.Field>
+                                        {o.ioc}
+                                    </Table.Field>
+                                    <Table.Field>
+                                        {o.status}
+                                    </Table.Field>
+                                    <Table.Field>
+                                        {o.place.address_first_line} <br /> {o.place.address_second_line}
+                                    </Table.Field>
+                                    <Table.Field>
+                                        {o.date}
+                                    </Table.Field>
+                                    <Table.Field>
+                                        <Button href={route('orders.show',o.id)} kind="tertiary">Dettagli</Button>
+                                    </Table.Field>
+                                </Table.Row>
+                            )
+                        })}
+                    </Table> {(props.orders && props.orders.total>10 && <Pagination links={props.orders.links} />)}</>):
+                <p>Nesun protocollo presente</p>}
+        </>
+    )
     }
 
 

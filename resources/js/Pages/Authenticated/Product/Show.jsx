@@ -18,9 +18,11 @@ import {isCa, isTu} from "@/Helpers/Product";
 import OrdersTable from "@/Components/Authenticated/Order/OrdersTable";
 import {BuyInput, CartButton, ProductDataTab} from "@/Pages/Authenticated/ProductData/Show";
 export default function Show(props) {
+    console.log(props)
+
     const product=props.product;
     const productData=product.data;
-    const orders=product.orders;
+    const orders=props.orders;
     const slots=product.warehouse_slots;
 
 
@@ -80,11 +82,11 @@ export default function Show(props) {
                                     <p>{isCa(product)?"Conto aperto":"Conto deposito"}</p>
                                     <p>{"Qt.à iniziale: "+ product.qty_total}</p>
                                 </div>
-                                <div className="w-1/2">
+                                {/*<div className="w-1/2">
                                     {(product.qty_available-product.qty_requested)>0 && <div>
                                     <BuyInput name="qty" product={product} qty={data.qty} onChange={onRangeChange}/>
                                     <CartButton submit={submit}/></div>}
-                                </div>
+                                </div>*/}
                             </div>
 
 
@@ -100,11 +102,11 @@ export default function Show(props) {
                         </Tab>
                     </div>
 
-                    <ProductDataTab product={productData} />
+                    {/*<ProductDataTab product={productData} />*/}
 
                     <Tab>
                         <h2 className="font-bold mb-4">Ordini di evasione del lotto</h2>
-                        <OrdersTable orders={orders} />
+                        <OrdersTable orders={orders} inputs={props.inputs} />
                     </Tab>
 
 

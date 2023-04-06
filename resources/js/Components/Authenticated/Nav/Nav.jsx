@@ -52,7 +52,7 @@ export default function Nav({auth}){
                     </div>
 
                     <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                        <NavLink href={route('orders.index')} active={route().current('orders.index')}>
+                        <NavLink href={route('protocols.index')} active={route().current('protocols.index')}>
                             Protocolli di offerta
                         </NavLink>
                     </div>

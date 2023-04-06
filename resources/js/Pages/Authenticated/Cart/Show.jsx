@@ -12,6 +12,7 @@ import InputError from "@/Components/InputError";
 import PrimaryButton from "@/Components/Buttons/PrimaryButton";
 import ProductImage from "@/Components/Authenticated/Product/ProductImage";
 import TextArea from "@/Components/TextArea";
+import {ProductListDetails} from "@/Components/ProductListDetails";
 
 export default function Show(props) {
 
@@ -86,7 +87,7 @@ export default function Show(props) {
     };
 
 
-    const products=cart.products.map((product,id)=>{
+    {/* const products=cart.products.map((product,id)=>{
                 const qty_value_name=id+"-qty_requested";
                 const optioned_products=Object.keys(product.configured_products).length;
 
@@ -117,7 +118,7 @@ export default function Show(props) {
                         />
                     </div>
                 </Tab>);
-            })
+            })*/}
 
 
     return (
@@ -131,7 +132,9 @@ export default function Show(props) {
             <div className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
-                    {cart.products.length>0 && (
+                    <ProductListDetails products={} />
+
+                    {/*{cart.products.length>0 && (
                         <div className="flex justify-between">
                             <div className="w-1/2">
                                 {products}
@@ -318,7 +321,7 @@ export default function Show(props) {
                                 Visualizza prodotti
                             </PrimaryButton>
                         </Tab>
-                    )}
+                    )}*/}
 
                 </div>
             </div>

@@ -38,12 +38,21 @@ class ProductController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Product $product)
+    public function show(Product $product, Request $request)
     {
-        $cartProduct=Session::get('cart')->getByProductId($product->id);
+        $orders=$product->load('orders')->orders()
+            ->when($request->input('search'),function($query) use ($request){
+            return $query
+                ->where('date','like','%'.$request->input('search').'%')
+                ->orWhere('ioc','like','%'.$request->input('search').'%')
+                ->orWhere('status','like','%'.$request->input('search').'%');
+        })
+            ->orderBy($request->input('orderBy','date'),$request->input('orderDir',"desc"))
+            ->paginate(10)->appends($request->except('page'));;
         return Inertia::render('Authenticated/Product/Show',[
-            'product'=>$product->load(['data','data.category','data.subcategory','protocolProduct.protocol','orders','warehouseSlots']),
-            /*'cart_qta'=>$cartProduct?$cartProduct->qty:0,*/
+            'product'=>$product->load(['data','data.category','data.subcategory','protocolProduct.protocol','warehouseSlots']),
+            'orders'=>$orders,
+            'inputs'=>$request->input(),
         ]);
     }
 

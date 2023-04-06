@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Enums\OrderFilterValues;
+use App\Models\Company;
 use App\Models\Product;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Models\ProductData;
 use App\Models\Service;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
@@ -64,7 +66,7 @@ class ProductDataController extends Controller
     {
         $cartProduct=Session::get('cart')->getByProductId($productDatum->id);
             return Inertia::render('Authenticated/ProductData/Show',[
-                'product'=>$productDatum->load(['products','products.protocolProduct.protocol','category','subcategory']),
+                'product'=>$productDatum->load(['products','products.protocolProduct.protocol','category','subcategory'])->append(['last_price','last_original_price','qty_available','qty_requested','qty_total']),
                 'cart_qta'=>$cartProduct?$cartProduct->qty:0,
             ]);
     }
@@ -132,7 +134,7 @@ class ProductDataController extends Controller
      */
     private function renderProducts(Request $request): \Inertia\Response
     {
-        $products=ProductData::where('company_id',Auth::user()->company_id)
+        $products=Company::find(Auth::user()->company->id)->products()
         ->whereDoesntHave('products',function (Builder $query) {
         $query->where('qty_available', '<=', 0);
         })
@@ -173,7 +175,8 @@ class ProductDataController extends Controller
             ->withSum('products','qty_total')
             ->orderBy(OrderFilterValues::parse($request->input('order','name')),'asc')
             ->orderBy('products_sum_qty_available')
-            ->paginate(16);
+            ->paginate(16)
+            ->withQueryString();
 
            $products->append('qty_requested')->toArray();
 

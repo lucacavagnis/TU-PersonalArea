@@ -8,15 +8,12 @@ import {DataParagraph} from "@/Pages/Authenticated/Order/Show";
 
 export const ProductListDetails=({products,title,children})=>{
 
+    console.log(products)
 
     return(
         <div className="flex w-full overflow-hidden">
             <div className="w-2/3 mr-4">
-                {products.map((product)=>
-                    {
-                        return <ProductSummary product={product.data} protocol_product={product.protocol_product} qty={product.qty_total} />
-                    }
-                )}
+                {products}
             </div>
             <div className="w-1/3 ml-4 relative">
                 <Tab className="sticky top-20px">

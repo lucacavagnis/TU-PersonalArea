@@ -48,23 +48,20 @@ class CartProductController extends Controller
         $id=$request->input('product_data_id');
         $product=$request->input('product_id');
         $qty=$request->input('qty');
-        /*$services=$request->getServices();*/
 
         /*$request->checkAvaibility();*/
 
         Session::get('cart')->addProduct($id,$product,$qty,array());
 
-        return Redirect::route('productData.show',$id);
+        return redirect()->back();
     }
 
     public function storeMany(StoreCartProductRequest $request)
     {
         $id=$request->input('product_data_id');
         $products=$request->input('products');
-        /*$services=$request->getServices();*/
 
         foreach ($products as $product){
-            Log::debug($product);
             $request->checkAvaibility();
 
             Session::get('cart')->addProduct($id,$product['id'],$product['qty'],array());
@@ -72,7 +69,7 @@ class CartProductController extends Controller
 
 
 
-        return Redirect::route('productData.show',$id);
+        return redirect()->back();
     }
 
     /**

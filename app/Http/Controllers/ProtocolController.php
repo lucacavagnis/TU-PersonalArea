@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Company;
 use App\Models\Protocol;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 
 class ProtocolController extends Controller
@@ -11,9 +15,23 @@ class ProtocolController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $protocols=Company::find(Auth::user()->company->id)->protocols()
+        ->when($request->input('search'),function($query) use ($request){
+            return $query
+                ->where('date','like','%'.$request->input('search').'%')
+                ->orWhere('referral','like','%'.$request->input('search').'%')
+                ->orWhere('type','like','%'.$request->input('search').'%')
+                ->orWhere('expiring_date','like','%'.$request->input('search').'%');
+
+        })
+        ->orderBy($request->input('orderBy','date'),$request->input('orderDir',"desc"))
+        ->paginate(10)->appends($request->except('page'));
+        return Inertia::render('Authenticated/Protocol/Index',[
+            'protocols'=>$protocols,
+            'inputs'=>$request->input(),
+        ]);
     }
 
     /**

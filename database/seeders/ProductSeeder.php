@@ -38,11 +38,14 @@ class ProductSeeder extends Seeder
         $product->save();
 
         $protocol=new Protocol;
+        $protocol->company_id=1;
         $protocol->referral='12TGH67';
         $protocol->date=Carbon::create(2023,5);
         $protocol->type=0;
         $protocol->expiring_date=Carbon::create(2024,5);
         $protocol->save();
+
+        Protocol::factory()->count(50)->create();
 
         $product=new ProtocolProduct;
         $product->protocol_id=1;
