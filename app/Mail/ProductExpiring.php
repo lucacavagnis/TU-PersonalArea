@@ -2,7 +2,7 @@
 
 namespace App\Mail;
 
-use App\Models\Product;
+use App\Models\Lot;
 use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -20,7 +20,7 @@ class ProductExpiring extends Mailable
      *
      * @return void
      */
-    public function __construct(Product $product, User $user)
+    public function __construct(Lot $product, User $user)
     {
         $this->product=$product;
         $this->user=$user;

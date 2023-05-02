@@ -2,7 +2,7 @@
 
 namespace App\Events\Product;
 
-use App\Models\Product;
+use App\Models\Lot;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -20,7 +20,7 @@ class ProductExpired
      *
      * @return void
      */
-    public function __construct(Product $product)
+    public function __construct(Lot $product)
     {
         $this->product=$product;
     }

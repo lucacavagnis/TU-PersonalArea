@@ -5,7 +5,7 @@ namespace App\Providers;
 use App\Models\Company;
 use App\Models\Order;
 use Illuminate\Support\Facades\Gate;
-use App\Models\Product;
+use App\Models\Lot;
 use App\Models\User;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
@@ -29,7 +29,7 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        Gate::define('order-product', function (User $user, Product $product) {
+        Gate::define('order-product', function (User $user, Lot $product) {
             return $user->company_id === $product->company_id;
         });
 

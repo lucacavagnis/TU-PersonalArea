@@ -18,8 +18,8 @@ class CreateProductsTable extends Migration
             $table->string('sku', 100);
             $table->string('name', 100);
             $table->string('desc', 1000)->nullable();
-            $table->decimal('price', 8, 2);
-            $table->decimal('reserved_price', 8, 2);
+            $table->decimal('price', 8, 2)->default(0);
+            $table->decimal('reserved_price', 8, 2)->default(0);
             $table->string('image')->nullable();
             $table->integer('qta_total');
             $table->integer('qta_available');

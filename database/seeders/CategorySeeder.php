@@ -22,5 +22,9 @@ class CategorySeeder extends Seeder
         $category=new Category;
         $category->name="printing";
         $category->save();
+
+        $category=new Category;
+        $category->name="networking";
+        $category->save();
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Events\Product;
 
+use App\Models\Lot;
 use App\Models\Product;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;

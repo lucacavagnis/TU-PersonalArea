@@ -1,10 +1,11 @@
 import React, {useState} from 'react';
-import Nav from "@/Components/Nav/Nav";
+import Nav from "@/Components/Authenticated/Nav/Nav";
 
 export const CartContext=React.createContext();
 
 
 export default function Authenticated({ auth, header, children }) {
+
     const [sideCartActive,setSideCartActive]=useState(false);
 
     const closeCart=(e)=>{

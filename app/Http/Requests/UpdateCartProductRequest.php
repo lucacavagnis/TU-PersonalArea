@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Product;
+use App\Models\Lot;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Session;
@@ -18,7 +18,7 @@ class UpdateCartProductRequest extends FormRequest
     public function authorize()
     {
         $cartProduct=Session::get('cart')->get($this->route('cart'));
-        $product = Product::find($cartProduct->id);
+        $product = Lot::find($cartProduct->id);
         return $product && Gate::allows('order-product',$product);
     }
 
@@ -43,7 +43,7 @@ class UpdateCartProductRequest extends FormRequest
      */
     public function checkAvaibility(){
         $cartProduct=Session::get('cart')->get($this->route('cart'));
-        $product=Product::find($cartProduct->id);
+        $product=Lot::find($cartProduct->id);
 
         if($product->qty_available<=0)
             throw ValidationException::withMessages([

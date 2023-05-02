@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\Authenticated\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Models\Cart;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -35,6 +34,8 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request)
     {
+
+
         $request->authenticate();
 
         $request->session()->regenerate();
@@ -42,9 +43,10 @@ class AuthenticatedSessionController extends Controller
         if(Auth::user()->role!=0)
         {
             $request->session()->put('cart',New Cart);
+
             return redirect()->intended(RouteServiceProvider::HOME);
         }
-            return redirect()->intended(RouteServiceProvider::ADMIN);
+            return redirect()->to(RouteServiceProvider::ADMIN);
 
 
     }

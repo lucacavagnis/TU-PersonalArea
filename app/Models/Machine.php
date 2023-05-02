@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Machine extends Model
 {
-    use HasFactory,ItalianDateSerializable;
+    use HasFactory;
 
     public function place(){
         return $this->belongsTo(Place::class);

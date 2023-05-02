@@ -9,15 +9,21 @@ class OrderProduct extends Model
 {
     use HasFactory;
 
+    public function lot()
+    {
+        return $this->belongsTo(Lot::class);
+    }
+
     public function product()
     {
         return $this->belongsTo(Product::class);
     }
 
-    public function orderProductServices()
+    public function order()
     {
-        return $this->hasMany(OrderProductService::class);
+        return $this->belongsTo(Order::class,'order_products');
     }
+
 
 
 

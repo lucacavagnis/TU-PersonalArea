@@ -2,7 +2,7 @@
 
 namespace App\Helpers;
 
-use App\Models\Product;
+use App\Models\Lot;
 use Carbon\Carbon;
 
 class Helpers

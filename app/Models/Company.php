@@ -5,10 +5,25 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Company extends Model
 {
     use HasFactory;
+
+    public function users() : HasMany
+    {
+        return $this->hasMany(User::class);
+    }
+
+    public function products() : HasMany
+    {
+        return $this->hasMany(Product::class);
+    }
+    public function protocols() : HasMany
+    {
+        return $this->hasMany(Protocol::class);
+    }
 
     protected function supervisors(): Attribute
     {
@@ -24,5 +39,6 @@ class Company extends Model
     protected $casts=[
         'supervision'=>'boolean',
         'machines'=>'boolean',
+        'services'=>'boolean',
     ];
 }

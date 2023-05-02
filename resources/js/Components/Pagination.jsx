@@ -24,6 +24,7 @@ export default function Pagination({ links }) {
                             (<Link
                                 className={getClassName(link.active)}
                                 href={ link.url }
+                                preserveState={true}
                             >{link.label}</Link>)
                     ))}
                 </div>

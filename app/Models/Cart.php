@@ -4,81 +4,118 @@ namespace App\Models;
 
 
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Session;
 
 class Cart
 {
     public array $products=array();
+    public int $total=0;
 
-    public function deleteProduct(int $id){
-        $this->remove($id);
-    }
-
-    public function updateProduct(int $id,int $qty){
-        $product=$this->get($id);
-        $product->qty=$qty;
-        if($product->qty<count($product->configured_products))
-            array_pop($product->configured_products);
-    }
-
-    public function addProduct(int $id, int $qty, array $services){
-        if($this->hasByProductId($id))
+    public function has($product) : bool{
+        $all=$this->products;
+        if(is_int($product))
+            foreach($all as $cart_product){
+                if($cart_product->product->id==$product)
+                    return true;
+            }
+        else
         {
-            $product=$this->getByProductId($id);
-            Log::debug(print_r($product,true));
-            $product->qty+=$qty;
-            $product->configured_products=array_merge($product->configured_products,$services);
+            foreach($all as $cart_product){
+                if($product==$cart_product->product)
+                    return true;
+            }
         }
-        else{
-            $product= new CartProduct;
-            $product->id=$id;
-            $product->qty=$qty;
-            $product->configured_products=$services;
-            $this->products[]=$product;
-        }
-    }
 
-    public function has(int $key) : bool{
-        return array_key_exists($key,$this->products);
-    }
-    public function hasByProductId(int $id) : bool{
-        foreach($this->products as $product) {
-            if ($product->id == $id)
-                return true;
-        }
         return false;
     }
 
-    public function get(int $key) : CartProduct|null{
-        return $this->has($key)?$this->products[$key]:null;
-    }
+    public function get($product) : CartProduct|null{
+        $all=$this->products;
 
-    public function getByProductId(int $id) : CartProduct|null{
-        foreach($this->products as $product){
-            if($product->id==$id)
-                return $product;
-        }
+        if(is_int($product))
+            foreach($all as $cart_product){
+                if($cart_product->product->id==$product)
+                    return $cart_product;
+            }
+        else
+            {
+                foreach($all as $cart_product){
+                    if($product==$cart_product->product)
+                        return $cart_product;
+                }
+            }
 
         return null;
     }
 
-    public function remove(int $key){
-            if($this->has($key)) {
+    public function add(int $product_id, int $qty): void
+    {
+        if($qty<=0)
+            return;
+
+
+        if($this->has($product_id))
+        {
+            $this->get($product_id)->increase($qty);
+        }
+        else{
+            $product= new CartProduct($product_id,$qty);
+            $this->products[]=$product;
+            $this->total+=$qty;
+        }
+    }
+
+    public function update($id, $new_qty): void
+    {
+        if($new_qty<0 || !$this->has($id) || $new_qty>$this->get($id)->product->qty_available)
+            return;
+
+        $qty=abs($new_qty-$this->get($id)->qty);
+        $new_qty>$this->get($id)->qty?$this->increase($id,$qty):$this->decrease($id,$qty);
+    }
+
+    public function increase(int $id,$qty): void
+    {
+        if($qty<=0 || !$this->has($id) )
+            return;
+
+        $product=$this->get($id);
+        $this->total+=$qty;
+        $product->increase($qty);
+    }
+
+    public function decrease(int $id,$qty): void
+    {
+        if($qty<=0 || !$this->has($id))
+            return;
+
+        $product=$this->get($id);
+        if($product->qty-$qty==0){
+            $this->remove($id);
+            return;
+        }
+        $this->total-=$qty;
+        $product->decrease($qty);
+    }
+
+    public function remove(int $id): void
+    {
+            if($this->has($id)) {
+                $product=$this->get($id);
+                $this->total-=$product->qty;
+                $key=array_search($product,$this->products);
                 unset($this->products[$key]);
                 $this->products=array_values($this->products);
             }
     }
 
-    public function empty(){
+    public function empty(): void
+    {
         $this->products=array();
+        $this->total=0;
     }
 
-    public function getFullData(){
-        $products=$this;
-        foreach ($products->products as $cartProduct){
-            $cartProduct->data=Product::where('id',$cartProduct->id)->first();
-        }
-        return $products;
-    }
+
 
 
 }

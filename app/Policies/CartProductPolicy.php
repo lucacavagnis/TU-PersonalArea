@@ -3,8 +3,8 @@
 namespace App\Policies;
 
 use App\Models\Cart;
-use App\Models\CartProduct;
-use App\Models\Product;
+use App\Models\CartProductLot;
+use App\Models\Lot;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
@@ -30,7 +30,7 @@ class CartProductPolicy
      * @param  \App\Models\Cart  $cartProduct
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function view(User $user, CartProduct $cartProduct)
+    public function view(User $user, CartProductLot $cartProduct)
     {
 
     }
@@ -53,7 +53,7 @@ class CartProductPolicy
      * @param  \App\Models\Cart  $cartProduct
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update(User $user, CartProduct $cartProduct)
+    public function update(User $user, CartProductLot $cartProduct)
     {
         //
     }
@@ -65,7 +65,7 @@ class CartProductPolicy
      * @param  \App\Models\Cart  $cartProduct
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function delete(User $user, CartProduct $cartProduct)
+    public function delete(User $user, CartProductLot $cartProduct)
     {
         //
     }
