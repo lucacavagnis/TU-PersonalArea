@@ -10,8 +10,8 @@ Un ordine è in attesa della tua approvazione per procedere.
 <x-mail::table>
     | Prodotto      | Qty         | Prezzo |
     | :------------- |:-------------|:-------------|
-    @foreach($order->orderProducts()->get() as $orderProduct)
-    | {{$orderProduct->product->name}}    | {{$orderProduct->quantity}}    | {{$orderProduct->product->payed?0:$orderProduct->product->reserved_price}}    |
+    @foreach($order->orderProducts as $orderProduct)
+    | {{$orderProduct->product->name}}    | {{$orderProduct->quantity}}    | {{{isset($orderProduct->product->lastPrice)?$orderProduct->product->lastPrice:'--'}}}    |
     @endforeach
 </x-mail::table>
 

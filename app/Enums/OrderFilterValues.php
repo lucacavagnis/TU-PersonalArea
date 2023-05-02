@@ -11,8 +11,8 @@ enum OrderFilterValues
     public function column() : string {
         return match ($this){
             OrderFilterValues::NAME => 'name',
-            OrderFilterValues::CATEGORY => 'data.category.name',
-            OrderFilterValues::EXPIRE_DATE => 'protocol_product.protocol.expire_date',
+            OrderFilterValues::CATEGORY => 'category.name',
+            OrderFilterValues::EXPIRE_DATE => 'date',
         };
     }
 

@@ -17,8 +17,8 @@ return new class extends Migration
             $table->unsignedBigInteger('product_id');
             $table->timestamps();
 
-            $table->foreign('protocol_id', 'product_protocol_protocol_id_foreign')->references('id')->on('protocols');
-            $table->foreign('product_id', 'product_protocol_product_id_foreign')->references('id')->on('physical_products');
+            $table->foreign('protocol_id', 'product_protocol_protocol_id_foreign')->references('id')->on('protocols')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('product_id', 'product_protocol_product_id_foreign')->references('id')->on('physical_products')->onDelete('cascade')->onUpdate('cascade');
 
         });
     }

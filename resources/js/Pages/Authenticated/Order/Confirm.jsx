@@ -3,8 +3,8 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import Button from "@/Components/Buttons/Button";
 import Tab from "@/Components/Tab";
 import {Head, useForm} from '@inertiajs/inertia-react';
-import TextInput from "@/Components/TextInput";
-import TextArea from "@/Components/TextArea";
+import TextInput from "@/Components/Inputs/TextInput";
+import TextArea from "@/Components/Inputs/TextArea";
 import PrimaryButton from "@/Components/Buttons/PrimaryButton";
 
 export default function Confirm(props) {

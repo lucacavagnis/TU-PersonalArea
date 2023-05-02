@@ -1,7 +1,7 @@
 import React from 'react';
 import {Head} from '@inertiajs/inertia-react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import {ProductListDetails} from "@/Components/ProductListDetails";
+import {ProductListDetails} from "@/Components/Admin/Product/ProductListDetails";
 import {DataParagraph} from "@/Pages/Authenticated/Order/Show";
 import { format } from 'date-fns'
 import Protocol from "@/Helpers/Protocol";
@@ -9,9 +9,9 @@ import ProductSummary from "@/Components/Authenticated/Product/ProductSammury";
 export default function Show(props) {
     const protocol=props.protocol;
 
-    const products=protocol.products.length>0?protocol.products.map((product)=>
+    const products=protocol.lots.length>0?protocol.lots.map((lot)=>
             {
-                return <ProductSummary product={product.data} protocol_product={product.protocol_product} qty={product.qty_total} />
+                return <ProductSummary product={lot.product} original_price={lot.protocol_lot.original_price} price={lot.protocol_lot.price} qty={lot.qty_total} />
             }
         ):<p>Nessun prodotto presente</p>
 

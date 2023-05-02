@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Category;
 use App\Models\Company;
-use App\Models\Product;
+use App\Models\Lot;
 use App\Models\Subcategory;
 use App\Models\User;
 use Carbon\Carbon;
@@ -56,7 +56,7 @@ class IbsaSeeder extends Seeder
     }
 
     /*private function productSeeder(Company $company){
-        $product = new ProductData;
+        $product = new Lot;
         $product->sku="LE20UW005EIX";
         $product->name="Notebook Lenovo ThinkPAd X12 Detachable";
         $product->desc="Intel® Core™ i5-1130G7 1.8 GHz; Ram 16 GB; Hard Disk 512 GB SSD M.2 NVMe PCIe; Grafica Intel® Iris Xe Graphics; Sistema Operativo Windows 11/10 Professional 64 bit; Connessioni Wi-Fi, Bluetooth, 4G-LTE; Monitor 12.3” IPS Full HD (1920x1080); Peso 0,76 Kg";
@@ -74,7 +74,7 @@ class IbsaSeeder extends Seeder
         $product->property=1;
         $product->save();
 
-        $product = new ProductData;
+        $product = new Lot;
         $product->sku="HP59R96EA";
         $product->name="Notebook HP ProBook 440 G8";
         $product->desc="Processore Intel® Core™ i5-1135G7 2.4 GHz; Ram 8 GB; Hard Disk 256 GB SSD M.2 NVMe PCIe; Grafica Intel® Iris Xe Graphics; Sistema Operativo Windows 11 Professional 64 bit; Connessioni Lan,Wi-Fi, Bluetooth, 4G-LTE; Monitor 14” UWVA Full HD (1920x1080); Peso 1,38 Kg";
@@ -91,7 +91,7 @@ class IbsaSeeder extends Seeder
         $product->company_id=$company->id;
         $product->save();
 
-        $product = new ProductData;
+        $product = new Lot;
         $product->sku="HP59S01EA";
         $product->name="Notebook HP ProBook 450 G8";
         $product->desc="Processore Intel® Core™ i5-1135G7 2.4 GHz; Ram 8 GB; Hard Disk 256 GB SSD M.2 NVMe PCIe; Grafica Intel® Iris Xe Graphics; Sistema Operativo Windows 11 Professional 64 bit; Connessioni Lan,Wi-Fi, Bluetooth, 4G-LTE; Monitor 15.6” UWVA Full HD (1920x1080); Peso 1,74 Kg";
@@ -108,7 +108,7 @@ class IbsaSeeder extends Seeder
         $product->company_id=$company->id;
         $product->save();
 
-        $product = new ProductData;
+        $product = new Lot;
         $product->sku="HP4K804EA";
         $product->name="Notebook HP 250 G8";
         $product->desc="Processore Intel® Core™ i5-1135G7 2.4 GHz; Ram 8 GB; Hard Disk 256 GB SSD M.2 NVMe PCIe; Grafica Intel® Iris Xe Graphics; Sistema Operativo Windows 11 Professional 64 bit; Connessioni Lan,Wi-Fi, Bluetooth, 4G-LTE; Monitor 15.6” UWVA Full HD (1920x1080); Peso 1,74 Kg";
@@ -125,7 +125,7 @@ class IbsaSeeder extends Seeder
         $product->company_id=$company->id;
         $product->save();
 
-        $product = new ProductData;
+        $product = new Lot;
         $product->sku="BRMFC-J4535DWXL";
         $product->name="Multifunzione Brother InkJet MFC-J4535DWXL";
         $product->desc="Un dispositivo multifunzione robusto ma elegante e ricco di funzioni che offre una stampa di alta
@@ -152,7 +152,7 @@ class IbsaSeeder extends Seeder
         $product->company_id=$company->id;
         $product->save();
 
-        $product = new ProductData;
+        $product = new Lot;
         $product->sku="PLTERLMO075";
         $product->name="Smartphone Smart-Ex 02 DZ2";
         $product->desc="Smartphone Smart-Ex 02 DZ2";
@@ -169,7 +169,7 @@ class IbsaSeeder extends Seeder
         $product->company_id=$company->id;
         $product->save();
 
-        $product = new ProductData;
+        $product = new Lot;
         $product->sku="LOG960-001055";
         $product->name="WebCam Logitech C920 HD Pro";
         $product->desc="WebCam Logitech C920 HD Pro";
@@ -186,7 +186,7 @@ class IbsaSeeder extends Seeder
         $product->company_id=$company->id;
         $product->save();
 
-        $product = new ProductData;
+        $product = new Lot;
         $product->sku="LOG910-003357";
         $product->name="Mouse Logitech USB";
         $product->desc="Mouse Logitech USB";
@@ -203,7 +203,7 @@ class IbsaSeeder extends Seeder
         $product->company_id=$company->id;
         $product->save();
 
-        $product = new ProductData;
+        $product = new Lot;
         $product->sku="LOG910-004424";
         $product->name="Mouse Logitech wireless";
         $product->desc="Mouse Logitech wireless";
@@ -220,7 +220,7 @@ class IbsaSeeder extends Seeder
         $product->company_id=$company->id;
         $product->save();
 
-        $product = new ProductData;
+        $product = new Lot;
         $product->sku="KIDTX/32GB";
         $product->name="Pendrive Kingston 32GB USB 3.0";
         $product->desc="Pendrive Kingston 32GB USB 3.0";
@@ -237,7 +237,7 @@ class IbsaSeeder extends Seeder
         $product->company_id=$company->id;
         $product->save();
 
-        $product = new ProductData;
+        $product = new Lot;
         $product->name="Notebook Lenovo ThinkPAd X12 Detachable";
         $product->desc="Intel® Core™ i5-1130G7 1.8 GHz; Ram 16 GB; Hard Disk 512 GB SSD M.2 NVMe PCIe; Grafica Intel® Iris Xe Graphics; Sistema Operativo Windows 11/10 Professional 64 bit; Connessioni Wi-Fi, Bluetooth, 4G-LTE; Monitor 12.3” IPS Full HD (1920x1080); Peso 0,76 Kg";
         $product->qty_total=7;

@@ -4,18 +4,19 @@ import Tab from "@/Components/Tab";
 import { Head } from '@inertiajs/inertia-react';
 import ProductSummary from "@/Components/Authenticated/Product/ProductSammury";
 import {capitalize} from "lodash/string";
-import Price from "@/Components/Price";
+import Price from "@/Components/Admin/Product/Price";
 import Status from "@/Components/Authenticated/Order/Status";
 import Button from "@/Components/Buttons/Button";
-import {ProductListDetails} from "@/Components/ProductListDetails";
+import {ProductListDetails} from "@/Components/Admin/Product/ProductListDetails";
 import Protocol from "@/Helpers/Protocol";
 
 export default function Show(props) {
+    console.log(props)
     const order=props.order;
 
     const products=order.order_products.length>0?order.order_products.map((order_product)=>
         {
-            return <ProductSummary product={order_product.product.data} protocol_product={order_product.product.protocol_product} qty={order_product.quantity} />
+            return <ProductSummary product={order_product.lot.product} original_price={order_product.lot.product.last_original_price} price={order_product.lot.product.last_price} qty={order_product.quantity} />
         }
     ):<p>Nessun prodotto presente</p>
 
@@ -38,6 +39,7 @@ export default function Show(props) {
                                 && (
                                     <>
                                         <h2 className="font-bold mb-4">Stato</h2>
+                                        <DataParagraph title="stato attuale" >{<Status status={order.status}/>}</DataParagraph>
                                         <DataParagraph title="gestito da" >{order.approver.name}</DataParagraph>
                                         <DataParagraph title="Data gestione" >{order.approved_at}</DataParagraph>
                                     </>

@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Product;
+use App\Models\Lot;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;

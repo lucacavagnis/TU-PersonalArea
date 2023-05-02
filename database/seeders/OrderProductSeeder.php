@@ -21,12 +21,14 @@ class OrderProductSeeder extends Seeder
         $orderProduct=new OrderProduct;
         $orderProduct->order_id=1;
         $orderProduct->product_id=1;
+        $orderProduct->lot_id=1;
         $orderProduct->quantity=5;
         $orderProduct->save();
 
         $orderProduct=new OrderProduct;
         $orderProduct->order_id=2;
         $orderProduct->product_id=1;
+        $orderProduct->lot_id=1;
         $orderProduct->quantity=3;
         $orderProduct->save();
 

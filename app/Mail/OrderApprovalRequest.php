@@ -26,7 +26,6 @@ class OrderApprovalRequest extends Mailable
     {
         $this->order=$order;
         $this->user=$user;
-        Log::debug(print_r($order,true));
     }
 
     /**
@@ -48,13 +47,16 @@ class OrderApprovalRequest extends Mailable
      */
     public function content()
     {
+        $this->order->load(['orderProducts.lot.protocolLot.protocol','orderProducts.product']);
+        foreach ($this->order->orderProducts as $order_product)
+            $order_product->product->append(['lastPrice']);
         return new Content(
             markdown: 'email.orders.approvalRequest',
             with: [
                 'approveUrl' => URL::signedRoute('orders.emailApprove', ['order' => $this->order->id]),
                 'rejectUrl' => URL::signedRoute('orders.emailReject', ['order' => $this->order->id]),
                 'user' => $this->user,
-                'order' => $this->order,
+                'order' => $this->order->load(['orderProducts.lot.protocolLot.protocol','orderProducts.product']),
             ],
         );
     }

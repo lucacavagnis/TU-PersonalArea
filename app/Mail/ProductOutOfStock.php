@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use App\Models\Lot;
 use App\Models\Product;
 use App\Models\User;
 use Illuminate\Bus\Queueable;
@@ -46,9 +47,11 @@ class ProductOutOfStock extends Mailable
     public function content()
     {
         return new Content(
-            markdown: 'email.check',
+            markdown: 'email.products.outOfStock',
             with: [
-                'title' => "Prodotto esaurito"
+                'user' => $this->user,
+                'product' => $this->product,
+                'url' => route('products.show',$this->product->id),
             ]
         );
     }

@@ -3,18 +3,23 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import {Head, Link, useForm} from '@inertiajs/inertia-react';
 import Tab from "@/Components/Tab";
 import Button from "@/Components/Buttons/Button";
-import TextInput from "@/Components/TextInput";
-import {TfiClose,MdEast} from "react-icons/all";
-import Price from "@/Components/Price";
+import TextInput from "@/Components/Inputs/TextInput";
 import {Inertia} from "@inertiajs/inertia";
-import InputLabel from "@/Components/InputLabel";
-import InputError from "@/Components/InputError";
+import InputLabel from "@/Components/Inputs/InputLabel";
+import InputError from "@/Components/Inputs/InputError";
 import PrimaryButton from "@/Components/Buttons/PrimaryButton";
+import TextArea from "@/Components/Inputs/TextArea";
+import {ProductListDetails} from "@/Components/Admin/Product/ProductListDetails";
+import ProductSummary from "@/Components/Authenticated/Product/ProductSammury";
 import ProductImage from "@/Components/Authenticated/Product/ProductImage";
-import TextArea from "@/Components/TextArea";
-import {ProductListDetails} from "@/Components/ProductListDetails";
+import Price from "@/Components/Admin/Product/Price";
+import {TfiClose} from "react-icons/all";
+import {Pluralize} from "@/Helpers/String";
+import {InstantSubmitInput} from "@/Components/Inputs/InstantSubmitInput";
 
 export default function Show(props) {
+    console.log(props)
+    const cart=props.auth.user.cart;
 
     const {post,data,setData,errors}=useForm({
         office:'',
@@ -26,8 +31,6 @@ export default function Show(props) {
         address:'',
         notes:'',
     });
-
-    const cart=props.cart;
 
     const onTextChange = (e) => {
         setData(e.target.name,e.target.value);
@@ -52,30 +55,6 @@ export default function Show(props) {
         });
     }
 
-    const total =(value=0)=>{
-        let totalCost=0;
-        cart.products.map((product)=>{
-            if(!product.data.payed)
-            totalCost+=product.data.reserved_price*product.qty;
-        })
-        return(
-            <Price className="float-right font-bold" value={totalCost+value}/>
-        )
-    }
-
-    const needApproval = ()=>{
-        let productsNotPayed=false;
-        let user=props.auth.user;
-        cart.products.forEach((product)=>{
-            if(!product.data.payed && !product.data.property)
-                productsNotPayed=true;
-        })
-
-        return user.company.supervision && user.role!==1 && productsNotPayed;
-    }
-
-    console.log(needApproval())
-
     const onHandleChange = (event) => {
         Inertia.visit(route('cart.update',event.target.name.split('-')[0]),{
             method: 'put',
@@ -87,38 +66,30 @@ export default function Show(props) {
     };
 
 
-    {/* const products=cart.products.map((product,id)=>{
-                const qty_value_name=id+"-qty_requested";
-                const optioned_products=Object.keys(product.configured_products).length;
+    const products=cart.products.map((cart_product)=>{
+                const qty_value_name=cart_product.product.id+"-qty_requested";
 
-                return(<Tab className="relative p-4 flex justify-between " containerClassName="mb-4" key={product.data.id}>
+                return(<Tab className="relative p-4 flex justify-between " containerClassName="mb-4" key={cart_product.product.id}>
                     <div className="w-1/4 mr-4 min-h-[8em]">
-                        <ProductImage name={product.data.image} className="w-full h-full rounded-md">
+                        <ProductImage name={cart_product.product.image} className="w-full h-full rounded-md">
 
                         </ProductImage>
                     </div>
-                    <div className="w-3/5 relative">
-                        <Link className="font-semibold hover:underline" href={route('products.show',product.data.id)}>{product.data.name}</Link>
-                        {!product.data.property && <><p className="text-sm">{product.data.prot_number} - {product.data.prot_date}</p>
-                        <p className="text-sm text-indigo-700">{optioned_products + " prodotti configurati"}</p>
-                        {!product.data.payed && <div className="absolute bottom-0 left-0 "><Price value={product.data.reserved_price*product.qty} className="font-bold mr-2"/><span className="text-sm">({product.qty}x<Price value={product.data.reserved_price}/>)</span></div>}</>}
+                    <div className="w-3/5 relative flex flex-col justify-between">
+                        <div>
+                            <Link className="font-semibold hover:underline truncate" href={route('products.show',cart_product.product.id)}>{cart_product.product.name}</Link>
+                            <p className="text-sm text-indigo-700">{"Da "+cart_product.lots.length+" "+Pluralize("lotto","lotti",cart_product.lots.length)}</p>
+                        </div>
+                        <div className="flex items-center">
+                            <InstantSubmitInput id={cart_product.product.id} defaultValue={cart_product.qty} name="qty" type="number" min={0} max={cart_product.product.qty_available} className="mt-1 block right-0 bottom-0 mr-2" routeName="cart.update" />
+                            <p>{"/ "+cart_product.product.qty_available+" disponibili"}</p></div>
                     </div>
                     <div className="w-1/6 relative">
-                        <TfiClose className="absolute right-0 scale-75 top-0 cursor-pointer" onClick={(e)=>deleteProduct(e,id)}/>
-                        <TextInput
-                            type="number"
-                            name={qty_value_name}
-                            className="mt-1 block absolute right-0 bottom-0"
-                            autoComplete="qty_requested"
-                            value={product.qty}
-                            isFocused={false}
-                            max={(product.data.qty_available)}
-                            handleChange={onHandleChange}
-                            min={0}
-                        />
+                        <TfiClose className="absolute right-0 scale-75 top-0 cursor-pointer" onClick={(e)=>deleteProduct(e,cart_product.product.id)}/>
+
                     </div>
                 </Tab>);
-            })*/}
+            })
 
 
     return (
@@ -132,15 +103,10 @@ export default function Show(props) {
             <div className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
-                    <ProductListDetails products={} />
 
-                    {/*{cart.products.length>0 && (
-                        <div className="flex justify-between">
-                            <div className="w-1/2">
-                                {products}
-                            </div>
-                            <div className="w-2/5 ">
-                                <Tab>
+
+                    {cart.products.length>0?(
+                        <ProductListDetails products={products} >
 
                                     <form onSubmit={submit}>
                                     <div className="mb-2 border-b b-grey-500 pb-5" >
@@ -167,6 +133,7 @@ export default function Show(props) {
                                             <InputLabel forInput="ioc" value="Codice ordine (Codice di riferimento interno)" />
 
                                             <TextInput
+                                                title="Codice di riferimento intenro"
                                                 type="text"
                                                 name="ioc"
                                                 value={data.ioc}
@@ -208,6 +175,7 @@ export default function Show(props) {
                                                         <InputLabel forInput="province" value="Provincia(XX)" required={true}/>
 
                                                         <TextInput
+                                                            pattern="[A-Za-z]{2}"
                                                             type="text"
                                                             name="province"
                                                             value={data.province}
@@ -248,6 +216,7 @@ export default function Show(props) {
                                                         <InputLabel forInput="postal_code" value="CAP" required={true}/>
 
                                                         <TextInput
+                                                            pattern="[0-9]{5}"
                                                             type="text"
                                                             name="postal_code"
                                                             value={data.postal_code}
@@ -299,21 +268,17 @@ export default function Show(props) {
 
                                         </div>
 
-                                        <div className="border-b border-grey-300 mt-5 pb-5 h-16">
-                                            <div className="w-full h-8" ><span className="float-left font-bold">Subtotale</span><span>{total()}</span></div>
+                                        {/*<div className="border-b border-grey-300 mt-5 pb-5 h-16">
+                                            <div className="w-full h-8" ><span className="float-left font-bold">Subtotale</span><span>{0}</span></div>
                                             <p className="float-left">+ Spese di trasporto</p><span><Price value={20} className="float-right"/></span>
                                         </div>
-                                        <div className="w-full h-10 mt-5" ><span className="float-left font-bold">Totale</span><span>{total(20)}</span></div>
-                                        {needApproval() && <div className="w-full mt-5"><p className="text-rose-500">Attenzione: nel carrello ci sono prodotti che richiedono approvazione da un superiore. Per urgenze esegui un ordine separato senza prodotti che devono ancora essere fatturati.</p></div>}
+                                        <div className="w-full h-10 mt-5" ><span className="float-left font-bold">Totale</span><span>{0}</span></div>
+                                        {needApproval() && <div className="w-full mt-5"><p className="text-rose-500">Attenzione: nel carrello ci sono prodotti che richiedono approvazione da un superiore. Per urgenze esegui un ordine separato senza prodotti che devono ancora essere fatturati.</p></div>*/}
                                         <Button type="submit" className="w-full py-4 text-center text-lg">Invia ordine</Button>
                                         <div className="w-full text-center py-4"><Link as="button" className="text-center text-indigo-700 font-semibold" onClick={(e)=>emptyCart(e)}>Svuota il carrello</Link></div>
                                     </form>
-                                </Tab>
-                            </div>
-                        </div>
-                    )}
-
-                    {(cart.products.length<=0) && (
+                        </ProductListDetails>
+                    ):(cart.products.length<=0) && (
                         <Tab>
                             <h2 className="font-bold">Il tuo carrello è vuoto</h2>
                             <p>Aggiungi pordotti al tuo carrello per procedere con l'ordine.</p>
@@ -321,7 +286,7 @@ export default function Show(props) {
                                 Visualizza prodotti
                             </PrimaryButton>
                         </Tab>
-                    )}*/}
+                    )}
 
                 </div>
             </div>

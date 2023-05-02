@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use App\Helpers\CartHelpers;
 use App\Helpers\Helpers;
+use App\Models\Cart;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 use Tightenco\Ziggy\Ziggy;
@@ -36,12 +37,10 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request)
     {
-        $cart=$request->session()->get('cart');
 
         return array_merge(parent::share($request), [
             'auth' => [
-                'user' => $request->user()?$request->user()->load('company'):null,
-                'cart' => $cart?$cart->getProductsData():null,
+                'user' => $request->user(),
             ],
             'ziggy' => function () use ($request) {
                 return array_merge((new Ziggy)->toArray(), [

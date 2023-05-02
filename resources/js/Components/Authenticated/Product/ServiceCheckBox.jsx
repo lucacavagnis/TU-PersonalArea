@@ -1,5 +1,5 @@
 import react from 'react';
-import Checkbox from "@/Components/Checkbox";
+import Checkbox from "@/Components/Inputs/Checkbox";
 
 export default function ServiceCheckBox(props){
     return(

@@ -1,63 +1,34 @@
 import Protocol from "@/Helpers/Protocol";
-import Tab from "@/Components/Tab";
-import React, {useState} from "react";
+import React from "react";
 import Table from "@/Components/Table/Table";
-import ActionColumn from "@/Components/Table/ActionColumn";
-import {useForm} from "@inertiajs/inertia-react";
-import {useStateWithCallbackLazy} from "use-state-with-callback";
-import {Inertia} from "@inertiajs/inertia";
-import Pagination from "@/Components/Pagination";
 import Button from "@/Components/Buttons/Button";
 
 export const ProtocolTable=(props)=>{
     let protocols=props.protocols.data
-    let inputs=props.inputs
-    const [data,setData]=useState({
-        orderBy: inputs&&inputs.orderBy?inputs.orderBy:"date",
-        orderDir: inputs&&inputs.orderDir?inputs.orderDir:"desc",
-        search: inputs&&inputs.search?inputs.search:'',
-        page: inputs&&inputs.page?inputs.page:1,
-    })
 
-    const columnTitleOnClick=(name,dir)=>{
-        setData(data=>({...data, orderDir:dir, orderBy: name}))
-        Inertia.get(route('protocols.index'),{...data, orderDir:dir, orderBy: name},{
-            only: ['protocols','inputs'],
-        })
-    }
-
-    const searchUpdate=(e)=>{
-        setData(data=>({...data, search:e.target.value}))
-    }
-
-    const searchSubmit=()=>{
-        Inertia.get(route('protocols.index'),data,{
-            only: ['protocols','inputs'],
-        })
-    }
-
-    return(<>
-
-        {(protocols && protocols.length>0 || inputs.search!=="")?
-        (<>
-            <Table.Search keyword={data.search} update={searchUpdate} submit={searchSubmit}/>
-            <Table>
-            <Table.Row>
-                <Table.Header name="type" sortable={true} onClick={columnTitleOnClick} initial={data.orderDir} current={data.orderBy}>
+    return(
+        <Table route={route('protocols.index')}>
+            <Table.Search />
+            {protocols && protocols.length>0?
+                <>
+                <Table.Inner>
+                <Table.HeaderRow>
+                <Table.Header name="type" sortable={true}>
                     Tipo
                 </Table.Header>
-                <Table.Header name="date" sortable={true} onClick={columnTitleOnClick} initial={data.orderDir} current={data.orderBy}>
+                <Table.Header name="date" sortable={true}>
                     Data
                 </Table.Header>
-                <Table.Header name="referral" sortable={true} onClick={columnTitleOnClick} initial={data.orderDir} current={data.orderBy}>
+                <Table.Header name="referral" sortable={true}>
                     Riferimento
                 </Table.Header>
-                <Table.Header name="expiring_date" sortable={true} onClick={columnTitleOnClick} initial={data.orderDir} current={data.orderBy}>
+                <Table.Header name="expiring_date" sortable={true}>
                     Data di scadenza
                 </Table.Header>
                 <Table.Header>
                 </Table.Header>
-            </Table.Row>
+            </Table.HeaderRow>
+            <Table.Body>
             {protocols.map((p)=>{
                 return(
                     <Table.Row key={p.id}>
@@ -79,9 +50,12 @@ export const ProtocolTable=(props)=>{
                     </Table.Row>
                 )
             })}
-        </Table> {(protocols && props.protocols.total>10 && <Pagination links={props.protocols.links} />)}</>):
-        <p>Nesun protocollo presente</p>}
-        </>
+                </Table.Body>
+                </Table.Inner>
+                <Table.Pagination paginated={props.protocols} />
+                </>:
+                <p>Nessun protocollo presente</p>}
+        </Table>
     )
 }
 

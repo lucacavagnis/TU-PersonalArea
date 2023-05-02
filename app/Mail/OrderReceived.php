@@ -46,10 +46,11 @@ class OrderReceived extends Mailable
      */
     public function content()
     {
+        Log::debug($this->order->load(['orderProducts.lot.protocolLot.protocol','orderProducts.product.locations.slot']));
         return new Content(
             markdown: 'email.orders.received',
             with: [
-                'order' => $this->order,
+                'order' => $this->order->load(['orderProducts.lot.protocolLot.protocol','orderProducts.product.locations']),
             ],
         );
     }

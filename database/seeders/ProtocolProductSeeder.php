@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\ProtocolProduct;
+use App\Models\ProtocolLot;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -13,7 +13,7 @@ class ProtocolProductSeeder extends Seeder
      */
     public function run(): void
     {
-        $product=new ProtocolProduct;
+        $product=new ProtocolLot;
         $product->original_price=624.00;
         $product->price=586.30;
         $product->save();

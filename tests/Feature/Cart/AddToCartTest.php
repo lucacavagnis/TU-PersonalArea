@@ -3,7 +3,7 @@
 namespace Tests\Feature\Cart;
 
 use App\Models\Company;
-use App\Models\Product;
+use App\Models\Lot;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -20,7 +20,7 @@ class AddToCartTest extends TestCase
     {
         $company= Company::factory();
         $user=User::factory()->for($company)->create();
-        $product=Product::factory()->for($company)->create();
+        $product=Lot::factory()->for($company)->create();
         $response = $this->actingAs($user)->post(route('cart.store',['product_id'=>$product->id,'qty'=>rand(0,$product->qty_available)]));
         $response->assertStatus(200);
     }

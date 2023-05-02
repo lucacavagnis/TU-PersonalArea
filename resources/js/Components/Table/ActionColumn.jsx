@@ -10,7 +10,7 @@ const ActionColumn=({className,read,update,del})=>{
                 <ActionButton.Content>
                     {read && <ActionButton.Link href={read} method="get">Dettagli</ActionButton.Link>}
                     {update && <ActionButton.Link href={update} method="get">Modifica</ActionButton.Link>}
-                    {del && <ActionButton.Link href={del} method="get">Elimina</ActionButton.Link>}
+                    {del && <ActionButton.Link href={del} method="delete" className="bg-red-700 text-white hover:bg-red-500">Elimina</ActionButton.Link>}
                 </ActionButton.Content>
             </ActionButton>
             </Table.Field>

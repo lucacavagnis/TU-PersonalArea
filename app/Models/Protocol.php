@@ -6,8 +6,10 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 
 class Protocol extends Model
@@ -22,14 +24,19 @@ class Protocol extends Model
         );
     }
 
-    public function protocolProducts(): HasMany
+    public function protocolLots(): HasMany
     {
-        return $this->hasMany(ProtocolProduct::class);
+        return $this->hasMany(ProtocolLot::class);
     }
 
-    public function products(): BelongsToMany
+    public function lots(): BelongsToMany
     {
-        return $this->belongsToMany(Product::class,'protocol_products','protocol_id','product_id')->withPivot(['price','original_price'])->as('protocol_product');
+        return $this->belongsToMany(Lot::class,'protocol_lots','protocol_id','lot_id')->withPivot(['price','original_price'])->as('protocol_lot');
+    }
+
+    public function company(): BelongsTo
+    {
+        return $this->belongsTo(Company::class);
     }
 
     protected $appends=['remaining_days'];

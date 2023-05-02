@@ -3,10 +3,10 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import Button from "@/Components/Buttons/Button";
 import Tab from "@/Components/Tab";
 import {Head, useForm} from '@inertiajs/inertia-react';
-import TextArea from "@/Components/TextArea";
+import TextArea from "@/Components/Inputs/TextArea";
 import Status from "@/Components/Authenticated/Order/Status";
 import ProductAttributes from "@/Components/Authenticated/Product/ProductAttributes";
-import Attribute from "@/Components/Attribute";
+import Attribute from "@/Components/Admin/Product/Attribute";
 
 export default function Managed(props) {
     const order=props.order;

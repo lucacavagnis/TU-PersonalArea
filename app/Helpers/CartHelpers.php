@@ -2,7 +2,7 @@
 
 namespace App\Helpers;
 
-use App\Models\Product;
+use App\Models\Lot;
 use Carbon\Carbon;
 
 class CartHelpers
@@ -13,7 +13,7 @@ class CartHelpers
 
         foreach ($cart as $cartProduct){
             $productId=array_search($cartProduct,$cart);
-            $product=Product::where('id',$productId)->first();
+            $product=Lot::where('id',$productId)->first();
             $cart[$productId]['data']=$product->getAttributes();
         }
         return $cart;

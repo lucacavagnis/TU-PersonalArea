@@ -5,7 +5,7 @@ namespace App\Jobs;
 use App\Events\Product\ProductExpired;
 use App\Events\Product\ProductExpiring;
 use App\Mail\ProductUnderEscort;
-use App\Models\Product;
+use App\Models\Lot;
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
@@ -36,7 +36,7 @@ class CheckExpiringStatus implements ShouldQueue
      */
     public function handle()
     {
-        $products=Product::where('property',0)->where('payed',0);
+        $products=Lot::where('property',0)->where('payed',0);
         foreach ($products as $product){
             $days=Carbon::now()->diffInDays(Carbon::parse($product->expire_date),false);
             if(!$product->expiring_notified){

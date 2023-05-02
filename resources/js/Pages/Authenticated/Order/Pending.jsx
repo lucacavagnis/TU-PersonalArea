@@ -3,7 +3,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import Button from "@/Components/Buttons/Button";
 import Tab from "@/Components/Tab";
 import {Head, useForm} from '@inertiajs/inertia-react';
-import TextArea from "@/Components/TextArea";
+import TextArea from "@/Components/Inputs/TextArea";
 
 export default function Pending(props) {
     console.log(props);

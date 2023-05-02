@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use App\Models\Lot;
 use App\Models\Product;
 use App\Models\User;
 use Illuminate\Bus\Queueable;
@@ -34,7 +35,7 @@ class ProductUnderEscort extends Mailable
     public function envelope()
     {
         return new Envelope(
-            subject: 'Prodotto in esaurimento',
+            subject: 'Prodotto esaurito',
         );
     }
 
@@ -46,9 +47,11 @@ class ProductUnderEscort extends Mailable
     public function content()
     {
         return new Content(
-            markdown: 'email.check',
+            markdown: 'email.products.outOfStock',
             with: [
-                'title' => "Prodotto in esaurimento"
+                'user' => $this->user,
+                'product' => $this->product,
+                'url' => route('products.show',$this->product->id),
             ]
         );
     }

@@ -18,11 +18,11 @@ class Company extends Model
 
     public function products() : HasMany
     {
-        return$this->hasMany(ProductData::class);
+        return $this->hasMany(Product::class);
     }
     public function protocols() : HasMany
     {
-        return$this->hasMany(Protocol::class);
+        return $this->hasMany(Protocol::class);
     }
 
     protected function supervisors(): Attribute

@@ -36,9 +36,9 @@ class Order extends Model
         return $this->hasMany(OrderProduct::class);
     }
 
-    public function products(): BelongsToMany
+    public function lots(): BelongsToMany
     {
-        return $this->belongsToMany(Product::class);
+        return $this->belongsToMany(Lot::class);
     }
 
     protected function date(): Attribute

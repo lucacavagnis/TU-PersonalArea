@@ -1,6 +1,7 @@
 import {format} from "date-fns";
+import {Format_date, getTypeText} from "@/Helpers/String";
 export const typeText=(protocol)=>{
-    return protocol.type?"Conto aperto":"Conto chiuso";
+    return getTypeText(protocol.type);
 }
 
 export const getDate=(protocol)=>{
@@ -8,7 +9,7 @@ export const getDate=(protocol)=>{
 }
 
 export const getExpireDate=(protocol)=>{
-    return format(new Date(protocol.expiring_date),'dd/MM/yyyy');
+    return Format_date(protocol.expiring_date);
 }
 
 const Protocol={};

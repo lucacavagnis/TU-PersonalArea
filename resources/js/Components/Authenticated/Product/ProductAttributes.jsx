@@ -1,5 +1,5 @@
 import React from 'react';
-import Attribute from "@/Components/Attribute";
+import Attribute from "@/Components/Admin/Product/Attribute";
 
 export default function ProductAttributes({product}){
     return(

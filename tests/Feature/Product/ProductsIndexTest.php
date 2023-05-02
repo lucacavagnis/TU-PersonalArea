@@ -3,7 +3,7 @@
 namespace Tests\Feature\Product;
 
 use App\Models\Company;
-use App\Models\Product;
+use App\Models\Lot;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Str;
@@ -14,7 +14,7 @@ class ProductsIndexTest extends TestCase
     use RefreshDatabase;
 
     private function user(){
-        return User::factory()->for(Company::factory()->has(Product::factory()->count(15)))->create();
+        return User::factory()->for(Company::factory()->has(Lot::factory()->count(15)))->create();
     }
 
     public function test_products_index_page_can_be_render()

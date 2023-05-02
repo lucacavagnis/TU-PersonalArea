@@ -1,15 +1,14 @@
 <?php
 
-use App\Http\Controllers\CartProductController;
-use App\Http\Controllers\MachineController;
-use App\Http\Controllers\OrderController;
-use App\Http\Controllers\ProductDataController;
-use Illuminate\Foundation\Application;
+use App\Http\Controllers\Authenticated\CartController;
+use App\Http\Controllers\Authenticated\LotController;
+use App\Http\Controllers\Authenticated\MachineController;
+use App\Http\Controllers\Authenticated\OrderController;
+use App\Http\Controllers\Authenticated\ProductController;
+use App\Http\Controllers\Authenticated\ProtocolController;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
-use App\Http\Controllers\ProductController;
-use App\Http\Controllers\ProtocolController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,7 +22,7 @@ use App\Http\Controllers\ProtocolController;
 */
 
 Route::get('/', function () {
-    return Redirect::route('productData.dashboard');
+    return Redirect::route('products.dashboard');
     /* return Inertia::render('Guest/Welcome', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
@@ -36,11 +35,12 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/productData/history',[ProductDataController::class,'history'])->middleware(['auth', 'verified'])->name('productData.history');
-Route::get('/productData/dashboard',[ProductDataController::class,'dashboard'])->middleware(['auth', 'verified'])->name('productData.dashboard');
-Route::resource('productData',ProductDataController::class)->only(['show'])->middleware(['auth', 'verified']);
+Route::get('/products/history',[ProductController::class,'history'])->middleware(['auth', 'verified'])->name('products.history');
+Route::get('/products/dashboard',[ProductController::class,'dashboard'])->middleware(['auth', 'verified'])->name('products.dashboard');
+Route::post('/products/quotation/{product}',[ProductController::class,'quotation'])->middleware(['auth', 'verified'])->name('products.quotation');
+Route::resource('products',ProductController::class)->only(['show'])->middleware(['auth', 'verified']);
 
-Route::resource('products',ProductController::class)->middleware(['auth', 'verified']);
+Route::resource('lots',LotController::class)->middleware(['auth', 'verified']);
 
 Route::get('/orders/emailApprove/{order}/',[OrderController::class,'approve'])->middleware(['auth', 'verified','signed'])->name('orders.emailApprove');
 Route::get('/orders/approve/{order}/',[OrderController::class,'approve'])->middleware(['auth', 'verified'])->name('orders.approve');
@@ -50,10 +50,8 @@ Route::get('/orders/pending/{order}/',[OrderController::class,'pending'])->middl
 Route::get('/orders/confirm/{order}/',[OrderController::class,'confirm'])->middleware(['auth', 'verified'])->name('orders.confirm');
 Route::resource('orders',OrderController::class)->middleware(['auth', 'verified']);
 
-Route::delete('/cart/empty',[CartProductController::class,'empty'])->name('cart.empty')->middleware(['auth', 'verified']);
-Route::post('/cart/store/one',[CartProductController::class,'storeOne'])->name('cart.store.one')->middleware(['auth', 'verified']);
-Route::post('/cart/store/many',[CartProductController::class,'storeMany'])->name('cart.store.many')->middleware(['auth', 'verified']);
-Route::resource('cart',CartProductController::class)->middleware(['auth', 'verified']);
+Route::delete('/cart/empty',[CartController::class,'empty'])->name('cart.empty')->middleware(['auth', 'verified']);
+Route::resource('cart',CartController::class)->middleware(['auth', 'verified']);
 
 Route::resource('machines', MachineController::class)->middleware(['auth','verified','option:machines']);
 

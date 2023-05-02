@@ -27,12 +27,12 @@ export const isExpired=(protocol)=>{
 }
 
 export const isTu=(product)=>{
-    return !!product.protocol_product;
+    return !!product.protocol_lot;
 }
 
 export const isCa=(product)=>{
     let ca=false;
-    if(isTu(product) && product.protocol_product.protocol.type===1)
+    if(isTu(product) && product.protocol_lot.protocol.type===1)
         ca=true;
 
     return ca;

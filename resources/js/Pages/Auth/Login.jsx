@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
-import Checkbox from '@/Components/Checkbox';
+import Checkbox from '@/Components/Inputs/Checkbox';
 import GuestLayout from '@/Layouts/GuestLayout';
-import InputError from '@/Components/InputError';
-import InputLabel from '@/Components/InputLabel';
+import InputError from '@/Components/Inputs/InputError';
+import InputLabel from '@/Components/Inputs/InputLabel';
 import DefaultButton from '@/Components/Buttons/DefaultButton';
-import TextInput from '@/Components/TextInput';
+import TextInput from '@/Components/Inputs/TextInput';
 import { Head, Link, useForm } from '@inertiajs/inertia-react';
 
 export default function Login({ status, canResetPassword }) {
@@ -71,7 +71,7 @@ export default function Login({ status, canResetPassword }) {
                     <label className="flex items-center">
                         <Checkbox name="remember" value={data.remember} handleChange={onHandleChange} />
 
-                        <span className="ml-2 text-sm text-gray-600">Remember me</span>
+                        <span className="ml-2 text-sm text-gray-600">Ricordami</span>
                     </label>
                 </div>
 

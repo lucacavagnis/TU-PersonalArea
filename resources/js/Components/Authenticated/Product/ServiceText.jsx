@@ -1,6 +1,6 @@
 import react from 'react';
-import Checkbox from "@/Components/Checkbox";
-import TextInput from "@/Components/TextInput";
+import Checkbox from "@/Components/Inputs/Checkbox";
+import TextInput from "@/Components/Inputs/TextInput";
 
 export default function ServiceText(props){
     return(

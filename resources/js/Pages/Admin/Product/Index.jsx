@@ -2,8 +2,8 @@ import React from 'react';
 import { Head } from '@inertiajs/inertia-react';
 import Admin from "@/Layouts/AdminLayout";
 import Tab from "@/Components/Tab";
-import MuiCompaniesTable from "@/Components/Admin/Company/MuiCompaniesTable";
-import ProductsTable from "@/Components/Admin/Product/ProductsTable";
+import {ProductsTable} from "@/Components/Admin/Product/ProductsTable";
+import Button from "@/Components/Buttons/Button";
 
 
 
@@ -21,7 +21,8 @@ export default function Index(props) {
                 <div className="max-w-8xl mx-auto sm:px-6 lg:px-8">
                     <div className="bg-white shadow-sm sm:rounded-lg">
                         <Tab>
-                            <ProductsTable products={props.products}/>
+                            <ProductsTable products={props.products} inputs={props.inputs}/>
+                            <Button type="link" href={route('admin.products.create')}>Crea nuovo</Button>
                         </Tab>
                     </div>
                 </div>

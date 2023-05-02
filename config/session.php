@@ -76,7 +76,7 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Session Database Table
+    | Session Database ProductsTable
     |--------------------------------------------------------------------------
     |
     | When using the "database" session driver, you may specify the table we
