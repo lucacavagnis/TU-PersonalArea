@@ -20,7 +20,7 @@ class CreateOrdersTable extends Migration
             $table->string('office', 100);
             $table->string('ioc', 100);
             $table->string('status', 100)->nullable();
-            $table->string('feedback', 1000)->default('');
+            $table->string('notes', 1000)->default('');
             $table->timestamps();
 
             $table->foreign('user_id', 'orders_user_id_foreign')->references('id')->on('users');
