@@ -14,10 +14,10 @@ return new class extends Migration
     public function up()
     {
         Schema::table('orders', function (Blueprint $table) {
-            $table->unsignedBigInteger('approver')->nullable();
+            $table->unsignedBigInteger('approver_id')->nullable();
             $table->timestamp('approved_at')->nullable();
 
-            $table->foreign('approver','order_approver_fk')->references('id')->on('users');
+            $table->foreign('approver_id','order_approver_fk')->references('id')->on('users');
         });
     }
 
@@ -32,7 +32,7 @@ return new class extends Migration
             $table->dropForeign('order_approver_fk');
 
             $table->dropColumn('approved_at');
-            $table->dropColumn('approver');
+            $table->dropColumn('approver_id');
         });
     }
 };
