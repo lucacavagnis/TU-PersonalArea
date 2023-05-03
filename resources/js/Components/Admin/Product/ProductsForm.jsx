@@ -60,7 +60,7 @@ export const ProductsForm=({default_value,companies,categories,subcategories}) =
     const getImage=(image)=>{
         console.log(image)
         const className="w-20 h-20"
-        return (typeof image === "string" || image instanceof String)?<ProductImage name={image} className={className}/>:<img src={URL.createObjectURL(image)} className={className} />
+        return (!image || typeof image === "string" || image instanceof String )?<ProductImage name={image} className={className}/>:<img src={URL.createObjectURL(image)} className={className} />
     }
 
 
