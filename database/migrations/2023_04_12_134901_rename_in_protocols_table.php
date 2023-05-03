@@ -12,7 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('protocol_products', function (Blueprint $table) {
+            $table->dropForeign( 'product_protocol_product_id_foreign');
             $table->renameColumn('product_id','lot_id');
+            $table->foreign('lot_id', 'product_protocol_product_id_foreign')->references('id')->on('physical_products')->onDelete('cascade')->onUpdate('cascade');
+
         });
     }
 
@@ -22,7 +25,9 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('protocol_products', function (Blueprint $table) {
+            $table->dropForeign( 'product_protocol_product_id_foreign');
             $table->renameColumn('lot_id','product_id');
+            $table->foreign('product_id', 'product_protocol_product_id_foreign')->references('id')->on('physical_products')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 };
