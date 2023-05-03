@@ -1,0 +1,1 @@
+const r=(e,o)=>{let t;return e===0?t="bg-rose-600":e<=o/5?t="bg-amber-600":t="bg-emerald-600",t},l=(e,o)=>{let t;return e===0?t="text-rose-600":e<=o/5?t="text-amber-600":t="text-emerald-600",t},s=e=>!!e.protocol_lot,a=e=>{let o=!1;return s(e)&&e.protocol_lot.protocol.type===1&&(o=!0),o};export{a,s as i,r as l,l as q};
