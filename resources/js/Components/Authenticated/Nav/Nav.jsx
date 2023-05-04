@@ -12,7 +12,7 @@ export default function Nav({auth}){
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
     const cartProductNumber = () => {
             var qty_total=0;
-            console.log(auth);
+
             if(auth.cart!=null)
             auth.cart.products.forEach((product)=>{
                 qty_total+=product.qty;
@@ -28,32 +28,32 @@ export default function Nav({auth}){
     return(
        <>
 
-    <SideCart cart={auth.cart} />
+    <SideCart cart={auth.user.cart} />
     <nav className="bg-white border-b border-gray-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex justify-between h-16">
                 <div className="flex">
                     <div className="shrink-0 flex items-center">
-                        <Link href="/resources/js/Pages">
+                        <Link href={route('products.dashboard')}>
                             <ApplicationLogo className="block h-9 w-auto text-gray-500" />
                         </Link>
                     </div>
 
                     <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                        <NavLink href={route('products.index')} active={route().current('products.index')}>
+                        <NavLink href={route('products.dashboard')} active={route().current('products.dashboard')}>
                             Prodotti
                         </NavLink>
                     </div>
 
                     <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                        <NavLink href={route('products.history')} active={route().current('products.history')}>
-                            Esauriti e Scaduti
+                        <NavLink href={route('orders.index')} active={route().current('orders.index')}>
+                            Ordini di evasione
                         </NavLink>
                     </div>
 
                     <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                        <NavLink href={route('orders.index')} active={route().current('orders.index')}>
-                            Ordini
+                        <NavLink href={route('protocols.index')} active={route().current('protocols.index')}>
+                            Protocolli di offerta
                         </NavLink>
                     </div>
 
@@ -70,7 +70,7 @@ export default function Nav({auth}){
                     <div className="ml-3 relative">
                         <div className="relative">
                             <TfiBag className="scale-[1.3] cursor-pointer" fill="#6b7280" onClick={(e)=>openCart(e)}/>
-                            <div className="absolute top-[-1em] left-[-1.3em] rounded-full bg-indigo-600 text-gray-50 text-xs pl-[0.3em] pr-[0.3em] text-center">{cartProductNumber()}</div>
+                            <div className="absolute top-[-1em] left-[-1.3em] rounded-full bg-indigo-600 text-gray-50 text-xs pl-[0.3em] pr-[0.3em] text-center">{auth.user.cart.total}</div>
                         </div>
                     </div>
 

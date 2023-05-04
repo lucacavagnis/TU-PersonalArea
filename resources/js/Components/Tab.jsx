@@ -1,9 +1,10 @@
 import React from 'react';
+import {twMerge} from "tailwind-merge";
 
-export default function Tab(props) {
+export default function Tab({className,containerClassName,children}) {
     return (
-        <div className={"bg-white overflow-hidden shadow-sm sm:rounded-lg " + props.containerClassName} >
-            <div className={"p-6 bg-white border-b border-gray-200 " + props.className}>{props.children}</div>
+        <div className={twMerge("bg-white shadow-sm sm:rounded-lg " , containerClassName)} >
+            <div className={twMerge("p-6 bg-white border-b border-gray-200  sm:rounded-lg h-full " , className)}>{children}</div>
         </div>
     );
 }
