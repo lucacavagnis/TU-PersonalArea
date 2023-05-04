@@ -18,7 +18,7 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string
      */
-    public const HOME = '/';
+    public const HOME = '/products';
 
     /**
      * The path to the "admin" route for your application.
@@ -27,7 +27,7 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string
      */
-    public const ADMIN = '/admin/';
+    public const ADMIN = '/admin/dashboard';
 
 
     /**
@@ -46,7 +46,6 @@ class RouteServiceProvider extends ServiceProvider
 
             Route::middleware('web')
                 ->group(base_path('routes/web.php'));
-
 
             Route::middleware('admin')
                 ->prefix('admin')
