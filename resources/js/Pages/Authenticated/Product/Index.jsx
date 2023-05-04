@@ -1,41 +1,29 @@
-import React from 'react';
+import React, {useState} from 'react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import Button from "@/Components/Buttons/Button";
 import {Head, useForm} from '@inertiajs/inertia-react';
 import ProductImage from "@/Components/Authenticated/Product/ProductImage";
 import Pagination from "@/Components/Pagination";
-import TextInput from "@/Components/TextInput";
-import Select from "@/Components/Select";
-import {qtyTextColor} from "@/Helpers/Product";
+import FilterBar from "@/Components/Authenticated/Product/FilterBar";
+import Tags from "@/Components/Authenticated/Product/Tags";
+import Quantity from "@/Components/Authenticated/Product/Quantity";
+import {isExpired} from "@/Helpers/Product";
 
 export default function Index(props) {
+    console.log(props)
     let products=props.products.data;
 
-    const {data,setData,get}=useForm('Filters',{
-        search:props.input.search??'',
-        order:props.input.order??'name',
-    })
+    const  [open,setOpen]=useState(false);
 
-
-    const onOrderChange=(el)=>{
-        setData('order',el.value);
-    }
-
-    const onHandleChange = (event) => {
-        setData(event.target.name, event.target.type === 'checkbox' ? event.target.checked : event.target.value);
-    };
-
-    const submit=(e)=>{
-        const route=available?'products.index':'products.history';
+    const toggleOpen=(e)=>{
+        if(e)
         e.preventDefault();
-        get(route(route),{
-            only:['products']
-        });
+        setOpen((prev)=>!prev);
     }
 
     products = products.map((product)=>{
         return(
-            <Product element={product} available={props.available}/>
+            <Product product={product} available={props.available}/>
         )
     })
 
@@ -43,13 +31,17 @@ export default function Index(props) {
         <AuthenticatedLayout
             auth={props.auth}
             errors={props.errors}
-            header={props.available?"Prodotti":"Storico prodotti"}
+            header="Prodotti"
         >
-            <Head title={props.available?"Prodotti":"Storico prodotti"} />
+            <Head title="Prodotti" />
+            <FilterBar open={open} toggleOpen={toggleOpen} input={props.input}></FilterBar>
 
             <div className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                    <Filters submit={submit} handleChange={onHandleChange} orderChange={onOrderChange} data={data} initialValue={data.order}/>
+                    <div className="flex justify-between items-center mb-4"><h3 className="font-semibold text-lg mb-2 ">{props.input.search && ("Risultati per: "+props.input.search)}</h3><Button onClick={toggleOpen}>Filtra e Ordina</Button></div>
+
+
+
             {products.length > 0 && (
                 <div>
 
@@ -72,32 +64,28 @@ export default function Index(props) {
     );
 }
 
-const Filters=(props)=>{
-    const orders=[{'name':'Ordina per nome','value':'name'},{'name':'Ordina per quantità','value':'qty_available'},{'name':'Ordina per scadenza','value':'expire_date'},{'name':'Ordina per categoria','value':'category_id'},{'name':'Ordina per protocollo','value':'prot_date'}]
-
+const Product=({product})=>{
+    const tag_class=" font-semibold border-2 block rounded p-1 bg-white absolute top-6 w-fit "
     return(
-        <form onSubmit={props.submit} className="mb-4 w-full flex justify-start">
-            <TextInput containerClassName="w-1/2 mr-2" className="w-full" type="text" name="search" placeholder="Digita per cercare..." handleChange={props.handleChange} value={props.data.search}/>
-            <Select options={orders} selectClassName="ml-2" onChange={props.orderChange} initialValue={props.data.order}/>
-            <Button type="submit" className="mt-0 ml-2">Filtra</Button>
-        </form>);
-
-}
-
-const Product=({element,available})=>{
-    const qtyRemaining=element.qty_available-element.qty_requested;
-    return(
-        <li key={element.id} className={(available?"":"outline outline-rose-300 outline-2")+" bg-white overflow-hidden shadow-sm sm:rounded-lg w-[calc(25%-2rem)] mr-4 mb-4"}>
-            <div className="p-6 bg-white border-b border-gray-200 h-full flex flex-col justify-between">
+        <li key={product.id} className=" bg-white overflow-hidden shadow-sm sm:rounded-lg w-[calc(25%-1rem)] mr-2 ml-2 mb-4">
+            <div className="p-6 bg-white border-b border-gray-200 h-full flex flex-col justify-between relative">
                 <div>
-                    <ProductImage name={element.image} className="h-48"/>
-                    <h3 className="font-bold text-sm uppercase">{element.name}</h3>
-                    <h4 className="uppercase text-sm">{element.prot_number} - {element.prot_date}</h4>
-                    <span className={qtyTextColor(element)+" font-bold text-sm uppercase"}>{qtyRemaining} di {element.qty_total}</span>
+                    <ProductImage name={product.image} className="h-48"/>
+                    <span className="tex-sm uppercase text-slate-500">{product.sku}</span>
+                    <h3 className="font-bold text-sm uppercase mb-2">{product.name}</h3>
                 </div>
-                <Button href={route("products.show",element.id)}>
-                    Visualizza
-                </Button>
+                <div>
+                    {product.qty_available-product.qty_requested>0?
+                        <p className={tag_class+" font-semibold text-green-700 border-green-700"}>{product.qty_available-product.qty_requested + " Disponbili"}</p>:
+                        <p className={tag_class+" text-red-700 font-semibold border-2 border-red-700 block rounded p-1 w-fit"}>Esaurito</p>
+
+
+                    }
+                    <Button href={route("products.show",product.id)}>
+                        Visualizza
+                    </Button>
+                </div>
+
             </div>
         </li>
     )

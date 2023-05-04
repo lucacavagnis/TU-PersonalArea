@@ -2,18 +2,11 @@ import React from 'react';
 import { Head } from '@inertiajs/inertia-react';
 import Admin from "@/Layouts/AdminLayout";
 import Tab from "@/Components/Tab";
-import CompaniesTable from "@/Components/Admin/Company/CompaniesTable";
-import { DataGrid} from '@mui/x-data-grid';
-import Button from "@/Components/Buttons/Button"
 import MuiCompaniesTable from "@/Components/Admin/Company/MuiCompaniesTable";
 
 
 
 export default function Dashboard(props) {
-
-
-
-
 
     return (
         <Admin
