@@ -126,16 +126,17 @@ class AdminProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-        Log::debug($request->all());
         $product->name=$request->input('name');
         $product->desc=$request->desc;
         $product->sku=$request->sku;
         $product->company_id=$request->company_id;
         $product->category_id=$request->category_id;
         $product->subcategory_id=$request->subcategory_id;
-        if($request->has('image') && $request->hasFile('image')){
-            $file=$request->file('image');
-            $file->move(storage_path('app/public/uploads'),$product->sku.".".$file->extension());
+        if($request->has('image')){
+            if($request->hasFile('image')){
+                $file=$request->file('image');
+                $file->move(storage_path('app/public/uploads'),$product->sku.".".$file->extension());
+            }
         }else{
             if(Storage::exists('public/uploads/'.$product->image))
             Storage::delete('public/uploads/'.$product->image);
