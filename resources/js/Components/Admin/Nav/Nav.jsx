@@ -8,7 +8,6 @@ import {
     AiFillPrinter,
     SiGooglesheets, BsInboxesFill
 } from "react-icons/all";
-import {useContext, useState} from "react";
 import NavLink from "@/Components/Admin/Nav/NavLink";
 import NavDropdown from "@/Components/Admin/Nav/NavDropdown";
 
@@ -30,7 +29,7 @@ export default function Nav({auth}){
 
                             <NavDropdown>
                                 <NavDropdown.Trigger>
-                                    <NavLink title="Prodotti" icon={<GiJigsawBox></GiJigsawBox>} dropdown={true} active={route().current('admin.gay')} />
+                                    <NavLink title="Prodotti" icon={<GiJigsawBox></GiJigsawBox>} dropdown={true} active={false} />
                                 </NavDropdown.Trigger>
 
                                 <NavDropdown.Content>
@@ -51,11 +50,11 @@ export default function Nav({auth}){
 
                             <NavLink title="Protocolli di offerta" icon={<SiGooglesheets></SiGooglesheets>} link={route('admin.protocols.index')} active={route().current('admin.protocols.index')} />
 
-                            <NavLink title="Magazzino" icon={<BsInboxesFill></BsInboxesFill>} link={route('admin.protocols.index')} active={route().current('admin.protocols.index')} />
+                            <NavLink title="Magazzino" icon={<BsInboxesFill></BsInboxesFill>} link="#" active={false} />
 
-                            <NavLink title="Ordini di evasione" icon={<BsFillCartCheckFill></BsFillCartCheckFill>} link="#" active={route().current('admin.gay')} />
+                            <NavLink title="Ordini di evasione" icon={<BsFillCartCheckFill></BsFillCartCheckFill>} link="#" active={false} />
 
-                            <NavLink title="Cespiti a noleggio" icon={<AiFillPrinter></AiFillPrinter>} link="#" active={route().current('admin.gay')} />
+                            <NavLink title="Cespiti a noleggio" icon={<AiFillPrinter></AiFillPrinter>} link="#" active={false} />
                         </div>
                         <div className="px-4 absolute w-full bottom-8 left-0">
                             <NavDropdown>
