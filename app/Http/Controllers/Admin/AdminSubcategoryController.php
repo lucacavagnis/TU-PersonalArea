@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Authenticated\Controller;
 use App\Models\Subcategory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 
 class AdminSubcategoryController extends Controller
@@ -40,7 +41,11 @@ class AdminSubcategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $subcategory = new Subcategory();
+        $subcategory->name=$request->input('name');
+        $subcategory->save();
+
+        return Redirect::route('admin.subcategories.index');
     }
 
     /**
