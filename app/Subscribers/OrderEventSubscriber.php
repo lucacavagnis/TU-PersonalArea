@@ -20,37 +20,37 @@ class OrderEventSubscriber
     public function handleOrderPending($event) {
         foreach($event->order->user->company->supervisors as $supervisor)
             Mail::to($supervisor)
-                ->cc('luca.cavagnis.work@gmail.com')
+                ->cc('l.cavagnis@tutto-ufficio.it')
                 ->send(new OrderApprovalRequestMail($event->order, $supervisor));
 
         Mail::to($event->order->user)
-            ->cc('luca.cavagnis.work@gmail.com')
+            ->cc('l.cavagnis@tutto-ufficio.it')
             ->send(new OrderUnderApprovalMail($event->order));
     }
 
     public function handleOrderApproved($event) {
         Mail::to($event->order->user)
-            ->cc('luca.cavagnis.work@gmail.com')
+            ->cc('l.cavagnis@tutto-ufficio.it')
             ->send(new OrderApprovedMail($event->order));
 
-        Mail::to('l.cavagnis@tutto-ufficio.it')
-            ->cc('luca.cavagnis.work@gmail.com')
+        Mail::to('info@tutto-ufficio.it')
+            ->cc('l.cavagnis@tutto-ufficio.it')
             ->send(new OrderReceived($event->order));
     }
 
     public function handleOrderRejected($event) {
         Mail::to($event->order->user)
-            ->cc('luca.cavagnis.work@gmail.com')
+            ->cc('l.cavagnis@tutto-ufficio.it')
             ->send(new OrderRejectedMail($event->order));
     }
 
     public function handleOrderConfirmed($event) {
         Mail::to($event->order->user)
-            ->cc('luca.cavagnis.work@gmail.com')
+            ->cc('l.cavagnis@tutto-ufficio.it')
             ->send(new OrderConfirmedMail($event->order));
 
-        Mail::to('l.cavagnis@tutto-ufficio.it')
-            ->cc('luca.cavagnis.work@gmail.com')
+        Mail::to('info@tutto-ufficio.it')
+            ->cc('l.cavagnis@tutto-ufficio.it')
             ->send(new OrderReceived($event->order));
     }
 
