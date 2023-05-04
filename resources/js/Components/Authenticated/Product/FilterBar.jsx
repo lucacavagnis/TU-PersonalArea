@@ -1,18 +1,23 @@
 import {React, useState} from 'react';
-import TextInput from "@/Components/Inputs/TextInput";
-import Checkbox from "@/Components/Inputs/Checkbox";
+import TextInput from "@/Components/TextInput";
+import Checkbox from "@/Components/Checkbox";
 import Button from "@/Components/Buttons/Button";
 import {useForm} from "@inertiajs/inertia-react";
 
 const FilterBar=({open,toggleOpen,input})=>{
 
-    const {data,setData,get,processing}=useForm('Filters',{
+    const {data,setData,get}=useForm('Filters',{
         search:input.search??'',
         order:input.search??'name',
+        owned:input.owned??'',
+        nowned:input.nowned??'',
+        available:input.available??true,
         out_of_stock:input.out_of_stock??true,
+        expired:input.expired??true,
 
     })
 
+    console.log(data);
 
     const onHandleChange = (event) => {
         setData(event.target.name, event.target.type === 'checkbox' ? event.target.checked : event.target.value);
@@ -22,8 +27,8 @@ const FilterBar=({open,toggleOpen,input})=>{
 
     const submit=(e)=>{
         e.preventDefault();
-        get(route('products.dashboard'),{
-            only:['products','input'],
+        get(route('products.index'),{
+            only:['products'],
             preserveState: true,
             preserveScroll: true,
         });
@@ -40,22 +45,22 @@ const FilterBar=({open,toggleOpen,input})=>{
                     </Dropdown>
                     <Dropdown name="Ordina per" height="h-32">
                         <CustomRadioButton name="order" value="name" label="Nome"  handleChange={onHandleChange} checked={data.order==="name"}/>
-                        <CustomRadioButton name="order" value="sku" label="Protocollo" handleChange={onHandleChange} checked={data.order==="prot_number"}/>
+                        <CustomRadioButton name="order" value="qty_available" label="Quantità disponibile" handleChange={onHandleChange} checked={data.order==="qty_available"}/>
+                        <CustomRadioButton name="order" value="expire_date" label="Scadenza" handleChange={onHandleChange} checked={data.order==="expire_date"}/>
+                        <CustomRadioButton name="order" value="prot_number" label="Protocollo" handleChange={onHandleChange} checked={data.order==="prot_number"}/>
                     </Dropdown>
-                    {/*<Dropdown name="Proprietà" height="h-18">
+                    <Dropdown name="Proprietà" height="h-18">
                         <CustomCheckbox name="owned" label="Pre ordine" checked={data.owned} handleChange={onHandleChange}/>
                         <CustomCheckbox name="nowned" label="Fermo deposito" checked={data.nowned} handleChange={onHandleChange}/>
                     </Dropdown>
-                    <Dropdown name="Saldo" height="h-18">
-                        <CustomCheckbox name="payed" label="Pagato" checked={data.owned} handleChange={onHandleChange}/>
-                        <CustomCheckbox name="npayed" label="Non pagato" checked={data.nowned} handleChange={onHandleChange}/>
-                    </Dropdown>*/}
                     <Dropdown name="Disponibilità" height="h-24">
+                        <CustomCheckbox name="available" label="Disponibili" checked={data.available}  handleChange={onHandleChange}/>
                         <CustomCheckbox name="out_of_stock" label="Esauriti" checked={data.out_of_stock}  handleChange={onHandleChange}/>
+                        <CustomCheckbox name="expired" label="Scaduti" checked={data.expired} handleChange={onHandleChange}/>
                     </Dropdown>
 
                 </div>
-                <Button processing={processing} disbaled={processing} type="submit" className="w-full py-3" onClick={(e)=>submit(e)}>Filtra</Button>
+                <Button type="submit" className="w-full py-3" onClick={(e)=>submit(e)}>Filtra</Button>
             </div>
         </div>
     );
