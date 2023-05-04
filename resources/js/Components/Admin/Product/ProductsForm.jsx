@@ -1,6 +1,5 @@
 import React from 'react';
 import {useForm} from '@inertiajs/inertia-react';
-import Tab from "@/Components/Tab";
 import Button from "@/Components/Buttons/Button";
 import TextInput from "@/Components/Inputs/TextInput";
 import InputLabel from "@/Components/Inputs/InputLabel";
@@ -9,7 +8,6 @@ import Select from "@/Components/Inputs/Select";
 import {ImageUploadInput} from "@/Components/Inputs/ImageUploadInput";
 import ProductImage from "@/Components/Authenticated/Product/ProductImage";
 import {twMerge} from "tailwind-merge";
-import BackgroundImage from "@/Components/BackgorundImage";
 
 
 export const ProductsForm=({default_value,companies,categories,subcategories}) =>{
@@ -28,7 +26,7 @@ export const ProductsForm=({default_value,companies,categories,subcategories}) =
     else
         initial_value=default_value
 
-    const {data,setData,post,put}=useForm({
+    const {data,setData,post}=useForm({
         name:initial_value.name,
         sku:initial_value.sku,
         desc:initial_value.desc,
@@ -36,6 +34,7 @@ export const ProductsForm=({default_value,companies,categories,subcategories}) =
         category_id:initial_value.category.id,
         subcategory_id:initial_value.subcategory.id,
         image:initial_value.image,
+        _method: default_value?'put':null,
     })
 
     console.log(data)
@@ -43,7 +42,7 @@ export const ProductsForm=({default_value,companies,categories,subcategories}) =
 
     const onClick=(e)=>{
         e.preventDefault;
-        default_value?put(route('admin.products.update',initial_value.id),{_method:'put'}):post(route('admin.products.store'));
+        default_value?post(route('admin.products.update',initial_value.id),{method:'put'}):post(route('admin.products.store'));
     }
 
     const onChange=(e)=>{
@@ -60,7 +59,7 @@ export const ProductsForm=({default_value,companies,categories,subcategories}) =
     const getImage=(image)=>{
         console.log(image)
         const className="w-20 h-20"
-        return (!image || typeof image === "string" || image instanceof String )?<ProductImage name={image} className={className}/>:<img src={URL.createObjectURL(image)} className={className} />
+        return (!image || typeof image === "string" || image instanceof String )?<ProductImage name={image} className={className}/>:<img src={URL.createObjectURL(image)} className={className} alt="Product image"/>
     }
 
 
