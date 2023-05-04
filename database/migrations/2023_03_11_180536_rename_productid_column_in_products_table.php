@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::table('products', function (Blueprint $table) {
             $table->dropForeign('product_pysicla_product_id_foreign');
             $table->renameColumn('product_id','data_id');
-            $table->foreign('data_id', 'product_data_data_id_foreign')->references('id')->on('product_data');
+            $table->foreign('data_id', 'product_data_data_id_foreign')->references('id')->on('product_data')->onDelete('cascade')->onUpdate('cascade');
 
         });
     }
@@ -28,7 +28,7 @@ return new class extends Migration
             $table->dropForeign('product_data_data_id_foreign');
             $table->renameColumn('data_id','product_id');
 
-            $table->foreign('product_id', 'product_pysicla_product_id_foreign')->references('id')->on('products');
+            $table->foreign('product_id', 'product_pysicla_product_id_foreign')->references('id')->on('products')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 };
