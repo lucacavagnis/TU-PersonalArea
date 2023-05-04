@@ -1,11 +1,8 @@
 import React, {useState} from 'react';
-import {Head, useForm} from '@inertiajs/inertia-react';
-import Admin from "@/Layouts/AdminLayout";
-import Tab from "@/Components/Tab";
+import {useForm} from '@inertiajs/inertia-react';
 import Button from "@/Components/Buttons/Button";
 import TextInput from "@/Components/Inputs/TextInput";
 import InputLabel from "@/Components/Inputs/InputLabel";
-import TextArea from "@/Components/Inputs/TextArea";
 import Select from "@/Components/Inputs/Select";
 import {Format_date_input, getTypeText} from "@/Helpers/String";
 
@@ -21,12 +18,12 @@ export const ProtocolForm=({default_value,companies}) =>{
             date: Format_date_input(Date()),
             expiring_date: Format_date_input(new Date(new Date().getTime()+(365*24*60*60*1000))),
             company: companies[0],
-            type: types[0],
+            type: type[0],
         }
     else
         initial_value=default_value
 
-    const {data,setData,post,put,transform}=useForm({
+    const {data,setData,post,put}=useForm({
         referral:initial_value.referral,
         date:initial_value.date,
         expiring_date:initial_value.expiring_date,
@@ -34,10 +31,8 @@ export const ProtocolForm=({default_value,companies}) =>{
         type:initial_value.type,
     })
 
-    console.log(data)
 
-
-    const onClick=(e)=>{
+    const onClick=()=>{
         default_value?put(route('admin.protocols.update',initial_value.id)):post(route('admin.protocols.store'));
     }
 
@@ -88,7 +83,7 @@ export const ProtocolForm=({default_value,companies}) =>{
                     />
                 </Form.Field>
             </Form.Row>
-            {default_value?<Button type="button" onClick={(e)=>onClick(e)}>Modifica</Button>:<Button type="button" onClick={(e)=>onClick(e)}>Aggiungi</Button>}
+            {default_value?<Button type="button" onClick={onClick}>Modifica</Button>:<Button type="button" onClick={onClick}>Aggiungi</Button>}
         </Form>
 
     );

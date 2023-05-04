@@ -22,8 +22,6 @@ function Select({people=[],initial,getValue=(e)=>{return e.id},getName=(e)=>{ret
             onChange(getValue(value));
     }
 
-    console.log(selected)
-
     return (
         <div className="w-72 h-full">
             <Listbox value={selected} onChange={handleOnChange} name="order">
