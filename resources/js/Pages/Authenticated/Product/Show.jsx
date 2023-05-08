@@ -1,4 +1,4 @@
-import React, {useState, useContext, useRef, useEffect} from 'react';
+import React, {useContext} from 'react';
 import AuthenticatedLayout, {CartContext} from '@/Layouts/AuthenticatedLayout';
 import Tab from "@/Components/Tab";
 import {Head, Link, useForm} from '@inertiajs/inertia-react';
@@ -12,7 +12,6 @@ import Table from "@/Components/Table/Table";
 import {isCa, isTu} from "@/Helpers/Product";
 import {Format_date} from "@/Helpers/String";
 export default function Show(props) {
-    console.log(props)
 
     const product=props.product;
 
@@ -44,14 +43,6 @@ export default function Show(props) {
                 contextAction();
             }
         })
-    }
-
-    const totalSelectedProduct=()=>{
-        let t=0;
-        data.products.forEach((p)=>{
-            t+=p.qty;
-        })
-        return t;
     }
 
     const onRangeChange=(e)=>{
@@ -104,7 +95,7 @@ export default function Show(props) {
                                     <Button  disbaled={processing} pending={processing} type="button" kind="primary" onClick={onClick}>Richiedi nuova qutazione</Button>
                                 </div></>:
                             <div><p className="font-bold text-lg text-red-700">Esaurito / Disponibilità da verificare</p>
-                                <Button  disbaled={processing} pending={processing} type="button" kind="primary" onClick={onClick}>Richiedi nuova quotazione</Button>
+                                {isTu(product) && <Button  disbaled={processing} pending={processing} type="button" kind="primary" onClick={onClick}>Richiedi nuova quotazione</Button>}
                             </div>}
 
                     </ProductDataTab>
@@ -129,7 +120,7 @@ export default function Show(props) {
     );
 }
 
-export const ProductDataTab=({children,product,data,onChange,submit,processing,onClick})=>{
+export const ProductDataTab=({children,product})=>{
     return(
         <Tab className="flex justify-between w-full mb-4">
             <div className="w-1/2 mr-4 relative">
@@ -155,7 +146,7 @@ export const ProductDataTab=({children,product,data,onChange,submit,processing,o
     )
 }
 
-const PhysicalProduct = ({id,lot,data,onChange}) => {
+const PhysicalProduct = ({lot}) => {
     const l=lot;
 
     return(
