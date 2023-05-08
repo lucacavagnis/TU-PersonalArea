@@ -26,8 +26,17 @@ export const isExpired=(protocol)=>{
     return protocol.remaining_days===0;
 }
 
-export const isTu=(product)=>{
-    return !!product.protocol_lot;
+export const isTu=(el)=>{
+    if(el.date)
+        return !!el.protocol_lot;
+    else if(el.sku && el.lots){
+        el.lots.forEach((lot)=>{
+            if(lot.protocol_lot)
+                return true
+        })
+    }else
+        return false
+
 }
 
 export const isCa=(product)=>{
