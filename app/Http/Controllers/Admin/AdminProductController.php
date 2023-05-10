@@ -126,7 +126,7 @@ class AdminProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-        $product->name=$request->input('name');
+        $product->name=$request->name;
         $product->desc=$request->desc;
         $product->sku=$request->sku;
         $product->company_id=$request->company_id;
