@@ -1,12 +1,7 @@
 import Protocol from "@/Helpers/Protocol";
-import Tab from "@/Components/Tab";
-import React, {useState} from "react";
+import React from "react";
 import Table from "@/Components/Table/Table";
 import ActionColumn from "@/Components/Table/ActionColumn";
-import {useForm} from "@inertiajs/inertia-react";
-import {useStateWithCallbackLazy} from "use-state-with-callback";
-import {Inertia} from "@inertiajs/inertia";
-import Pagination from "@/Components/Pagination";
 import Button from "@/Components/Buttons/Button";
 
 export const ProtocolsTable=(props)=>{
@@ -78,8 +73,11 @@ export const ProtocolsTable=(props)=>{
                             <Button type="link" href={route('admin.protocols.create')}>Crea nuovo</Button>
                             <Table.Pagination paginated={props.protocols} />
                         </div>
-                                </>:
-                            <p>Nessun protocollo presente</p>}
+                                </>:<>
+                                <p>Nessun protocollo presente</p>
+                                <Button type="link" href={route('admin.protocols.create')}>Crea nuovo</Button>
+                            </>
+                            }
                     </Table>
     )
 }
