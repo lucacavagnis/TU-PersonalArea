@@ -65,6 +65,9 @@ class Lot extends Model
     }
 
     private function getQtyRequested($attributes){
+        if(!Session::has('cart'))
+            return null;
+
         $cart=Session::get('cart');
         $product_id=$attributes['product_id'];
         $lot_id=$attributes['id'];

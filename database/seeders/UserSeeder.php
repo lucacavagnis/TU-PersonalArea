@@ -52,7 +52,6 @@ class UserSeeder extends Seeder
         $this->call([
             CategorySeeder::class,
             SubcategorySeeder::class,
-            ServiceSeeder::class,
             PlaceSeeder::class,
         ]);
     }

@@ -10,9 +10,7 @@ import InputError from "@/Components/Inputs/InputError";
 import PrimaryButton from "@/Components/Buttons/PrimaryButton";
 import TextArea from "@/Components/Inputs/TextArea";
 import {ProductListDetails} from "@/Components/Admin/Product/ProductListDetails";
-import ProductSummary from "@/Components/Authenticated/Product/ProductSammury";
 import ProductImage from "@/Components/Authenticated/Product/ProductImage";
-import Price from "@/Components/Admin/Product/Price";
 import {TfiClose} from "react-icons/all";
 import {Pluralize} from "@/Helpers/String";
 import {InstantSubmitInput} from "@/Components/Inputs/InstantSubmitInput";
@@ -55,20 +53,8 @@ export default function Show(props) {
         });
     }
 
-    const onHandleChange = (event) => {
-        Inertia.visit(route('cart.update',event.target.name.split('-')[0]),{
-            method: 'put',
-            data: {
-                qty: event.target.value,
-            },
-            preserveScroll: true,
-        })
-    };
-
 
     const products=cart.products.map((cart_product)=>{
-                const qty_value_name=cart_product.product.id+"-qty_requested";
-
                 return(<Tab className="relative p-4 flex justify-between " containerClassName="mb-4" key={cart_product.product.id}>
                     <div className="w-1/4 mr-4 min-h-[8em]">
                         <ProductImage name={cart_product.product.image} className="w-full h-full rounded-md">
@@ -253,7 +239,7 @@ export default function Show(props) {
 
                                         <div className="mb-2 border-b b-grey-500 py-5">
                                             <div className="mb-4">
-                                                <InputLabel forInput="notes" value="Note" required={true}/>
+                                                <InputLabel forInput="notes" value="Note" required={false}/>
 
                                                 <TextArea
                                                     name="notes"

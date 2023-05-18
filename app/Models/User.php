@@ -71,6 +71,10 @@ class User extends Authenticatable
         );
     }
 
+    public function isAdmin():bool{
+        return $this->role==0;
+    }
+
     protected $appends=['cart'];
 
     protected $with=['company'];
