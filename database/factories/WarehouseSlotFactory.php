@@ -4,20 +4,20 @@ declare(strict_types=1);
 
 namespace Database\Factories;
 
-use App\Models\Category;
+use App\Models\WarehouseSlot;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends Factory<\App\Models\Category>
+ * @extends Factory<\App\Models\WarehouseSlot>
  */
-final class CategoryFactory extends Factory
+final class WarehouseSlotFactory extends Factory
 {
     /**
     * The name of the factory's corresponding model.
     *
     * @var string
     */
-    protected $model = Category::class;
+    protected $model = WarehouseSlot::class;
 
     /**
     * Define the model's default state.
@@ -27,8 +27,8 @@ final class CategoryFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->unique()->optional()->name,
-            'parent_id' => null,
+            'rack' => fake()->word,
+            'shelf' => fake()->word,
         ];
     }
 }
