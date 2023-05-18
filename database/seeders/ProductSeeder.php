@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\PhysicalProduct;
 use App\Models\Lot;
 use App\Models\Product;
 use App\Models\ProductLocation;
@@ -45,7 +44,7 @@ class ProductSeeder extends Seeder
         $protocol->expiring_date=Carbon::create(2024,5);
         $protocol->save();
 
-        Protocol::factory()->count(50)->create();
+        Protocol::factory()->count(50)->create(['company_id'=>1]);
 
         $product=new ProtocolLot;
         $product->protocol_id=1;
