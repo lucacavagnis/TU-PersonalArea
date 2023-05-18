@@ -4,20 +4,20 @@ declare(strict_types=1);
 
 namespace Database\Factories;
 
-use App\Models\Subcategory;
+use App\Models\ProductLocation;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends Factory<\App\Models\Subcategory>
+ * @extends Factory<\App\Models\ProductLocation>
  */
-final class SubcategoryFactory extends Factory
+final class ProductLocationFactory extends Factory
 {
     /**
     * The name of the factory's corresponding model.
     *
     * @var string
     */
-    protected $model = Subcategory::class;
+    protected $model = ProductLocation::class;
 
     /**
     * Define the model's default state.
@@ -27,7 +27,9 @@ final class SubcategoryFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->optional()->name,
+            'warehouse_id' => fake()->randomNumber(),
+            'product_id' => fake()->randomNumber(),
+            'qty' => fake()->randomNumber(),
         ];
     }
 }

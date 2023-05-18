@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Company;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
@@ -22,7 +23,7 @@ class ProtocolFactory extends Factory
             'type'  => rand(0,1),
             'referral'  => Str::random(),
             'expiring_date' => fake()->date(),
-            'company_id'    => 1,
+            'company_id'    => Company::factory(),
         ];
     }
 }

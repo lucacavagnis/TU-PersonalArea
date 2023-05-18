@@ -35,8 +35,5 @@ class OrderProductSeeder extends Seeder
         /*OrderPending::dispatch($order);
         OrderConfirmed::dispatch($order1);*/
 
-        $this->call([
-            OrderProductServiceSeeder::class,
-        ]);
     }
 }

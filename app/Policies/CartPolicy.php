@@ -6,20 +6,16 @@ use App\Models\Lot;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class ProductPolicy
+class CartPolicy
 {
     use HandlesAuthorization;
 
     /**
      * Perform pre-authorization checks.
      */
-    public function before(User $user, string $ability): bool|null
+    public function before(User $user, string $ability)//: bool|null
     {
-        if ($user->isAdmin()) {
-            return true;
-        }
-
-        return false;
+        //
     }
 
     /**
