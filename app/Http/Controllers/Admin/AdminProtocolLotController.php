@@ -106,9 +106,9 @@ class AdminProtocolLotController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(ProtocolLot $lot)
+    public function destroy(ProtocolLot $protocol_lot)
     {
-        $lot->delete();
+        $protocol_lot->delete();
         return back();
     }
 }

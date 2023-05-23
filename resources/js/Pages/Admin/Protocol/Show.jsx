@@ -1,7 +1,6 @@
 import React from 'react';
 import {Head, useForm} from '@inertiajs/inertia-react';
 import Admin from "@/Layouts/AdminLayout";
-import ProductSummary from "@/Components/Authenticated/Product/ProductSammury";
 import {LotsTable} from "@/Components/Admin/Protocol/LotsTable";
 import Tab from "@/Components/Tab";
 import {DataParagraph} from "@/Pages/Authenticated/Order/Show";
@@ -9,7 +8,6 @@ import Protocol from "@/Helpers/Protocol";
 import InputLabel from "@/Components/Inputs/InputLabel";
 import TextInput from "@/Components/Inputs/TextInput";
 import Button from "@/Components/Buttons/Button";
-import {Format_date_input} from "@/Helpers/String";
 import Select from "@/Components/Inputs/Select";
 import ProductImage from "@/Components/Authenticated/Product/ProductImage";
 import {AddNewLine} from "@/Components/Admin/AddNewLine";
@@ -42,7 +40,7 @@ export default function Show(props) {
                     <Tab>
                         <h2 className="font-semibold mb-4 border-b">Prodotti del protocolo</h2>
                         <LotsTable protocol={props.protocol} />
-                        {props.products.length!=0 && <NewProtocol protocol={props.protocol} products={props.products} />}
+                        {props.products.length!==0 && <NewProtocol protocol={props.protocol} products={props.products} />}
                     </Tab>
 
                 </div>
@@ -57,17 +55,19 @@ const NewProtocol=({protocol,products})=>{
             id: protocol.id,
             product:products[0],
             lot_id:products[0].lots[0].id,
-            original_price: 0.00,
-            price: 0.00,
+            original_price: parseFloat('0').toFixed(2),
+            price: parseFloat('0').toFixed(2),
         }
     )
+
+    console.log(data)
 
     const addNew=()=>{
         transform((data)=>({
             ...data,
             product:data.product.id
         }))
-        post(route('admin.protocol_lots.store'),)
+        post(route('admin.protocol_lots.store'))
     }
 
     const handleChange=(e)=>{
@@ -76,7 +76,10 @@ const NewProtocol=({protocol,products})=>{
 
     const onSelectChange=(name)=>{
         return (value) => {
-            setData(name, value);
+            console.log(name+" changed")
+            setData(name, value)
+            if(name==="product")
+            setData('lot_id',value.lots[0].id)
         };
     }
 
@@ -95,15 +98,15 @@ const NewProtocol=({protocol,products})=>{
                 <Select people={data.product.lots} getName={(lot)=>{
                     return lot.id+" - "+lot.qty_total
                 }
-                } onChange={onSelectChange('lot_id')}/>
+                } onChange={onSelectChange('lot_id')} initial={data.product.lots[0]}/>
             </div>
             <div className="mr-4">
                 <InputLabel forInput="date" value="Prezzo originale" className="mb-2"/>
-                <TextInput step={0.01} type="number" name="original_price" value={data.original_price} min={0} handleChange={handleChange} className="min-w-[8rem]"/>
+                <TextInput step={0.01} type="number" name="original_price" value={data.original_price} min={0.00} handleChange={handleChange} className="min-w-[8rem]"/>
             </div>
             <div className="mr-4">
                 <InputLabel forInput="date" value="Prezzo riservato" className="mb-2"/>
-                <TextInput step={0.01} type="number" name="price" value={data.price} min={0} handleChange={handleChange} className="min-w-[8rem]"/>
+                <TextInput step={0.01} type="number" name="price" value={data.price} min={0.00} handleChange={handleChange} className="min-w-[8rem]"/>
             </div>
             <Button type="button" onClick={addNew}>Aggiungi</Button>
         </div>
