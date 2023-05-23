@@ -75,8 +75,8 @@ class AdminProtocolController extends Controller
             'products'=>Product::where('company_id',$protocol->company_id)->whereHas('lots',function($query){
                 return $query->whereDoesntHave('protocolLot');
             })->with(['lots'=> function($query){
-                        return $query->whereDoesntHave('protocolLot')->orderBy('sku','desc');
-                    }])->get(),
+                        return $query->whereDoesntHave('protocolLot');
+                    }])->orderBy('sku','desc')->get(),
         ]);
     }
 
