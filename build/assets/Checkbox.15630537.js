@@ -1,0 +1,1 @@
+import{j as s}from"./app.78351115.js";import{t}from"./tw-merge.25811ea8.js";function g({name:o,value:r,handleChange:i,className:e}){return s("input",{type:"checkbox",name:o,value:r,className:t("rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50",e),onChange:n=>i(n)})}export{g as C};
