@@ -2,7 +2,6 @@
 import React from "react";
 import Table from "@/Components/Table/Table";
 import ActionColumn from "@/Components/Table/ActionColumn";
-import {Format_date, Format_date_input} from "@/Helpers/String";
 import {InstantSubmitInput} from "@/Components/Inputs/InstantSubmitInput";
 import ProductImage from "@/Components/Authenticated/Product/ProductImage";
 
@@ -72,7 +71,7 @@ export const LotsTable=({protocol})=>{
                                         <Table.Field>
                                             <InstantSubmitInput step={0.01} min={0} defaultValue={pl.price} type="number" id={pl.id} name="price" routeName="admin.protocol_lots.update" />
                                         </Table.Field>
-                                        <ActionColumn del={route('admin.protocol_lots.destroy',l.id)}/>
+                                        <ActionColumn del={route('admin.protocol_lots.destroy',pl.id)}/>
                                     </Table.Row>
                                 )
                             })}

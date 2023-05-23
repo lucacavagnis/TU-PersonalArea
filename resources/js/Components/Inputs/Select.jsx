@@ -6,7 +6,6 @@ import { MdCheck, HiChevronUpDown } from 'react-icons/all'
 function Select({people=[],initial,getValue=(e)=>{return e.id},getName=(e)=>{return e.name},onChange,nullable=false}) {
     useEffect(()=>{
         setSelected(initial??people[0])
-        console.log("changed")
     },[people])
 
     people=[...people]
