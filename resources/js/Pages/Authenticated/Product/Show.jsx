@@ -11,6 +11,7 @@ import Quantity from "@/Components/Authenticated/Product/Quantity";
 import Table from "@/Components/Table/Table";
 import {isCa, isTu} from "@/Helpers/Product";
 import {Format_date} from "@/Helpers/String";
+import Tags from "@/Components/Authenticated/Product/Tags";
 export default function Show(props) {
 
     const product=props.product;
@@ -64,9 +65,9 @@ export default function Show(props) {
         product.lots.forEach((p,i)=>{
             console.log((p.qty_available-p.qty_requested))
         if((p.qty_available-p.qty_requested)>0)
-            available_products.push(<PhysicalProduct lot={p} data={data} id={i} onChange={onRangeChange}/>)
+            available_products.push(<LotListEl lot={p} data={data} id={i} onChange={onRangeChange}/>)
         else
-            unavailable_products.push(<HistoryProduct product={p} />);
+            unavailable_products.push(<HistoryLotListEL product={p} />);
     })
 
 
@@ -146,18 +147,15 @@ export const ProductDataTab=({children,product})=>{
     )
 }
 
-const PhysicalProduct = ({lot}) => {
+const LotListEl = ({lot}) => {
     const l=lot;
 
     return(
         <div className="mb-4 border-b pb-2">
             <div className="flex justify-between">
                 <div className="min-w-[50%]">
-                    <span className="text-xs text-slate-400 uppercase">{isTu(l)?"Da Tutto Ufficio":"Da terzi"}</span>
-                    <p>{isCa(l)?"Conto aperto":"Conto deposito"}</p>
-                    {/*<p className="font-bold">{(p.qty_available-p.qty_requested) + " disponibili / " + p.qty_total + " totali"}</p>*/}
+                    <Tags lot={lot} extended={true} />
                     <Quantity partial={(l.qty_available-l.qty_requested)} total={l.qty_total} size="small"/>
-                    {/*<BuyInput name={"products-"+id} product={p} qty={data.products[id].qty} onChange={onChange}/>*/}
                 </div>
                 <div className="text-right">
                     <span className="text-sm text-slate-700">{Format_date(l.date)}</span>
@@ -172,7 +170,7 @@ const PhysicalProduct = ({lot}) => {
     )
 }
 
-const HistoryProduct = ({product}) => {
+const HistoryLotListEL = ({product}) => {
 
     const rowClasses="[&>*]:py-4";
 
