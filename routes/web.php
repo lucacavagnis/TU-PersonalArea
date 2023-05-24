@@ -24,10 +24,13 @@ use Inertia\Inertia;
 */
 
 Route::get('/', function () {
-    if(Auth::user()->role==0)
-        return redirect(RouteServiceProvider::ADMIN);
+    if(Auth::check())
+        if(Auth::user()->role==0)
+            return redirect(RouteServiceProvider::ADMIN);
+        else
+            return redirect(RouteServiceProvider::HOME);
     else
-        return redirect(RouteServiceProvider::HOME);
+        return redirect(route('login'));
 });
 
 Route::get('/dashboard', function () {
