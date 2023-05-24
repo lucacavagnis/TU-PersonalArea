@@ -76,11 +76,14 @@ const NewProtocol=({protocol,products})=>{
 
     const onSelectChange=(name)=>{
         return (value) => {
-            console.log(name+" changed")
             setData(name, value)
-            if(name==="product")
-            setData('lot_id',value.lots[0].id)
         };
+    }
+
+    const onProductSelectChange=()=>{
+        return(value)=>{
+            setData({...data,product:value,lot_id:value.lots[0].id})
+        }
     }
 
     return(
@@ -91,7 +94,7 @@ const NewProtocol=({protocol,products})=>{
                 <Select people={products} getName={(product)=>{
                     return <div className="flex items-center"><ProductImage name={product.image} className="w-8 h-8 mr-4 mb-0" /><p>{product.sku}</p> </div>
                 }
-                } onChange={onSelectChange('product')} getValue={(product)=>(product)}/>
+                } onChange={onProductSelectChange()} getValue={(product)=>(product)}/>
             </div>
             <div className="mr-4">
                 <InputLabel forInput="product" value="Lotto (Id - Qt.à)" className="mb-2"/>
