@@ -1,13 +1,6 @@
-import Protocol from "@/Helpers/Protocol";
-import Tab from "@/Components/Tab";
-import React, {useState} from "react";
+import React from "react";
 import Table from "@/Components/Table/Table";
 import ActionColumn from "@/Components/Table/ActionColumn";
-import {useForm} from "@inertiajs/inertia-react";
-import {useStateWithCallbackLazy} from "use-state-with-callback";
-import {Inertia} from "@inertiajs/inertia";
-import Pagination from "@/Components/Pagination";
-import Button from "@/Components/Buttons/Button";
 import ProductImage from "@/Components/Authenticated/Product/ProductImage";
 
 export const ProductsTable=(props)=>{
