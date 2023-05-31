@@ -26,6 +26,10 @@ Route::get('/', function(){
     return Inertia::render('Admin/Dashboard');
 })->name('dashboard');
 
+Route::get('under-construction', function (){
+    return Inertia::render('Admin/UnderConstruction');
+})->name('under_construction');
+
 Route::resource('companies',CompanyController::class);
 Route::resource('products',AdminProductController::class);
 Route::resource('lots',AdminLotController::class);
