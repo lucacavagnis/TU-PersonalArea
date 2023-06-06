@@ -33,8 +33,8 @@ return new class extends Migration
             $table->rename('products');
         });
 
-        Schema::table('lots', function (Blueprint $table) {
-            $table->dropForeign('product_pysicla_product_id_foreign');
+        Schema::table('products', function (Blueprint $table) {
+            $table->dropForeign('product_data_data_id_foreign');
             $table->renameColumn('product_id','data_id');
             $table->foreign('data_id', 'product_data_data_id_foreign')->references('id')->on('product_data')->onDelete('cascade')->onUpdate('cascade');
         });
