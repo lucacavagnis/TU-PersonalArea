@@ -21,7 +21,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('protocol_products', function (Blueprint $table) {
+        Schema::table('protocol_lots', function (Blueprint $table) {
             $table->rename('protocol_products');
         });
     }

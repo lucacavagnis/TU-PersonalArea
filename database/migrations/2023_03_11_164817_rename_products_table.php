@@ -19,6 +19,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::rename('products_data', 'product');
+        Schema::rename('product_data', 'products');
     }
 };
