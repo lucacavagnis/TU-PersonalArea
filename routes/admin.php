@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\AdminSubcategoryController;
 use App\Http\Controllers\Authenticated\CompanyController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use App\Http\Controllers\Admin\AdminOrderController;
 
 
 /*
@@ -26,6 +27,10 @@ Route::get('/', function(){
     return Inertia::render('Admin/Dashboard');
 })->name('dashboard');
 
+Route::get('under-construction', function (){
+    return Inertia::render('Admin/UnderConstruction');
+})->name('under_construction');
+
 Route::resource('companies',CompanyController::class);
 Route::resource('products',AdminProductController::class);
 Route::resource('lots',AdminLotController::class);
@@ -33,3 +38,4 @@ Route::resource('categories',AdminCategoryController::class);
 Route::resource('subcategories',AdminSubcategoryController::class);
 Route::resource('protocols',AdminProtocolController::class);
 Route::resource('protocol_lots',AdminProtocolLotController::class);
+Route::resource('orders',AdminOrderController::class);

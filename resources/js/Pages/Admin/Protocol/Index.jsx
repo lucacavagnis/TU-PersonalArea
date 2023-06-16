@@ -2,14 +2,11 @@ import React from 'react';
 import { Head } from '@inertiajs/inertia-react';
 import Admin from "@/Layouts/AdminLayout";
 import Tab from "@/Components/Tab";
-import {ProductsTable} from "@/Components/Admin/Product/ProductsTable";
-import Button from "@/Components/Buttons/Button";
 import {ProtocolsTable} from "@/Components/Admin/Protocol/ProtocolsTable";
 
 
 
 export default function Index(props) {
-    console.log(props)
 
     return (
         <Admin

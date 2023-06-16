@@ -32,6 +32,8 @@ class CreateProductsTable extends Migration
             $table->unsignedBigInteger('company_id');
             $table->timestamps();
 
+            $table->unique(['company_id','sku']);
+
             $table->foreign('category_id', 'cat___fk')->references('id')->on('categories');
             $table->foreign('subcategory_id', 'subcat___fk')->references('id')->on('subcategories');
         });

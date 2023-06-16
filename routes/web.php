@@ -1,11 +1,15 @@
 <?php
 
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Authenticated\CartController;
 use App\Http\Controllers\Authenticated\LotController;
 use App\Http\Controllers\Authenticated\MachineController;
 use App\Http\Controllers\Authenticated\OrderController;
 use App\Http\Controllers\Authenticated\ProductController;
 use App\Http\Controllers\Authenticated\ProtocolController;
+use App\Providers\RouteServiceProvider;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -21,14 +25,8 @@ use Inertia\Inertia;
 |
 */
 
-Route::get('/', function () {
-    return Redirect::route('products.dashboard');
-    /* return Inertia::render('Guest/Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]); */
+Route::get('/', function (){
+    return redirect('login');
 });
 
 Route::get('/dashboard', function () {

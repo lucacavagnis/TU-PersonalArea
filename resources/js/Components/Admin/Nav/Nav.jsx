@@ -50,11 +50,11 @@ export default function Nav({auth}){
 
                             <NavLink title="Protocolli di offerta" icon={<SiGooglesheets></SiGooglesheets>} link={route('admin.protocols.index')} active={route().current('admin.protocols.index')} />
 
-                            <NavLink title="Magazzino" icon={<BsInboxesFill></BsInboxesFill>} link="#" active={false} />
+                            <NavLink title="Magazzino" icon={<BsInboxesFill></BsInboxesFill>} link={route('admin.under_construction')} active={false} />
 
-                            <NavLink title="Ordini di evasione" icon={<BsFillCartCheckFill></BsFillCartCheckFill>} link="#" active={false} />
+                            <NavLink title="Ordini di evasione" icon={<BsFillCartCheckFill></BsFillCartCheckFill>} link={route('admin.orders.index')} active={false} />
 
-                            <NavLink title="Cespiti a noleggio" icon={<AiFillPrinter></AiFillPrinter>} link="#" active={false} />
+                            <NavLink title="Cespiti a noleggio" icon={<AiFillPrinter></AiFillPrinter>} link={route('admin.under_construction')} active={false} />
                         </div>
                         <div className="px-4 absolute w-full bottom-8 left-0">
                             <NavDropdown>

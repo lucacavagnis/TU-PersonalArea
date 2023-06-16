@@ -76,7 +76,7 @@ class AdminProtocolController extends Controller
                 return $query->whereDoesntHave('protocolLot');
             })->with(['lots'=> function($query){
                         return $query->whereDoesntHave('protocolLot');
-                    }])->get(),
+                    }])->orderBy('sku','asc')->get(),
         ]);
     }
 

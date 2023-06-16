@@ -19,8 +19,14 @@ class CompanyFactory extends Factory
     public function definition()
     {
         return [
-            'name'  => fake()->name(),
-            'email' => fake()->unique()->safeEmail(),
+              'name'=>Str::random(100),
+              'email'=>fake()->email,
+              'vat'=>fake()->numberBetween(),
+              'supervision'=>fake()->boolean,
+              'machines'=>fake()->boolean,
+              'services'=>fake()->boolean,
+              'under_escort_percentage_limit'=>fake()->numberBetween(0,100)/100,
+              'expiring_limit'=>fake()->numberBetween(0,365)
         ];
     }
 }

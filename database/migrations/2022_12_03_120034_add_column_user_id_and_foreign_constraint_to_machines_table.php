@@ -15,7 +15,6 @@ return new class extends Migration
     {
         Schema::table('machines', function (Blueprint $table) {
             $table->unsignedBigInteger('user_id');
-
             $table->foreign('user_id', 'machines_user_id_fk')->references('id')->on('users')->onUpdate('cascade');
         });
     }
@@ -29,8 +28,7 @@ return new class extends Migration
     {
         Schema::table('machines', function (Blueprint $table) {
             $table->dropForeign('machines_user_id_fk');
-
-            $table->dropColumn('machines');
+            $table->dropColumn('user_id');
         });
     }
 };

@@ -1,0 +1,1 @@
+import{a as r,j as s}from"./app.78351115.js";function i({title:t,value:a,className:e}){return r("div",{className:"border-b -slate-500 flex justify-between py-2 "+(e||""),children:[s("span",{className:"font-bold ",children:t}),s("span",{className:"text-sm",children:a})]})}export{i as A};

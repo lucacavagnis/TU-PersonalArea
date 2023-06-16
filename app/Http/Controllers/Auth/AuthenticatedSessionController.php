@@ -39,7 +39,6 @@ class AuthenticatedSessionController extends Controller
         $request->authenticate();
 
         $request->session()->regenerate();
-
         if(Auth::user()->role!=0)
         {
             $request->session()->put('cart',New Cart);

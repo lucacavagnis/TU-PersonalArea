@@ -1,7 +1,7 @@
 
 import React from "react";
 import Table from "@/Components/Table/Table";
-import ActionColumn from "@/Components/Table/ActionColumn";
+import CrudActionColumn from "@/Components/Table/CrudActionColumn";
 import {InstantSubmitInput} from "@/Components/Inputs/InstantSubmitInput";
 
 export const CategoriesTable=({sub=false,...props})=>{
@@ -36,7 +36,7 @@ export const CategoriesTable=({sub=false,...props})=>{
                                         <Table.Field>
                                             <InstantSubmitInput id={c.id} routeName={routePrefix+"update"} name="name" defaultValue={c.name} />
                                         </Table.Field>
-                                        <ActionColumn  del={route(routePrefix+'destroy',c.id)}/>
+                                        <CrudActionColumn del={route(routePrefix+'destroy',c.id)}/>
 
                                     </Table.Row>
                                 )

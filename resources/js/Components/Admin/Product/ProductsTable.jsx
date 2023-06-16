@@ -1,13 +1,6 @@
-import Protocol from "@/Helpers/Protocol";
-import Tab from "@/Components/Tab";
-import React, {useState} from "react";
+import React from "react";
 import Table from "@/Components/Table/Table";
-import ActionColumn from "@/Components/Table/ActionColumn";
-import {useForm} from "@inertiajs/inertia-react";
-import {useStateWithCallbackLazy} from "use-state-with-callback";
-import {Inertia} from "@inertiajs/inertia";
-import Pagination from "@/Components/Pagination";
-import Button from "@/Components/Buttons/Button";
+import CrudActionColumn from "@/Components/Table/CrudActionColumn";
 import ProductImage from "@/Components/Authenticated/Product/ProductImage";
 
 export const ProductsTable=(props)=>{
@@ -75,7 +68,7 @@ export const ProductsTable=(props)=>{
                                         <Table.Field>
                                             {p.subcategory.name}
                                         </Table.Field>
-                                        <ActionColumn read={route('admin.products.show',p.id)} update={route('admin.products.edit',p.id)} del={route('admin.products.destroy',p.id)}/>
+                                        <CrudActionColumn read={route('admin.products.show',p.id)} update={route('admin.products.edit',p.id)} del={route('admin.products.destroy',p.id)}/>
                                     </Table.Row>
                                 )
                             })}

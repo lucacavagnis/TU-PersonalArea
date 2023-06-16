@@ -1,24 +1,33 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Factories;
 
+use App\Models\Subcategory;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory
+ * @extends Factory<\App\Models\Subcategory>
  */
-class SubcategoryFactory extends Factory
+final class SubcategoryFactory extends Factory
 {
     /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
-    public function definition()
+    * The name of the factory's corresponding model.
+    *
+    * @var string
+    */
+    protected $model = Subcategory::class;
+
+    /**
+    * Define the model's default state.
+    *
+    * @return array
+    */
+    public function definition(): array
     {
         return [
-            'name'  => Str::random(),
+            'name' => fake()->optional()->name,
         ];
     }
 }

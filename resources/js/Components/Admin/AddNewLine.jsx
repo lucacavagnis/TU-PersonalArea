@@ -5,10 +5,13 @@ import TextInput from "@/Components/Inputs/TextInput";
 import Button from "@/Components/Buttons/Button";
 import React from "react";
 
-export const AddNewLine=({children})=>{
+export const AddNewLine=({children, title})=>{
     return(
-        <div className="flex py-4 pt-4 border-t border-indigo-300 items-end">
+        <div className="border-t border-indigo-300 py-4">
+            {(title && <h3 className="text-lg font-semibold pb-2">{title}</h3>)}
+        <div className="flex items-end">
             {children}
+        </div>
         </div>
     )
 }

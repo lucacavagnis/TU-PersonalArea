@@ -16,7 +16,8 @@ export default function Update(props) {
 
             <div className="py-12">
                 <div className="max-w-8xl mx-auto sm:px-6 lg:px-8">
-                    <Tab>
+                    <Tab containerClassName="mx-auto w-1/2">
+                        <h2 className="font-semibold mb-4">Modifica procollo</h2>
                         <ProtocolForm companies={props.companies} default_value={props.default}/>
                     </Tab>
                 </div>

@@ -1,0 +1,1 @@
+const l=t=>{const a=t.qty_available-t.qty_requested;let e;return a===0?e="bg-rose-600":a<=t.qty_total/5?e="bg-amber-600":e="bg-emerald-600",e},s=t=>{const a=t.qty_available-t.qty_requested;let e;return a===0?e="text-rose-600":a<=t.qty_total/5?e="text-amber-600":e="text-emerald-600",e};export{l,s as q};

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Authenticated;
 use App\Http\Requests\StoreCartRequest;
 use App\Http\Requests\UpdateCartRequest;
 use App\Models\Cart;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Inertia\Inertia;
 
@@ -36,6 +37,7 @@ class CartController extends Controller
     {
         $id=$request->input('product_data_id');
         Session::get('cart')->add($request->input('product_id'),$request->input('qty'));
+        return back();
     }
 
     /**
@@ -59,7 +61,11 @@ class CartController extends Controller
      */
     public function update(UpdateCartRequest $request, int $id)
     {
+        if(!$request->integrity())
+            return back()->withErrors('error','Il prodotto che vuoi modificare non è carrello');
+
         Session::get('cart')->update($id,$request->input('value'));
+        return back();
     }
 
     /**

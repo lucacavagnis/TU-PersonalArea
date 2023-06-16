@@ -1,11 +1,11 @@
-import ApplicationLogo from "@/Components/ApplicationLogo";
-import {MdOutlineCreditCardOff,MdOutlineCreditCard} from "react-icons/all";
+import {InTuttoUfficioTag} from "@/Components/Authenticated/Product/Tags/InTuttoUfficioTag";
+import {PayedTag} from "@/Components/Authenticated/Product/Tags/PayedTag";
 
-export default function Tags({product, extended=false}){
+export default function Tags({lot, extended=false}){
     return(
         <div className="flex mb-2 group">
-            {product.protocol_product && <div className="flex  mr-2 items-center"><ApplicationLogo className="w-4"/>{extended && <span className="ml-2">In Tutto Ufficio</span>}</div>}
-            {<div className="flex  mr-2 items-center">{(product.protocol_product&&product.protocol_product.protocol&&product.protocol_product.protocol.type)?<><MdOutlineCreditCard className="text-slate-700"/>{extended && <span className="ml-2">Già fatturato</span>}</>:<><MdOutlineCreditCardOff className="text-slate-700"/>{extended && <span className="ml-2">Da fatturare</span>}</>}</div>}
+            <InTuttoUfficioTag isInWarehouse={false} extended={extended}/>
+            <PayedTag isPayed={lot.protocol_lot&&lot.protocol_lot.protocol&&lot.protocol_lot.protocol.type} extended={extended} />
         </div>
 
     )

@@ -4,9 +4,10 @@ import { MdCheck, HiChevronUpDown } from 'react-icons/all'
 
 
 function Select({people=[],initial,getValue=(e)=>{return e.id},getName=(e)=>{return e.name},onChange,nullable=false}) {
+    const [selected, setSelected] = useState(initial??people[0])
+
     useEffect(()=>{
         setSelected(initial??people[0])
-        console.log("changed")
     },[people])
 
     people=[...people]
@@ -14,7 +15,6 @@ function Select({people=[],initial,getValue=(e)=>{return e.id},getName=(e)=>{ret
     if(!nullable && people.length===0)
         return
 
-    const [selected, setSelected] = useState(initial??people[0])
 
     const handleOnChange = (value)=>{
         setSelected(value);
