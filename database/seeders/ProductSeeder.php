@@ -83,18 +83,6 @@ class ProductSeeder extends Seeder
         $product->save();
 
 
-        $product_location = new ProductLocation;
-        $product_location->warehouse_id=1;
-        $product_location->product_id=2;
-        $product_location->qty=10;
-        $product_location->save();
-
-        $product_location = new ProductLocation;
-        $product_location->warehouse_id=2;
-        $product_location->product_id=2;
-        $product_location->qty=18;
-        $product_location->save();
-
         $product=new Lot;
         $product->product_id=1;
         $product->qty_total=40;

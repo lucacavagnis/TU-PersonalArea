@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\AdminSubcategoryController;
 use App\Http\Controllers\Authenticated\CompanyController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use App\Http\Controllers\Admin\AdminOrderController;
 
 
 /*
@@ -37,3 +38,4 @@ Route::resource('categories',AdminCategoryController::class);
 Route::resource('subcategories',AdminSubcategoryController::class);
 Route::resource('protocols',AdminProtocolController::class);
 Route::resource('protocol_lots',AdminProtocolLotController::class);
+Route::resource('orders',AdminOrderController::class);

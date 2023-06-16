@@ -38,7 +38,7 @@ export default function Show(props) {
                         </Tab>
 
                     <Tab>
-                        <h2 className="font-semibold mb-4 border-b">Prodotti del protocolo</h2>
+                        <h2 className="font-semibold mb-4 border-b">Lotti del protocolo</h2>
                         <LotsTable protocol={props.protocol} />
                         {props.products.length!==0 && <NewProtocol protocol={props.protocol} products={props.products} />}
                     </Tab>
@@ -87,8 +87,8 @@ const NewProtocol=({protocol,products})=>{
     }
 
     return(
-        <AddNewLine>
-        <div className="flex py-4 pt-4 border-t border-indigo-300 items-end">
+        <AddNewLine title="Aggiungi un lotto nel protocollo">
+        <div className="flex py-4 pt-4 items-end">
             <div className="mr-4">
                 <InputLabel forInput="product" value="Prodotto" className="mb-2"/>
                 <Select people={products} getName={(product)=>{

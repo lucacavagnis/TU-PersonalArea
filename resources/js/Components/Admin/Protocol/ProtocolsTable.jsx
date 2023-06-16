@@ -1,7 +1,7 @@
 import Protocol from "@/Helpers/Protocol";
 import React from "react";
 import Table from "@/Components/Table/Table";
-import ActionColumn from "@/Components/Table/ActionColumn";
+import CrudActionColumn from "@/Components/Table/CrudActionColumn";
 import Button from "@/Components/Buttons/Button";
 
 export const ProtocolsTable=(props)=>{
@@ -15,21 +15,21 @@ export const ProtocolsTable=(props)=>{
 
     return(
                     <Table route={route('admin.protocols.index')}>
-                        <Table.Search />
+                        <div className="flex w-full justify-between mb-4"><Table.NewButton href={route('admin.protocols.create')} className="m-0"/><Table.Search /></div>
                         {protocols && protocols.length>0?
                             <>
                         <Table.Inner>
                         <Table.HeaderRow>
-                            <Table.Header name="id" sortable={true} >
+                            <Table.Header name="id" sortable={true} className="w-[60px]">
                                 ID
                             </Table.Header>
-                            <Table.Header name="company_id" sortable={true}>
+                            <Table.Header name="company_id" sortable={true} className="w-[170px]">
                                 Azienda
                             </Table.Header>
-                            <Table.Header name="date" sortable={true}>
+                            <Table.Header name="date" sortable={true} className="w-[130px]">
                                 Data
                             </Table.Header>
-                            <Table.Header name="type" sortable={true}>
+                            <Table.Header name="type" sortable={true} className="w-[150px]">
                                 Tipo
                             </Table.Header>
                             <Table.Header name="referral" sortable={true}>
@@ -63,14 +63,14 @@ export const ProtocolsTable=(props)=>{
                                         <Table.Field>
                                             {Protocol.getExpireDate(p)}
                                         </Table.Field>
-                                        <ActionColumn read={route('admin.protocols.show',p.id)} update={route('admin.protocols.edit',p.id)} del={route('admin.protocols.destroy',p.id)}/>
+                                        <CrudActionColumn read={route('admin.protocols.show',p.id)} update={route('admin.protocols.edit',p.id)} del={route('admin.protocols.destroy',p.id)}/>
                                     </Table.Row>
                                 )
                             })}
                         </Table.Body>
                         </Table.Inner>
                         <div className="flex w-full justify-between items-center">
-                            <Button type="link" href={route('admin.protocols.create')}>Crea nuovo</Button>
+                            <Table.NewButton href={route('admin.protocols.create')} className="m-0"/>
                             <Table.Pagination paginated={props.protocols} />
                         </div>
                                 </>:<>

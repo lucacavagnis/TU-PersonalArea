@@ -1,9 +1,10 @@
 
 import React from "react";
 import Table from "@/Components/Table/Table";
-import ActionColumn from "@/Components/Table/ActionColumn";
+import CrudActionColumn from "@/Components/Table/CrudActionColumn";
 import {Format_date, Format_date_input} from "@/Helpers/String";
 import {InstantSubmitInput} from "@/Components/Inputs/InstantSubmitInput";
+import {Link} from "@inertiajs/inertia-react";
 
 export const LotsTable=(props)=>{
     console.log(props)
@@ -58,9 +59,9 @@ export const LotsTable=(props)=>{
                                             <InstantSubmitInput min={0} max={l.qty_total} defaultValue={l.qty_available} type="number" id={l.id} name="qty_available" routeName="admin.lots.update" />
                                         </Table.Field>
                                         <Table.Field>
-                                            {l.protocol_lot?l.protocol_lot.protocol.referral:undefined}
+                                            {l.protocol_lot?<Link href={route("admin.protocols.show",l.protocol_lot.protocol)} className="cursor-pointer hover:underline">{l.protocol_lot.protocol.referral}</Link>:undefined}
                                         </Table.Field>
-                                        <ActionColumn del={route('admin.lots.destroy',l.id)}/>
+                                        <CrudActionColumn del={route('admin.lots.destroy',l.id)}/>
                                     </Table.Row>
                                 )
                             })}

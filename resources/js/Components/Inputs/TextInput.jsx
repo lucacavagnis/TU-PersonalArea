@@ -15,8 +15,9 @@ export default function TextInput({
     max,
     min,
     placeholder,
-    handleFocusOut,
-    step
+    onBlur,
+    step,
+    onKeyDown
 }) {
     const input = useRef();
 
@@ -42,11 +43,12 @@ export default function TextInput({
                 ref={input}
                 autoComplete={autoComplete}
                 required={required}
-                onChange={(e) => handleChange(e)}
+                onChange={(e)=>handleChange(e)}
                 max={max??''}
                 min={min??''}
                 placeholder={placeholder??''}
-                onBlur={handleFocusOut?(e)=>handleFocusOut(e):undefined}
+                onBlur={onBlur?(e)=>onBlur(e):undefined}
+                onKeyDown={onKeyDown?(e)=>onKeyDown(e):undefined}
             />
         </div>
     );

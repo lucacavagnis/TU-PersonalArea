@@ -37,7 +37,7 @@ export default function Button(props) {
         return(
             <>
 
-            <Link href={(props.disabled && props.href)?"":props.href} onMouseEnter={props.onHover} onClick={props.onClick} className={props.className+" "+buttonClass}>
+            <Link href={(props.disabled && props.href)?"":props.href} onMouseEnter={props.onHover} onClick={props.onClick} className={props.className+" "+buttonClass} method={props.method??"get"}>
                 {props.processing && <IconContext.Provider value={{className:"animate-spin"}}><AiOutlineLoading3Quarters className="mr-2 "/></IconContext.Provider>}
                 {props.children}
             </Link>

@@ -83,7 +83,9 @@ export const ProtocolForm=({default_value,companies}) =>{
                     />
                 </Form.Field>
             </Form.Row>
-            {default_value?<Button type="button" onClick={onClick}>Modifica</Button>:<Button type="button" onClick={onClick}>Aggiungi</Button>}
+            <div className="mt-8">
+                {default_value?<Button type="button" onClick={onClick}>Modifica</Button>:<Button type="button" onClick={onClick}>Aggiungi</Button>}
+            </div>
         </Form>
 
     );
@@ -96,7 +98,7 @@ const Form=({children})=>{
 }
 const Row=({children})=> {
     return (
-        <div className="flex justify-between w-full [&>first]:ml-0 [&>last]:mr-0 [&>*]:mx-2 [&>*]:w-full mb-4">{children}</div>
+        <div className="flex justify-between w-full [&>first]:ml-0 [&>last]:mr-0 [&>*]:mx-2 [&>*]:w-full mb-8">{children}</div>
     )
 }
 

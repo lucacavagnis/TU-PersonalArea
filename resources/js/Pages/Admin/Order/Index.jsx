@@ -3,6 +3,7 @@ import { Head } from '@inertiajs/inertia-react';
 import Admin from "@/Layouts/AdminLayout";
 import Tab from "@/Components/Tab";
 import {ProtocolsTable} from "@/Components/Admin/Protocol/ProtocolsTable";
+import {OrdersTable} from "@/Components/Admin/Order/OrdersTable";
 
 
 
@@ -12,15 +13,15 @@ export default function Index(props) {
         <Admin
             auth={props.auth}
             errors={props.errors}
-            header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Protocolli</h2>}
+            header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Ordini</h2>}
         >
-            <Head title="Protocolli" />
+            <Head title="Ordini" />
 
             <div className="py-12">
                 <div className="max-w-8xl mx-auto sm:px-6 lg:px-8">
                     <div className="bg-white shadow-sm sm:rounded-lg">
                         <Tab>
-                            <ProtocolsTable protocols={props.protocols}/>
+                            <OrdersTable orders={props.orders}/>
                         </Tab>
                     </div>
                 </div>

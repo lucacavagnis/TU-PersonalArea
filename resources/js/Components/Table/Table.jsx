@@ -1,16 +1,15 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {twMerge} from "tailwind-merge";
-import {BsSortDown, BsSortUp} from "react-icons/all";
-import {useStateWithCallbackLazy} from "use-state-with-callback";
-import Button from "@/Components/Buttons/Button";
+import {AiOutlinePlus, BsSortDown, BsSortUp} from "react-icons/all";
 import TextInput from "@/Components/Inputs/TextInput";
 import {Inertia} from "@inertiajs/inertia";
 import Pagination from "@/Components/Pagination";
 import {Placeholder} from "@/Helpers/String";
+import Button from "@/Components/Buttons/Button";
 
-const rowClassName="border-b border-slate-100 text-sm [&>*]:py-4";
-const headerRowClassName="text-slate-500 pb-2 pt-2 border-b border-t border-slate-100 [&>*]:py-4";
-const headerClasses="text-left mr-4";
+const rowClassName="group border-b border-slate-200 text-sm [&>*]:py-4";
+const headerRowClassName="text-slate-500 pb-2 pt-2 border-b border-t border-slate-300 [&>*]:py-4";
+const headerClasses="text-left mr-4 ";
 
 const TableContext = React.createContext();
 const Table=({children,route,className})=>{
@@ -23,11 +22,9 @@ const Table=({children,route,className})=>{
     const updateFilter=(name,value)=>{
         const newFilters={...filters,[name]:value}
         setFilters(newFilters)
-        console.log(newFilters)
     }
 
     const submit=(newFilters)=>{
-        console.log(newFilters)
         Inertia.get(route,newFilters??filters,{
             preserveState: true,
             preserveScroll: true,
@@ -46,7 +43,7 @@ const Table=({children,route,className})=>{
 
 const Inner=({className,children})=>{
     return(
-        <table className={twMerge("w-full box-content ",className)}>
+        <table className={twMerge("w-full table-fixed",className)}>
         {children}
         </table>
     )
@@ -55,14 +52,21 @@ const Inner=({className,children})=>{
 const Search=({className})=>{
     const {filters,updateFilter,submit}=useContext(TableContext)
 
-    const handleFocusOut=(e)=>{
-            submit();
+
+    const handleEnter=(e)=>{
+        if(e.key==='Enter'){
+            submit()
+        }
     }
 
     return(
-        <div className={twMerge("flex items-end mb-4",className)}>
-            <TextInput placeholder="Cerca..." type="search" name="search" value={filters.search} handleChange={(e)=>updateFilter('search',e.target.value)} handleFocusOut={(e)=>handleFocusOut(e)} className="mr-4"/>
-        </div>
+            <TextInput placeholder="Cerca..." type="search" name="search" value={filters.search} handleChange={(e)=>updateFilter('search',e.target.value)} onBlur={submit} onKeyDown={(e)=>handleEnter(e)} className={twMerge(className,"mb-0")}/>
+    )
+}
+
+const NewButton=({className,href})=>{
+    return(
+        <Button type="link" href={href} className={twMerge(className,"flex items-center group")}><AiOutlinePlus className="mr-2 group-hover:rotate-90 transition-transform" />Crea nuovo</Button>
     )
 }
 
@@ -93,7 +97,7 @@ const Row=({className="",children})=>{
 }
 
 const Field=({className="",children})=>{
-    return(<td className={className+" mr-1 capitalize"}>{Placeholder(children)}</td>)
+    return(<td className={className+" mr-1 capitalize break-words max-w-[200px]"}>{Placeholder(children)}</td>)
 }
 
 const HeaderRow=({className="",children})=> {
@@ -118,11 +122,7 @@ const Header=({className="",children,sortable=false,name,onClick,initial,current
         submit({...filters,orderDir:!order?'desc':'asc'})
     }
 
-    /*const update=()=>{
-        onClick(name,dir==="desc"?"asc":"desc")
-    }*/
-
-    return(<th className={(twMerge(headerClasses,className) + (sortable && " cursor-pointer ") + " group")} onClick={sortable ? (active?change:update):undefined}>{children}{sortable && (<div className={"inline "+(active?" ":"opacity-0 group-hover:opacity-100 transition-opacity")}>{(order?<BsSortDown className="inline ml-2"/>:<BsSortUp className="inline ml-2"/>)}</div>)}</th>)
+    return(<th className={(twMerge(headerClasses,className) + " " + (sortable && " cursor-pointer ") + " group max-w-[200px] break-words")} onClick={sortable ? (active?change:update):undefined}>{children}{sortable && (<div className={"inline "+(active?" ":"opacity-0 group-hover:opacity-100 transition-opacity")}>{(order?<BsSortDown className="inline ml-2"/>:<BsSortUp className="inline ml-2"/>)}</div>)}</th>)
 }
 
 Table.Inner=Inner;
@@ -133,4 +133,5 @@ Table.Field=Field;
 Table.Header=Header;
 Table.Search=Search;
 Table.Pagination=TablePagination;
+Table.NewButton=NewButton;
 export default Table;

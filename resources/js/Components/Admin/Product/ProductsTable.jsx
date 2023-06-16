@@ -1,6 +1,6 @@
 import React from "react";
 import Table from "@/Components/Table/Table";
-import ActionColumn from "@/Components/Table/ActionColumn";
+import CrudActionColumn from "@/Components/Table/CrudActionColumn";
 import ProductImage from "@/Components/Authenticated/Product/ProductImage";
 
 export const ProductsTable=(props)=>{
@@ -68,7 +68,7 @@ export const ProductsTable=(props)=>{
                                         <Table.Field>
                                             {p.subcategory.name}
                                         </Table.Field>
-                                        <ActionColumn read={route('admin.products.show',p.id)} update={route('admin.products.edit',p.id)} del={route('admin.products.destroy',p.id)}/>
+                                        <CrudActionColumn read={route('admin.products.show',p.id)} update={route('admin.products.edit',p.id)} del={route('admin.products.destroy',p.id)}/>
                                     </Table.Row>
                                 )
                             })}
