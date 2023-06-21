@@ -61,7 +61,7 @@ class AdminProtocolController extends Controller
         $protocol->type=$request->input('type');
         $protocol->save();
 
-        return Redirect::route('admin.protocols.index');
+        return Redirect::route('admin.protocols.index')->with('msg',['title'=>'Protocollo creato','text'=>'Il protcollo '.$protocol->referral.' è stato creato con succeso','positive'=>true]);;
     }
 
     /**
@@ -104,7 +104,7 @@ class AdminProtocolController extends Controller
         $protocol->type=$request->input('type');
         $protocol->save();
 
-        return Redirect::route('admin.protocols.index');
+        return Redirect::route('admin.protocols.index')->with('msg',['title'=>'Protocollo aggiornato','text'=>'Il protcollo è stato aggiornato con succeso','positive'=>true]);
     }
 
     /**
@@ -113,6 +113,6 @@ class AdminProtocolController extends Controller
     public function destroy(Protocol $protocol)
     {
         $protocol->delete();
-        return Redirect::route('admin.protocols.index');
+        return Redirect::route('admin.protocols.index')->with('msg',['title'=>'Protocollo eliminato','text'=>'Il protcollo è stato eliminato con succeso','positive'=>true]);
     }
 }

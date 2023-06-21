@@ -6,6 +6,7 @@ use App\Helpers\CartHelpers;
 use App\Helpers\Helpers;
 use App\Models\Cart;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 use Inertia\Middleware;
 use Tightenco\Ziggy\Ziggy;
 
@@ -47,6 +48,7 @@ class HandleInertiaRequests extends Middleware
                     'location' => $request->url(),
                 ]);
             },
+            'message' => Session::get('msg'),
         ]);
     }
 }

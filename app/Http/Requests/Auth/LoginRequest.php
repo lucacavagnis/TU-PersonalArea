@@ -44,7 +44,6 @@ class LoginRequest extends FormRequest
      */
     public function authenticate()
     {
-
         $this->ensureIsNotRateLimited();
 
         $withNameCredentials=["username"=>$this->input('email'),"password"=>$this->input("password")];
@@ -54,11 +53,10 @@ class LoginRequest extends FormRequest
             RateLimiter::hit($this->throttleKey());
 
 
-
-
             throw ValidationException::withMessages([
                 'email' => trans('auth.failed'),
             ]);
+
         }
 
         RateLimiter::clear($this->throttleKey());

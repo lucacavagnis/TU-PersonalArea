@@ -1,6 +1,6 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import { Head } from '@inertiajs/inertia-react';
-import Admin from "@/Layouts/AdminLayout";
+import Admin, {PopUpMessageContext} from "@/Layouts/AdminLayout";
 import Tab from "@/Components/Tab";
 import {ProtocolsTable} from "@/Components/Admin/Protocol/ProtocolsTable";
 
@@ -13,6 +13,7 @@ export default function Index(props) {
             auth={props.auth}
             errors={props.errors}
             header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Protocolli</h2>}
+            msg={props.message}
         >
             <Head title="Protocolli" />
 
