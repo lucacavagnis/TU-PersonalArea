@@ -3,10 +3,13 @@ import { Head } from '@inertiajs/inertia-react';
 import Admin, {PopUpMessageContext} from "@/Layouts/AdminLayout";
 import Tab from "@/Components/Tab";
 import {ProtocolsTable} from "@/Components/Admin/Protocol/ProtocolsTable";
+import MUIProtocolTable from "@/Components/Admin/Protocol/MUIProtocolTable";
 
 
 
 export default function Index(props) {
+
+    console.log(props)
 
     return (
         <Admin
@@ -20,8 +23,9 @@ export default function Index(props) {
             <div className="py-12">
                 <div className="max-w-8xl mx-auto sm:px-6 lg:px-8">
                     <div className="bg-white shadow-sm sm:rounded-lg">
-                        <Tab>
-                            <ProtocolsTable protocols={props.protocols}/>
+                        <Tab className="h-[70vh]">
+                            {/*<ProtocolsTable protocols={props.protocols}/>*/}
+                            <MUIProtocolTable protocols={props.protocols} companies={props.companies}/>
                         </Tab>
                     </div>
                 </div>

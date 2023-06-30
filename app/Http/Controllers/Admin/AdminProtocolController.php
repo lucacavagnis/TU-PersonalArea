@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
+use PhpParser\Builder;
 
 class AdminProtocolController extends Controller
 {
@@ -21,18 +22,12 @@ class AdminProtocolController extends Controller
      */
     public function index(Request $request)
     {
-        $protocols=Protocol::with(['company'])
-        ->when($request->input('search'),function($query) use ($request){
-                return $query
-                    ->where('date','like','%'.$request->input('search').'%')
-                    ->orWhere('expiring_date','like','%'.$request->input('search').'%')
-                    ->orWhere('referral','like','%'.$request->input('search').'%');
+        $protocols=Protocol::with(['company'])->get();
 
-            })
-            ->orderBy($request->input('orderBy','id'),$request->input('orderDir',"desc"))
-            ->paginate(10,page:$request->input('search')==""?null:1)->appends($request->except('page'));
+
         return Inertia::render('Admin/Protocol/Index',[
             'protocols'=>$protocols,
+            'companies'=>Company::all(),
         ]);
     }
 
@@ -104,7 +99,7 @@ class AdminProtocolController extends Controller
         $protocol->type=$request->input('type');
         $protocol->save();
 
-        return Redirect::route('admin.protocols.index')->with('msg',['title'=>'Protocollo aggiornato','text'=>'Il protcollo è stato aggiornato con succeso','positive'=>true]);
+        return response(['title'=>'Protocollo aggiornato','text'=>'Il protcollo è stato aggiornato con succeso','severity'=>"success"]);
     }
 
     /**
@@ -113,6 +108,6 @@ class AdminProtocolController extends Controller
     public function destroy(Protocol $protocol)
     {
         $protocol->delete();
-        return Redirect::route('admin.protocols.index')->with('msg',['title'=>'Protocollo eliminato','text'=>'Il protcollo è stato eliminato con succeso','positive'=>true]);
+        return response(['title'=>'Protocollo eliminato','text'=>'Il protcollo è stato eliminato con succeso','severity'=>"success"]);
     }
 }

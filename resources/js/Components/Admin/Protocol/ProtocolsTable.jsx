@@ -3,6 +3,7 @@ import React from "react";
 import Table from "@/Components/Table/Table";
 import CrudActionColumn from "@/Components/Table/CrudActionColumn";
 import Button from "@/Components/Buttons/Button";
+import {AnchorLink} from "@/Components/Buttons/BlaBla";
 
 export const ProtocolsTable=(props)=>{
     let protocols=props.protocols.data

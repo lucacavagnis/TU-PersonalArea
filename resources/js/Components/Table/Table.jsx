@@ -70,7 +70,7 @@ const NewButton=({className,href})=>{
     )
 }
 
-const TablePagination=({className,paginated,limit=10})=>{
+const TablePagination=({paginated,limit=10})=>{
     if(!paginated)
         return;
 
