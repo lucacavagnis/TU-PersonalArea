@@ -1,7 +1,11 @@
 import {format} from "date-fns";
 import {Format_date, getTypeText} from "@/Helpers/String";
+
+export const type=['Conto Aperto','Conto Deposito']
 export const typeText=(protocol)=>{
-    return getTypeText(protocol.type);
+    if(!protocol)
+        return undefined;
+    return type[protocol.type];
 }
 
 export const getDate=(protocol)=>{
@@ -17,5 +21,6 @@ const Protocol={};
 Protocol.typeText=typeText;
 Protocol.getDate=getDate;
 Protocol.getExpireDate=getExpireDate;
+Protocol.type=type
 
 export default Protocol;

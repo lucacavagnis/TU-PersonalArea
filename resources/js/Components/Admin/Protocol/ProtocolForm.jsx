@@ -1,11 +1,10 @@
-import React, {useContext, useState} from 'react';
+import React, {useState} from 'react';
 import {useForm} from '@inertiajs/inertia-react';
-import Button from "@/Components/Buttons/Button";
+import {Button} from "@/Components/Buttons/BlaBla";
 import TextInput from "@/Components/Inputs/TextInput";
 import InputLabel from "@/Components/Inputs/InputLabel";
 import Select from "@/Components/Inputs/Select";
 import {Format_date_input, getTypeText} from "@/Helpers/String";
-import {PopUpMessageContext} from "@/Layouts/AdminLayout";
 
 
 export const ProtocolForm=({default_value,companies}) =>{
@@ -87,7 +86,7 @@ export const ProtocolForm=({default_value,companies}) =>{
                 </Form.Field>
             </Form.Row>
             <div className="mt-8">
-                {default_value?<Button type="button" onClick={onClick}>Modifica</Button>:<Button type="button" onClick={onClick}>Aggiungi</Button>}
+                {default_value?<Button type="button" onClick={onClick} loading={true}>Modifica</Button>:<Button type="button" onClick={onClick} loading={true}>Aggiungi</Button>}
             </div>
         </Form>
 

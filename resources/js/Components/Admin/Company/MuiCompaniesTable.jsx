@@ -167,22 +167,22 @@ export default function MuiCompaniesTable({companies}){
 
     let columns = [
         { field: 'id', headerName: 'Id' , flex: 0.5},
-        { field: 'name', headerName: 'Nome', width: 300, editable: true},
-        { field: 'email', headerName: 'Email', width: 200, editable: true},
+        { field: 'name', headerName: 'Nome', flex: 2, editable: true},
+        { field: 'email', headerName: 'Email', flex: 3, editable: true},
         { field: 'vat', headerName: 'P. Iva', flex: 1, editable: true},
         { field: 'supervision', headerName: 'Supervisor', flex: 1, editable: true, valueFormatter: (params)=>{
                 return parseBoolean(params.value);
             },
         },
-        { field: 'machines', headerName: 'Cespiti', flex: 1, editable: true, valueFormatter: (params)=>{
+        { field: 'machines', headerName: 'Cespiti', flex: 0.5, editable: true, valueFormatter: (params)=>{
                 return parseBoolean(params.value);
             },
         },
-        { field: 'services', headerName: 'Configurazioni', flex: 1, editable: true, valueFormatter: (params)=>{
+        { field: 'services', headerName: 'Configurazioni', flex: 0.5, editable: true, valueFormatter: (params)=>{
                 return parseBoolean(params.value);
             },
         },
-        { field: 'under_escort_percentage_limit', headerName: 'Limite sottoscorta', flex: 1, editable: true, valueFormatter: (params)=>{
+        { field: 'under_escort_percentage_limit', headerName: 'Limite sottoscorta', flex: 0.5, editable: true, valueFormatter: (params)=>{
                 if (params.value == null) {
                     return '';
                 }
@@ -190,7 +190,7 @@ export default function MuiCompaniesTable({companies}){
                 return `${valueFormatted} %`;
             },
         },
-        { field: 'expiring_limit', headerName: 'Limite scadenza', flex: 1, editable: true, valueFormatter: (params)=>{
+        { field: 'expiring_limit', headerName: 'Limite scadenza', flex: 0.5, editable: true, valueFormatter: (params)=>{
                 if (params.value == null) {
                     return '';
                 }
