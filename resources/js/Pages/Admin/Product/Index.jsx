@@ -8,8 +8,6 @@ import Button from "@/Components/Buttons/Button";
 
 
 export default function Index(props) {
-    console.log(props)
-
     return (
         <Admin
             auth={props.auth}

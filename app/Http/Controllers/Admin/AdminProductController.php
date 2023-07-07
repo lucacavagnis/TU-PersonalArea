@@ -90,24 +90,12 @@ class AdminProductController extends Controller
     public function show(Product $product, Request $request)
     {
         $lots=$product->lots()->with(['product','protocolLot.protocol'])
-            ->when($request->input('search'),function($query) use ($request){
-                return $query
-                    ->where('product_id','like','%'.$request->input('search').'%')
-                    ->orWhere('date','like','%'.$request->input('search').'%')
-                    ->orWhere('qty_total','like','%'.$request->input('search').'%')
-                    ->orWhere('qty_available','like','%'.$request->input('search').'%')
-                    ->orWhereHas('product',function($query) use ($request){
-                        return $query->where('name','like','%'.$request->input('search').'%')
-                            ->orWhere('sku','like','%'.$request->input('search').'%');
-                    });
-
-            })
             ->orderBy($request->input('orderBy','product_id'),$request->input('orderDir',"desc"))
             ->paginate(10,page:$request->input('search')==""?null:1)->appends($request->except('page'));
 
         $protocols=Protocol::where('company_id',$product->company_id)->get();
         return Inertia::render('Admin/Product/Show',[
-            'product'=>$product->load(['category','subcategory']),
+            'product'=>$product->load(['category','subcategory','lots.protocolLot.protocol']),
             'lots'=>$lots,
             'protocols'=>$protocols,
         ]);
@@ -163,5 +151,10 @@ class AdminProductController extends Controller
         Log::debug($product);
         $product->delete();
         return Redirect::route('admin.products.index');
+    }
+
+    public function manage(Product $product)
+    {
+        return Inertia::render('Admin/Product/Manage', ['default'=>$product]);
     }
 }

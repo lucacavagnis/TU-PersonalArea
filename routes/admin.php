@@ -32,8 +32,10 @@ Route::get('under-construction', function (){
 
 Route::resource('companies',CompanyController::class);
 Route::resource('products',AdminProductController::class);
+Route::get('protocols/manage/{product}', [AdminProductController::class,"manage"])->name("products.manage");
 Route::resource('lots',AdminLotController::class);
 Route::resource('categories',AdminCategoryController::class);
 Route::resource('subcategories',AdminSubcategoryController::class);
 Route::resource('protocols',AdminProtocolController::class);
+Route::get('protocols/compile', [AdminProtocolController::class,"compile"])->name("protocols.compile");
 Route::resource('protocol_lots',AdminProtocolLotController::class);

@@ -115,4 +115,19 @@ class AdminProtocolController extends Controller
         $protocol->delete();
         return Redirect::route('admin.protocols.index');
     }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function compile(Request $request, Protocol $protocol)
+    {
+        $protocol->referral=$request->input('referral');
+        $protocol->date=$request->input('date');
+        $protocol->expiring_date=$request->input('expiring_date');
+        $protocol->company_id=$request->input('company_id');
+        $protocol->type=$request->input('type');
+        $protocol->save();
+
+        return Redirect::route('admin.protocols.index');
+    }
 }
