@@ -10,10 +10,11 @@ import TextInput from "@/Components/Inputs/TextInput";
 import InputLabel from "@/Components/Inputs/InputLabel";
 import {Format_date_input} from "@/Helpers/String";
 import Select from "@/Components/Inputs/Select";
+import MUILotsTable from "@/Components/Admin/Protocol/MUILotsTable";
 
 
 
-export default function Index(props) {
+export default function Show(props) {
     const {data,setData,post}=useForm(
         {
             id: props.product.id,
@@ -38,21 +39,23 @@ export default function Index(props) {
         };
     }
 
+    console.log(props)
+
     return (
         <Admin
             auth={props.auth}
             errors={props.errors}
             header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Prodotti</h2>}
         >
-            <Head title="Aziende" />
+            <Head title="Prodotti" />
 
             <div className="py-12">
                 <div className="max-w-8xl mx-auto sm:px-6 lg:px-8">
                             <ProductDataTab product={props.product} />
-                            <Tab>
-                                <h2 className="font-semibold mb-4 border-b ">Lotti del prodotto</h2>
-                                <LotsTable lots={props.lots} product={props.product} />
-                                <div className="flex py-4 pt-4 border-t border-indigo-300">
+                            <Tab className="h-100">
+                                <h2 className="font-semibold mb-4">Lotti del prodotto</h2>
+                                <MUILotsTable lots={props.product.lots} product={props.product} protocols={props.protocols}/>
+                                {/*<div className="flex py-4 pt-4 border-t border-indigo-300">
                                     <div className="mr-4">
                                         <InputLabel forInput="date" value="Data" className="mb-2"/>
                                         <TextInput type="date" name="date" value={data.date} handleChange={handleChange}/>
@@ -66,7 +69,7 @@ export default function Index(props) {
                                         <TextInput type="number" name="qty_available" value={data.qty_available} min={0} max={data.qty_total} handleChange={handleChange} className="min-w-[8rem]"/>
                                     </div>
                                     <Button type="button" onClick={addNew}>Aggiungi</Button>
-                                </div>
+                                </div>*/}
                             </Tab>
                 </div>
             </div>
