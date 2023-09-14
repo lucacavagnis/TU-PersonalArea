@@ -2,14 +2,8 @@ import React from 'react';
 import {Head, useForm} from '@inertiajs/inertia-react';
 import Admin from "@/Layouts/AdminLayout";
 import Tab from "@/Components/Tab";
-import Button from "@/Components/Buttons/Button";
 import {ProductDataTab} from "@/Pages/Authenticated/Product/Show";
-import {LotsTable} from "@/Components/Admin/Product/LotsTable";
-import {Inertia} from "@inertiajs/inertia";
-import TextInput from "@/Components/Inputs/TextInput";
-import InputLabel from "@/Components/Inputs/InputLabel";
 import {Format_date_input} from "@/Helpers/String";
-import Select from "@/Components/Inputs/Select";
 import MUILotsTable from "@/Components/Admin/Protocol/MUILotsTable";
 
 
@@ -52,7 +46,7 @@ export default function Show(props) {
             <div className="py-12">
                 <div className="max-w-8xl mx-auto sm:px-6 lg:px-8">
                             <ProductDataTab product={props.product} />
-                            <Tab className="h-100">
+                            <Tab className="h-80" containerClassName="h-80">
                                 <h2 className="font-semibold mb-4">Lotti del prodotto</h2>
                                 <MUILotsTable lots={props.product.lots} product={props.product} protocols={props.protocols}/>
                                 {/*<div className="flex py-4 pt-4 border-t border-indigo-300">

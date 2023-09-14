@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Authenticated;
 
-use App\Http\Requests\UpdatePlaceRequest;
+use App\Http\Requests\Authenticated\UpdatePlaceRequest;
 use App\Models\Place;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
@@ -32,7 +32,7 @@ class PlaceController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StorePlaceRequest  $request
+     * @param  \App\Http\Requests\Authenticated\StorePlaceRequest  $request
      * @return Place
      */
     public function store(FormRequest $request)
@@ -73,7 +73,7 @@ class PlaceController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdatePlaceRequest  $request
+     * @param  \App\Http\Requests\Authenticated\UpdatePlaceRequest  $request
      * @param  \App\Models\Place  $place
      * @return \Illuminate\Http\Response
      */

@@ -40,4 +40,9 @@ class Protocol extends Model
     }
 
     protected $appends=['remaining_days'];
+
+    protected $casts=[
+        'date'=>'datetime',
+        'expiring_date'=>'datetime'
+    ];
 }

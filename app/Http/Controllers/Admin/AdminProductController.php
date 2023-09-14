@@ -3,12 +3,16 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Authenticated\Controller;
+use App\Http\Requests\Admin\UpdateProductLotsRequest;
 use App\Models\Category;
 use App\Models\Company;
 use App\Models\Lot;
+use App\Models\LotLocation;
 use App\Models\Product;
 use App\Models\Protocol;
+use App\Models\ProtocolLot;
 use App\Models\Subcategory;
+use App\Models\WarehouseSlot;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
@@ -147,14 +151,60 @@ class AdminProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        Log::debug('delating:');
-        Log::debug($product);
         $product->delete();
         return Redirect::route('admin.products.index');
     }
 
     public function manage(Product $product)
     {
-        return Inertia::render('Admin/Product/Manage', ['default'=>$product]);
+        return Inertia::render('Admin/Product/Manage', [
+            'product'=>$product->load('lots.locations.slot','lots.protocolLot.protocol:id,referral','company'),
+            'protocols'=>Protocol::get(['id','referral']),
+        ]);
+    }
+
+    public function manageSave(UpdateProductLotsRequest $request, Product $product)
+    {
+        foreach ($request->all() as $lot){
+            $this->saveLot($lot,$product);
+        }
+
+        return back();
+    }
+
+    private function saveLot($request,$product){
+
+
+        $lot = Lot::findOrCreate($request["id"]??NULL);
+        $lot->product_id=$product->id;
+        $lot->qty_available=$request['qty_available'];
+        $lot->qty_total=$request['qty_total'];
+        $lot->date=$request['date'];
+        $lot->save();
+        Log::debug(print_r($lot,true));
+
+        ProtocolLot::where("lot_id",$lot->id)->delete();
+        if($request["protocol"]) {
+            $requestProtocolLot = $request['protocol_lot'];
+            $protocolLot = ProtocolLot::findOrCreate($requestProtocolLot["id"] ?? NULL);
+            $protocolLot->protocol_id = $requestProtocolLot["protocol_id"];
+            $protocolLot->lot_id = $lot->id;
+            $protocolLot->original_price = $requestProtocolLot["original_price"];
+            $protocolLot->price = $request["discount"] ? $requestProtocolLot["price"] : $requestProtocolLot["original_price"];
+
+            $protocolLot->save();
+        }
+
+        LotLocation::where("lot_id",$lot->id)->delete();
+        if($request["warehouse"]){
+            foreach ($request["locations"] as $requestLocation){
+                $slot=WarehouseSlot::firstOrCreate(["shelf"=>$requestLocation["slot"]["shelf"],"rack"=>$requestLocation["slot"]["rack"],"pallet"=>$requestLocation["slot"]["pallet"]]);
+                $location = LotLocation::findOrCreate($requestLocation["id"]??NULL);
+                $location->qty=$requestLocation["qty"];
+                $location->slot_id=$slot->id;
+                $location->lot_id=$lot->id;
+                $location->save();
+            }
+        }
     }
 }

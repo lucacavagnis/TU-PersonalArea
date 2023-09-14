@@ -32,7 +32,8 @@ Route::get('under-construction', function (){
 
 Route::resource('companies',CompanyController::class);
 Route::resource('products',AdminProductController::class);
-Route::get('protocols/manage/{product}', [AdminProductController::class,"manage"])->name("products.manage");
+Route::get('products/manage/{product}', [AdminProductController::class,"manage"])->name("products.manage");
+Route::post('products/manage/save/{product}', [AdminProductController::class,"manageSave"])->name("products.manage.save");
 Route::resource('lots',AdminLotController::class);
 Route::resource('categories',AdminCategoryController::class);
 Route::resource('subcategories',AdminSubcategoryController::class);

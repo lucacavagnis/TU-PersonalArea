@@ -1,12 +1,8 @@
 import {Link} from "@inertiajs/inertia-react";
 import ApplicationLogo from "@/Components/ApplicationLogo";
 import {
-    MdDashboard,
-    HiBuildingOffice2,
-    BsFillCartCheckFill,
     GiJigsawBox,
-    AiFillPrinter,
-    SiGooglesheets, BsInboxesFill
+    SiGooglesheets
 } from "react-icons/all";
 import NavLink from "@/Components/Admin/Nav/NavLink";
 import NavDropdown from "@/Components/Admin/Nav/NavDropdown";
@@ -23,10 +19,10 @@ export default function Nav({auth}){
                             </Link>
                         </div>
                         <div>
-                            <NavLink title="Dashboard" icon={<MdDashboard></MdDashboard>} link={route('admin.dashboard')} active={route().current('admin.dashboard')} />
+                            {/*<NavLink title="Dashboard" icon={<MdDashboard></MdDashboard>} link={route('admin.dashboard')} active={route().current('admin.dashboard')} />
 
                             <NavLink title="Aziende" icon={<HiBuildingOffice2></HiBuildingOffice2>} link={route('admin.companies.index')} active={route().current('admin.companies.index')} />
-
+                            */}
                             <NavDropdown>
                                 <NavDropdown.Trigger>
                                     <NavLink title="Prodotti" icon={<GiJigsawBox></GiJigsawBox>} dropdown={true} active={false} />
@@ -50,11 +46,11 @@ export default function Nav({auth}){
 
                             <NavLink title="Protocolli di offerta" icon={<SiGooglesheets></SiGooglesheets>} link={route('admin.protocols.index')} active={route().current('admin.protocols.index')} />
 
-                            <NavLink title="Magazzino" icon={<BsInboxesFill></BsInboxesFill>} link={route('admin.under_construction')} active={false} />
+                            {/*<NavLink title="Magazzino" icon={<BsInboxesFill></BsInboxesFill>} link={route('admin.under_construction')} active={false} />
 
                             <NavLink title="Ordini di evasione" icon={<BsFillCartCheckFill></BsFillCartCheckFill>} link={route('admin.under_construction')} active={false} />
 
-                            <NavLink title="Cespiti a noleggio" icon={<AiFillPrinter></AiFillPrinter>} link={route('admin.under_construction')} active={false} />
+                            <NavLink title="Cespiti a noleggio" icon={<AiFillPrinter></AiFillPrinter>} link={route('admin.under_construction')} active={false} />*/}
                         </div>
                         <div className="px-4 absolute w-full bottom-8 left-0">
                             <NavDropdown>

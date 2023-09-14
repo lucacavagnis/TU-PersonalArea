@@ -1,12 +1,8 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Authenticated;
 
-use App\Models\Lot;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Session;
 
 class StoreOrderRequest extends FormRequest
 {

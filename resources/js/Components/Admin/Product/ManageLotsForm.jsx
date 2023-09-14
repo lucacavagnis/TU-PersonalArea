@@ -1,115 +1,175 @@
 import React from 'react';
-import {useForm} from '@inertiajs/inertia-react';
-import Button from "@/Components/Buttons/Button";
-import TextInput from "@/Components/Inputs/TextInput";
-import InputLabel from "@/Components/Inputs/InputLabel";
-import TextArea from "@/Components/Inputs/TextArea";
-import Select from "@/Components/Inputs/Select";
-import {ImageUploadInput} from "@/Components/Inputs/ImageUploadInput";
-import ProductImage from "@/Components/Authenticated/Product/ProductImage";
 import {twMerge} from "tailwind-merge";
-import {Input, styled} from "@mui/material";
+import {
+    Autocomplete,
+    Box,
+    Button,
+    FormControlLabel,
+    FormGroup,
+    InputAdornment,
+    Switch,
+    TextField
+} from "@mui/material";
+import {CloseRounded} from "@mui/icons-material";
+import Tab from "@/Components/Tab";
 
 
-export const ManageLotsForm=({default_value,companies,categories,subcategories}) =>{
-    /*let initial_value
+export const ManageLotsForm=({id,lot,protocols,update,remove,error,}) =>{
 
-    if(!default_value)
-        initial_value={
-            name: "",
-            sku: "",
-            desc: "",
-            company: companies[0],
-            category: categories[0],
-            subcategory: subcategories[0],
-            image: null,
-        }
-    else
-        initial_value=default_value*/
+const default_location={
+    slot:{
+        rack:"",
+        shelf:"",
+        pallet:"",
+    },
+    qty:0,
+}
 
-    const {data,setData,post}=useForm({
-        qty_available: default_value?default_value.qty_available:0,
-        qty_total: default_value?default_value.qty_total:0,
-        date: default_value?default_value.date:Date(),
-    })
 
-    const onClick=(e)=>{
-        e.preventDefault;
-        default_value?post(route('admin.products.update',initial_value.id),{method:'put'}):post(route('admin.products.store'));
-    }
 
     const onChange=(e)=>{
-        e.preventDefault();
-        setData(e.target.name,e.target.type==="file"?e.target.files[0]:e.target.value)
+        const clone={...lot};
+        clone[e.target.name]=e.target.type==="checkbox"?e.target.checked:e.target.value;
+        update(id,clone)
     }
 
-    /*
-    const onSelectChange=(name)=>{
-        return (value) => {
-            setData(name, value);
-        };
+    const onProtocolPropChange=(e)=>{
+        const clone={...lot};
+        clone['protocol_lot'][e.target.name]=e.target.type==="checkbox"?e.target.checked:e.target.value;
+        update(id,clone)
     }
 
-    const getImage=(image)=>{
-        console.log(image)
-        const className="w-20 h-20"
-        return (!image || typeof image === "string" || image instanceof String )?<ProductImage name={image} className={className}/>:<img src={URL.createObjectURL(image)} className={className} alt="Product image"/>
-    }*/
+    const onProtocolChange=(e,v)=>{
+        const clone={...lot};
 
+        if(clone['protocol_lot'])
+        {
+            clone['protocol_lot']['protocol_id']=v.id;
+            clone['protocol_lot']['protocol']=v;
+        }else
+            clone['protocol_lot']={protocol_id:v.id,protocol:v}
+
+        update(id,clone)
+    }
+
+
+    const addSlot=()=>{
+        let locations=lot.locations
+        if(locations)
+            locations.push(default_location)
+        else
+            locations=[default_location]
+        update(id,{...lot,locations: locations})
+    }
+
+    const removeSlot=(id)=>{
+        const locations=lot.locations
+        locations.splice(id,1)
+        update(id,{...lot,slots: locations})
+    }
+
+    const updateSlot=(e)=>{
+        const locations=lot.locations
+        const id=e.target.name.split('-')[0]
+        const prop=e.target.name.split('-')[1]
+        locations.map((l,key)=>{
+            if(key==id)
+                if(prop==="qty")
+                    l["qty"]=e.target.value
+                else
+                    l['slot'][prop]=e.target.value
+            return l;
+        })
+        update(id,{...lot,locations})
+    }
 
 
     return (
-        <Form>
-            <Form.Row>
-                <Form.Field>
-                    <InputLabel forInput="qty_available" value="Unità disponibli" required={true}/>
-                    <TextInput type="number" name="qty_available" handleChange={(e)=>onChange(e)} value={data.qty_available} required={true} className="w-full"/>
-                </Form.Field>
-                <Form.Field>
-                    <InputLabel forInput="qty_total" value="Unità totali" required={true}/>
-                    <TextInput type="number" name="qty_total" handleChange={(e)=>onChange(e)} value={data.qty_total} required={true} className="w-full"/>
-                </Form.Field>
-                <Form.Field>
-                    <InputLabel forInput="date" value="Data" required={true}/>
-                    <TextInput type="date" name="date" handleChange={(e)=>onChange(e)} value={data.date} required={true} className="w-full"/>
-                </Form.Field>
-            </Form.Row>
-            <Form.Row>
-                <Form.Field className="flex items-center">
-                    <InputLabel forInput="show_protocol" value="Ha un protocollo?"  className="mr-4"/>
-                    <TextInput type="checkbox" name="show_protocol" handleChange={(e)=>onChange(e)} value={data.qty_available}  />
-                </Form.Field>
-            </Form.Row>
-            <Form.Row>
-                <Form.Field className="flex items-center">
-                    <InputLabel forInput="show_slot" value="Gestisci il magazzino?" className="mr-4"/>
-                    <TextInput type="checkbox" name="show_slot" handleChange={(e)=>onChange(e)} value={data.qty_available}  />
-                </Form.Field>
-            </Form.Row>
-            {/*<Form.Row>
-                <Form.Field>
-                    <InputLabel forInput="desc" value="Descrizione" required={false}/>
-                    <TextArea name="desc" handleChange={(e)=>onChange(e)} className="w-full h-[200px]">{data.desc}</TextArea>
-                </Form.Field>
-            </Form.Row>
-            <Form.Row>
-                <Form.Field>
-                    <InputLabel forInput="company" value="Azienda" required={true}/>
-                    <Select people={companies} onChange={onSelectChange('company_id')} initial={initial_value.company} getName={(company)=>{return company.id+" - "+company.name}}/>
-                </Form.Field>
-                <Form.Field>
-                    <InputLabel forInput="catgeory" value="Categeoria" required={true}/>
-                    <Select people={categories} onChange={onSelectChange('category_id')} initial={initial_value.category}/>
-                </Form.Field>
-                <Form.Field>
-                    <InputLabel forInput="subcategpry" value="Sottocategeoria" required={false}/>
-                    <Select people={subcategories} onChange={onSelectChange('subcategory_id')} initial={initial_value.subcategory}/>
-                </Form.Field>
-            </Form.Row>*/}
-            {<Button type="button" onClick={(e)=>onClick(e)}>Salva</Button>}
-        </Form>
+        <>
+            <Tab containerClassName="mb-4 relative" key={id}>
+            <Box
+                component="form"
+                sx={{
+                    '& .MuiTextField-root': { m: 1, width: '25ch' },
+                    '& .MuiOutlinedInput-input' : {boxShadow: 'none'},
+                    '& > div' : { my: "1em"}
+                }}
+                noValidate
+                autoComplete="off"
+            >
+                <CloseRounded className="absolute top-2 right-2 text-slate-500 hover:cursor-pointer hover:text-red-500 transition-color" fontSize="small" onClick={()=>remove(id)}/>
+                <div>
+                    <div className="flex">
+                        <TextField id="qty-available" label="Qt.à disponibile" name="qty_available" type='number' inputProps={{ inputMode: 'numeric', pattern: '[0-9]*', min: 0, max: lot.qty_total}} onChange={(e)=>onChange(e)} value={lot.qty_available} variant="outlined" required={true} error={error&&error[id+".qty_available"]} helperText={error[id+".qty_available"]}/>
+                        <TextField id="qty-total" label="Qt.à totale" name="qty_total" inputProps={{ inputMode: 'numeric', pattern: '[0-9]*', min: 0}} type='number' onChange={(e)=>onChange(e)} value={lot.qty_total} variant="outlined" required={true} error={error&&error[id+".qty_total"]} helperText={error[id+".qty_total"]}/>
+                        <TextField id="date" label="Data" name="date" type='date' onChange={(e)=>onChange(e)} value={lot.date} variant="outlined" required={true} helperText={error?error[id+".date"]:"La data del protcollo o di ricezione"} error={error&&error[id+".date"]}/>
+                    </div>
+                    <div>
+                        <FormGroup>
+                            <FormControlLabel control={<Switch checked={lot.protocol} onChange={(e)=>onChange(e)} name="protocol"/>} label="Gestire protocollo?" error={error&&error[id+".protocol"]}/>
+                            <FormControlLabel control={<Switch checked={lot.warehouse} onChange={(e)=>onChange(e)} name="warehouse"/>} label="Gestire magazzino?" error={error&&error[id+".warehouse"]}/>
+                        </FormGroup>
+                    </div>
+                </div>
+
+                <div className={(lot.protocol?"opacity-1 h-50 py-4":"opacity-0 h-0 pointer-events-none p-0 m-0") + " transition-all border-t"}>
+                    <div className="flex">
+                        <Autocomplete
+                            disablePortal
+                            id="combo-box-demo"
+                            options={protocols}
+                            sx={{ width: 300 }}
+                            renderInput={(params) => <TextField {...params} label="Protocollo" name="referral" error={error&&error[id+".protocol_lot.protocol_id"]} helperText={error[id+".protocol_lot.protocol_id"]}/>
+                            }
+                            onChange={(e,v)=>onProtocolChange(e,v)}
+                            value={lot.protocol_lot?lot.protocol_lot.protocol:null}
+                            isOptionEqualToValue={(o,v)=>_.isEqual(o,v)}
+                            getOptionLabel={(o)=>o.referral}
+                        />
+                        <TextField id="original_price" label="Prezzo" name="original_price" type='number' InputProps={{ startAdornment: <InputAdornment position="start">€</InputAdornment>}} inputProps={{inputMode: 'numeric', pattern: '[0-9]*', min: 0}} onChange={(e)=>onProtocolPropChange(e)} value={lot.protocol_lot?lot.protocol_lot.original_price:null} variant="outlined" required={true} error={error&&error[id+".protocol_lot.original_price"]} helperText={error[id+".protocol_lot.original_price"]}/>
+                        <TextField className={(lot.discount?"opacity-1":"opacity-0 pointer-events-none") + " transition-all border-t"} id="price" label="Prezzo scontato" name="price" type='number' InputProps={{ startAdornment: <InputAdornment position="start">€</InputAdornment>}} inputProps={{inputMode: 'numeric', pattern: '[0-9]*', min: 0, max: lot.protocol_lot?lot.protocol_lot.original_price:0}} onChange={(e)=>onProtocolPropChange(e)} value={lot.protocol_lot?lot.protocol_lot.price:null} variant="outlined" required={true} startAdornment={<InputAdornment position="start">$</InputAdornment>} helperText={error?error[id+".protocol_lot.price"]:"Non può superare il prezzo orginale"} error={error&&error[id+".protocol_lot.price"]}/>
+                    </div>
+                    <div className="flex">
+                        <FormGroup className="mt-4">
+                            <FormControlLabel control={<Switch checked={lot.discount} onChange={(e)=>onChange(e)} name="discount"/>} label="Applicare sconto?" labelPlacement="end" error={error&&error[id+".discount"]}/>
+                        </FormGroup>
+                    </div>
+                </div>
+                <div className={(lot.warehouse?"opacity-1 py-4":"opacity-0 h-0 pointer-events-none p-0 m-0") + " transition-all border-t"}>
+                    <Button variant="text" onClick={()=>addSlot()}>Aggiungi slot</Button>
+                    {lot.locations && lot.locations.map((location,i)=>
+                        <SlotRow id={i} lot_id={id} slot={location.slot} qty={location.qty} remove={removeSlot} update={updateSlot} error={error} max={(()=>{
+                            let max=lot.qty_available
+                            lot.locations.forEach((s)=>{
+                                max-=s.qty
+                            })
+                            max+=Number(lot.locations[id].qty)
+                            return max
+                        })()
+                        }/>
+                    )}
+                </div>
+            </Box>
+            </Tab>
+        </>
 
     );
+}
+
+const SlotRow=({id,lot_id,qty,slot,remove,update,max,error})=>{
+
+    return(
+        <div className="relative py-8" key={id}>
+            <div className="flex">
+                <TextField id="rack" label="Armadio" name={id+"-rack"} inputProps={{pattern: '[A-Z+]'}} onChange={(e)=>update(e)} value={slot.rack} variant="outlined" required={true} error={error&&error[lot_id+".locations."+id+".slot.rack"]} helperText={error[lot_id+".locations."+id+".slot.rack"]}/>
+                <TextField id="shelf" label="Scaffale" name={id+"-shelf"} inputProps={{pattern: '[1-9+]'}} onChange={(e)=>update(e)} value={slot.shelf} variant="outlined" required={true} error={error&&error[lot_id+".locations."+id+".slot.shelf"]} helperText={error[lot_id+".locations."+id+".slot.shelf"]}/>
+                <TextField id="pallet" label="Bancale" name={id+"-pallet"} inputProps={{pattern: '[1-9+]'}} onChange={(e)=>update(e)} value={slot.pallet} variant="outlined" required={true} error={error&&error[lot_id+".locations."+id+".slot.pallet"]} helperText={error[lot_id+".locations."+id+".slot.pallet"]}/>
+            </div>
+                <TextField id="qty" label="Q.tà" name={id+"-qty"} type='number' inputProps={{ inputMode: 'numeric', pattern: '[0-9]*', min: 0, max:max}} onChange={(e)=>update(e)} value={qty} variant="outlined" required={true} className="!w-full" error={error&&error[lot_id+".locations."+id+".qty"]} helperText={error[lot_id+".locations."+id+".qty"]}/>
+                <CloseRounded className="absolute top-2 right-2 text-slate-500 hover:cursor-pointer hover:text-red-500 transition-color !text-sm" onClick={()=>remove(id)}/>
+        </div>
+
+    )
 }
 
 const Form=({children})=>{

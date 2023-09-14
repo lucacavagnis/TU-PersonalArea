@@ -35,9 +35,7 @@ class Product extends Model
         return $this->hasMany(Lot::class,'product_id');
     }
 
-    public function locations(): HasMany{
-        return $this->hasMany(ProductLocation::class,'product_id','id');
-    }
+
 
     protected function image(): Attribute
     {

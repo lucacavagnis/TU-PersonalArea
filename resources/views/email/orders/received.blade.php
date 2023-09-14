@@ -7,6 +7,9 @@ hai ricevuto un nuovo ordine da {{$order->user->company->name}}.
 <h3>Richiedente</h3>
     {{$order->user->name}} ({{$order->user->email}})
 
+<h3>Destinazione</h3>
+    {{$order->place->address_first_line}} {{$order->place->address_second_line}}
+
 <x-mail::table>
     | Prodotto | Qtà | Protocollo | Locazione |
     | :--------|:----|:-------|:----------|

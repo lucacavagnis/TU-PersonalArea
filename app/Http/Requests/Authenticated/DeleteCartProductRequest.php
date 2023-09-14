@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Authenticated;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreProductRequest extends FormRequest
+class DeleteCartProductRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

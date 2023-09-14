@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Authenticated;
 
-use App\Http\Requests\StoreMachineRequest;
-use App\Http\Requests\UpdateMachineRequest;
+use App\Http\Requests\Authenticated\StoreMachineRequest;
+use App\Http\Requests\Authenticated\UpdateMachineRequest;
 use App\Models\Machine;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -42,7 +42,7 @@ class MachineController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StoreMachineRequest  $request
+     * @param  \App\Http\Requests\Authenticated\StoreMachineRequest  $request
      * @return \Illuminate\Http\Response
      */
     public function store(StoreMachineRequest $request)
@@ -75,7 +75,7 @@ class MachineController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdateMachineRequest  $request
+     * @param  \App\Http\Requests\Authenticated\UpdateMachineRequest  $request
      * @param  \App\Models\Machine  $machine
      * @return \Illuminate\Http\Response
      */

@@ -50,7 +50,7 @@ class OrderReceived extends Mailable
         return new Content(
             markdown: 'email.orders.received',
             with: [
-                'order' => $this->order->load(['orderProducts.lot.protocolLot.protocol','orderProducts.product.locations']),
+                'order' => $this->order->load(['orderProducts.lot.protocolLot.protocol','orderProducts.product.locations','place']),
             ],
         );
     }

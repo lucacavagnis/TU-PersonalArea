@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Authenticated;
 
 use App\Rules\InCart;
 use App\Rules\UserHaveProduct;
