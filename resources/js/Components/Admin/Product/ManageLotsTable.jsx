@@ -2,17 +2,14 @@ import React from 'react';
 import {MdDelete} from "react-icons/all";
 import {
     DataGrid,
-    GridActionsCellItem, GridEditInputCell,
-    GridRowEditStopReasons,
-    GridRowModes, GridToolbar,
+    GridActionsCellItem,
     GridToolbarContainer,
     itIT
 } from "@mui/x-data-grid";
 import {Format_date} from "@/Helpers/String";
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
-import {Button, LinearProgress, styled, tooltipClasses} from "@mui/material";
-import {Tooltip} from "@mui/material";
+import {Button, LinearProgress} from "@mui/material";
 import {Inertia} from "@inertiajs/inertia";
 
 
@@ -29,29 +26,14 @@ function EditToolbar(props) {
         </GridToolbarContainer>
     );
 }
-export default function MUILotsTable({lots,product,slots}){
+export default function ManageLotsTable({lots,product}){
 
     const [rows, setRows] = React.useState(lots);
-    const [rowModesModel, setRowModesModel] = React.useState({})
     const [snackbar, setSnackbar] = React.useState(null);
-    const [loading,setLoading] = React.useState(false);
+    const [setLoading] = React.useState(false);
 
     const handleCloseSnackbar = () => setSnackbar(null);
 
-
-    const handleRowEditStop = (params, event) => {
-        if (params.reason === GridRowEditStopReasons.rowFocusOut) {
-            event.defaultMuiPrevented = true;
-        }
-    };
-
-    const handleEditClick = (id) => () => {
-        setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.Edit } });
-    };
-
-    const handleSaveClick = (id) => () => {
-        setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.View } });
-    };
 
     const handleDeleteClick = (id) => () => {
         setLoading(true)
@@ -59,68 +41,11 @@ export default function MUILotsTable({lots,product,slots}){
             setLoading(false)
             setSnackbar({ children: r.data.text, severity: r.data.severity });
             setRows(rows.filter((row) => row.id !== id));
-        }).catch(reason => {
+        }).catch(() => {
             setLoading(false)
             setSnackbar({children: "Errore durante la richiesta. Contatta l'assistenza web@tutto-ufficio.it",severity: "error"})
         })
     };
-
-    const handleCancelClick = (id) => () => {
-        setRowModesModel({
-            ...rowModesModel,
-            [id]: { mode: GridRowModes.View, ignoreModifications: true },
-        });
-
-        const editedRow = rows.find((row) => row.id === id);
-        if (editedRow.isNew) {
-            setRows(rows.filter((row) => row.id !== id));
-        }
-    };
-
-    const processRowUpdate = (newRow) => {
-        const updatedRow = { ...newRow,_method: "put"};
-        setLoading(true)
-
-        axios.post(route("admin.lots.update", updatedRow.id), updatedRow).then(r  =>{
-            setLoading(false)
-            setSnackbar({ children: r.data.text, severity: r.data.severity });
-            setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
-            return updatedRow
-        }).catch(reason => {
-            setLoading(false)
-
-        })
-
-        return new Error("Errore durante la richiesta. Contatta l'assistenza web@tutto-ufficio.it")
-    };
-
-    const handleProcessRowUpdateError = error => {
-        console.log(error)
-        setSnackbar({ children: error.message, severity: 'error' });
-    }
-
-    const handleRowModesModelChange = (model) => {
-        setRowModesModel(model)
-    };
-
-    const StyledTooltip = styled(({ className, ...props }) => (
-        <Tooltip {...props} classes={{ popper: className }} />
-    ))(({ theme }) => ({
-        [`& .${tooltipClasses.tooltip}`]: {
-            backgroundColor: theme.palette.error.main,
-            color: theme.palette.error.contrastText,
-        },
-    }));
-
-    function QtyEditInputCell(props) {
-        const { error } = props;
-
-        return (
-            <StyledTooltip open={!!error} title={error}>
-                <GridEditInputCell {...props} />
-            </StyledTooltip>
-        );
-    }
 
 
     let columns = [

@@ -5,6 +5,7 @@ import TextInput from "@/Components/Inputs/TextInput";
 import InputLabel from "@/Components/Inputs/InputLabel";
 import Select from "@/Components/Inputs/Select";
 import {Format_date_input, getTypeText} from "@/Helpers/String";
+import moment from "moment";
 
 
 export const ProtocolForm=({default_value,companies}) =>{
@@ -21,7 +22,7 @@ export const ProtocolForm=({default_value,companies}) =>{
             type: type[0],
         }
     else
-        initial_value=default_value
+        initial_value= {...default_value,date:moment(default_value.date).format("YYYY-MM-DD"),expiring_date: moment(default_value.expiring_date).format("YYYY-MM-DD")}
 
     const {data,setData,post,put}=useForm({
         referral:initial_value.referral,

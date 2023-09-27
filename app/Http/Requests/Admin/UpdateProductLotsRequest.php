@@ -53,8 +53,8 @@ class UpdateProductLotsRequest extends FormRequest
     {
         return [
             function (Validator $validator) {
-            foreach ($this->input("*.protocol_lot.price") as $id=>$price)
-                if ($this->input("*.discount",false)&&$this->input("*.protocol",false)&&$price==NULL) {
+            foreach ($this->all() as $id=>$lot)
+                if ($lot["discount"]&&$lot["protocol"]&&!isset($lot["protocol_lot"]["price"])) {
                     $validator->errors()->add(
                         $id.'.protocol_lot.price',
                         "'Prezzo scontato' è richiesto quando lo sconto è attivo"

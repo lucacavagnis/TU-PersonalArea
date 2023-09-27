@@ -12,6 +12,7 @@ import {
 } from "@mui/material";
 import {CloseRounded} from "@mui/icons-material";
 import Tab from "@/Components/Tab";
+import {Inertia} from "@inertiajs/inertia";
 
 
 export const ManageLotsForm=({id,lot,protocols,update,remove,error,}) =>{
@@ -64,7 +65,9 @@ const default_location={
 
     const removeSlot=(id)=>{
         const locations=lot.locations
-        locations.splice(id,1)
+        const deleted = locations.splice(id,1)
+        if(deleted[0]["id"])
+            Inertia.delete(route("admin.lots.location.destroy",deleted[0]["id"]))
         update(id,{...lot,slots: locations})
     }
 

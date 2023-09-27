@@ -34,6 +34,7 @@ Route::resource('companies',CompanyController::class);
 Route::resource('products',AdminProductController::class);
 Route::get('products/manage/{product}', [AdminProductController::class,"manage"])->name("products.manage");
 Route::post('products/manage/save/{product}', [AdminProductController::class,"manageSave"])->name("products.manage.save");
+Route::delete('lots/location/delete/{location}',[AdminLotController::class,"destroyLocation"])->name("lots.location.destroy");
 Route::resource('lots',AdminLotController::class);
 Route::resource('categories',AdminCategoryController::class);
 Route::resource('subcategories',AdminSubcategoryController::class);

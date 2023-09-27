@@ -8,5 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class WarehouseSlot extends Model
 {
     use HasFactory;
-    protected $fillable=["shelf","rack"];
+    protected $fillable=["shelf","rack","pallet"];
 }

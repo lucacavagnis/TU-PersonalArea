@@ -34,19 +34,9 @@ class AdminProductController extends Controller
      */
     public function index(Request $request)
     {
-        $products=Product::with(['category','subcategory','company'])
-        ->when($request->input('search'),function($query) use ($request){
-                return $query
-                    ->where('name','like','%'.$request->input('search').'%')
-                    ->orWhere('desc','like','%'.$request->input('search').'%')
-                    ->orWhere('sku','like','%'.$request->input('search').'%');
-
-            })
-            ->orderBy($request->input('orderBy','name'),$request->input('orderDir',"desc"))
-            ->paginate(10)->appends($request->except('page'));
+        $products=Product::with(['category','subcategory','company'])->get();
         return Inertia::render('Admin/Product/Index',[
             'products'=>$products,
-            'inputs'=>$request->input(),
         ]);
     }
 
