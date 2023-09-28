@@ -14,7 +14,7 @@ hai ricevuto un nuovo ordine da {{$order->user->company->name}}.
     | Prodotto | Qtà | Protocollo | Locazione |
     | :--------|:----|:-------|:----------|
     @foreach($order->orderProducts as $orderProduct)
-    | {{$orderProduct->product->name}}    | {{$orderProduct->quantity}}    | {{{isset($orderProduct->lot->protocolLot)? $orderProduct->lot->protocolLot->protocol->referral:'Nessuno'}}}    | @foreach($orderProduct->product->locations as $location) {{$location->slot->rack}}{{$location->slot->shelf}} @endforeach   |
+    | {{$orderProduct->product->name}}    | {{$orderProduct->quantity}}    | {{{isset($orderProduct->lot->protocolLot)? $orderProduct->lot->protocolLot->protocol->referral:'Nessuno'}}}    | @foreach($orderProduct->lot->locations as $location) {{$location->slot->rack}}{{$location->slot->shelf}}{{$location->slot->pallet}} @endforeach   |
     @endforeach
 </x-mail::table>
 
