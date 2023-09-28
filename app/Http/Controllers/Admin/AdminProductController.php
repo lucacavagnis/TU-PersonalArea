@@ -70,7 +70,7 @@ class AdminProductController extends Controller
         $product->subcategory_id=$request->input('subcategory_id');
         if($request->has('image') && $request->hasFile('image')){
             $file=$request->file('image');
-            $file->move(storage_path('app/public/uploads'),$product->sku.".".$file->extension());
+            $file->move(storage_path('app/public/'.$request->user()->company->id.'/uploads'),$product->sku.".".$file->extension());
         }
         $product->save();
 
@@ -125,7 +125,7 @@ class AdminProductController extends Controller
         if($request->has('image')){
             if($request->hasFile('image')){
                 $file=$request->file('image');
-                $file->move(storage_path('app/public/uploads'),$product->sku.".".$file->extension());
+                $file->move(storage_path('app/public/'.$request->user()->company->id.'/uploads'),$product->sku.".".$file->extension());
             }
         }else{
             if(Storage::exists('public/uploads/'.$product->image))
