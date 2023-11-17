@@ -13,8 +13,6 @@ import {
 import {CloseRounded,RemoveCircleOutline} from "@mui/icons-material";
 import Tab from "@/Components/Tab";
 import {Inertia} from "@inertiajs/inertia";
-import Snackbar from "@mui/material/Snackbar";
-import Alert from "@mui/material/Alert";
 
 
 export const ManageLotsForm=({id,lot,protocols,update,remove,error,}) =>{
