@@ -40,7 +40,7 @@ class OrderEventSubscriber
 
     public function handleOrderRejected($event) {
         Mail::to($event->order->user)
-            ->cc(env("MAIL_TO_CC_ADDRESS"))
+            ->cc(env("MAIL_TO_CC_ADDRES"))
             ->send(new OrderRejectedMail($event->order));
     }
 
