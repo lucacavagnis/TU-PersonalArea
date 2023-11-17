@@ -25,6 +25,7 @@ class ProductEventSubscriber
         foreach($event->product->company->supervisors as $supervisor)
             Mail::to($supervisor)
                 ->cc(env("MAIL_TO_CC_ADDRESS"))
+
                 ->send(new \App\Mail\ProductExpired($event->product, $supervisor));
     }
 
@@ -33,6 +34,7 @@ class ProductEventSubscriber
         foreach($event->product->company->supervisors as $supervisor)
             Mail::to($supervisor->email)
                 ->cc(env("MAIL_TO_CC_ADDRESS"))
+
                 ->send(new \App\Mail\ProductUnderEscort($event->product, $supervisor));
     }
 
@@ -41,6 +43,7 @@ class ProductEventSubscriber
         foreach($event->product->company->supervisors as $supervisor)
             Mail::to($supervisor->email)
                 ->cc(env("MAIL_TO_CC_ADDRESS"))
+
                 ->send(new \App\Mail\ProductOutOfStock($event->product, $supervisor));
     }
 
