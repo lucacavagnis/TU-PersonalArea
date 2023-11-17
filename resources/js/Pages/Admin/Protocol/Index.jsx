@@ -2,15 +2,12 @@ import React from 'react';
 import { Head } from '@inertiajs/inertia-react';
 import Admin from "@/Layouts/AdminLayout";
 import Tab from "@/Components/Tab";
-import {ProductsTable} from "@/Components/Admin/Product/ProductsTable";
+import {MUIProtocolTable} from "@/Components/Admin/Protocol/MUIProtocolTable";
 import Button from "@/Components/Buttons/Button";
-import {ProtocolsTable} from "@/Components/Admin/Protocol/ProtocolsTable";
 
 
 
 export default function Index(props) {
-    console.log(props)
-
     return (
         <Admin
             auth={props.auth}
@@ -23,7 +20,9 @@ export default function Index(props) {
                 <div className="max-w-8xl mx-auto sm:px-6 lg:px-8">
                     <div className="bg-white shadow-sm sm:rounded-lg">
                         <Tab>
-                            <ProtocolsTable protocols={props.protocols}/>
+                            <MUIProtocolTable protocols={props.protocols}/>
+                            <Button type="link" href={route('admin.protocols.create')}>Crea nuovo</Button>
+
                         </Tab>
                     </div>
                 </div>

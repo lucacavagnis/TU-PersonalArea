@@ -10,7 +10,6 @@ import Quantity from "@/Components/Authenticated/Product/Quantity";
 import {isExpired} from "@/Helpers/Product";
 
 export default function Index(props) {
-    console.log(props)
     let products=props.products.data;
 
     const  [open,setOpen]=useState(false);

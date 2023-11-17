@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::table('categories', function (Blueprint $table) {
             $table->unsignedBigInteger('parent_id')->nullable();
 
-            $table->foreign('parent_id')->on('categories')->references('id')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('parent_id')->on('categories')->references('id')->onUpdate('cascade')->onDelete('set null');
         });
 
     }

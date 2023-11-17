@@ -27,15 +27,15 @@ class CreateProductsTable extends Migration
             $table->string('prot_date');
             $table->string('warehouse_code')->nullable();
             $table->string('expire_date');
-            $table->unsignedBigInteger('category_id');
-            $table->unsignedBigInteger('subcategory_id');
+            $table->unsignedBigInteger('category_id')->nullable();
+            $table->unsignedBigInteger('subcategory_id')->nullable();
             $table->unsignedBigInteger('company_id');
             $table->timestamps();
 
             $table->unique(['company_id','sku']);
 
-            $table->foreign('category_id', 'cat___fk')->references('id')->on('categories');
-            $table->foreign('subcategory_id', 'subcat___fk')->references('id')->on('subcategories');
+            $table->foreign('category_id', 'cat___fk')->on('categories')->references('id')->onUpdate('cascade')->onDelete('set null');
+            $table->foreign('subcategory_id', 'subcat___fk')->references('id')->on('subcategories')->onUpdate('cascade')->onDelete('set null');;
         });
     }
 

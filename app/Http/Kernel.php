@@ -84,4 +84,10 @@ class Kernel extends HttpKernel
         'admin.only' => \App\Http\Middleware\AllowOnlyAdminUsers::class
     ];
 
+    protected $middlewarePriority = [
+        \App\Http\Middleware\Authenticate::class,
+        \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+        \App\Http\Middleware\AllowOnlyAdminUsers::class,
+    ];
+
 }

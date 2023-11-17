@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useState} from 'react';
 import AuthenticatedLayout, {CartContext} from '@/Layouts/AuthenticatedLayout';
 import Tab from "@/Components/Tab";
 import {Head, Link, useForm} from '@inertiajs/inertia-react';
@@ -12,22 +12,15 @@ import Table from "@/Components/Table/Table";
 import {isCa, isTu} from "@/Helpers/Product";
 import {Format_date} from "@/Helpers/String";
 import Tags from "@/Components/Authenticated/Product/Tags";
+import {LoadingButton} from "@mui/lab";
+import Box from "@mui/material/Box";
+import Snackbar from "@mui/material/Snackbar";
+import Alert from "@mui/material/Alert";
+
 export default function Show(props) {
+    console.log(props)
 
     const product=props.product;
-
-    let processing=false;
-
-    const onClick=()=>{
-        Inertia.post(route('products.quotation',product.id),{},{
-            onStart: ()=>{
-                processing=true;
-            },
-            onFinish: ()=>{
-                processing=false;
-            }
-        })
-    }
 
     const {data,setData,post,reset} = useForm({
         product_id: product.id,
@@ -63,7 +56,6 @@ export default function Show(props) {
 
     let available_products=[],unavailable_products=[];
         product.lots.forEach((p,i)=>{
-            console.log((p.qty_available-p.qty_requested))
         if((p.qty_available-p.qty_requested)>0)
             available_products.push(<LotListEl lot={p} data={data} id={i} onChange={onRangeChange}/>)
         else
@@ -91,12 +83,12 @@ export default function Show(props) {
                                 <p className="font-bold">{"/ "+ (product.qty_available - product.qty_requested) +" disponibili"}</p>
                             </div>
 
-                                <div className="flex items-center">
+                                <div className="flex items-baseline">
                                     <CartButton className="mr-2" submit={submit}/>
-                                    <Button  disbaled={processing} pending={processing} type="button" kind="primary" onClick={onClick}>Richiedi nuova qutazione</Button>
+                                    <RequestQuotationButton product={product}/>
                                 </div></>:
                             <div><p className="font-bold text-lg text-red-700">Esaurito / Disponibilità da verificare</p>
-                                <Button  disbaled={processing} pending={processing} type="button" kind="primary" onClick={onClick}>Richiedi nuova quotazione</Button>
+                                <RequestQuotationButton product={product}/>
                             </div>}
 
                     </ProductDataTab>
@@ -121,6 +113,54 @@ export default function Show(props) {
     );
 }
 
+const RequestQuotationButton=({product})=>{
+
+    const [processing, setProcessing] = useState(false)
+    const [snackbarOpen, setSnackbarOpen] = useState(false)
+
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setSnackbarOpen(false);
+    };
+    const onClick=()=>{
+        Inertia.post(route('products.quotation',product.id),{},{
+            onStart: ()=>{
+                setProcessing(true)
+            },
+            onFinish: ()=>{
+                setProcessing(false)
+                setSnackbarOpen(true)
+                //setTimeout(()=>setSnackbarOpen(false),3000)
+            }
+        })
+    }
+
+
+
+    return(
+        <Box>
+            <LoadingButton
+                onClick={onClick}
+                loading={processing}
+                loadingPosition="end"
+                variant="contained"
+                sx={{
+                    background: "#1d4ed8"
+                }}
+            >
+                <span>Richiedi nuova quotazione</span>
+            </LoadingButton>
+            <Snackbar open={snackbarOpen} autoHideDuration={6000} onClose={handleClose}>
+                <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+                    Richiesta inviata
+                </Alert>
+            </Snackbar>
+        </Box>
+)
+}
+
 export const ProductDataTab=({children,product})=>{
     return(
         <Tab className="flex justify-between w-full mb-4">
@@ -132,12 +172,16 @@ export const ProductDataTab=({children,product})=>{
                 <div className="mb-8">
                     <span className="mb-2 block">{product.sku}</span>
                     <h1 className="font-bold hover:underline"><Link href={route('products.show',product.id)}>{product.name}</Link></h1>
-                    {product.last_price && <div className="mb-4 flex items-baseline">
+                    {product.last_original_price!==null && product.last_original_price!==0 && <div className="mb-4 flex items-baseline">
                         <ReservedPrice fullPrice={product.qty_available-product.qty_requested>0?product.last_original_price:null} reservedPrice={product.qty_available-product.qty_requested?product.last_price:product.last_original_price} className="text-lg mr-2"/>
                         {product.qty_available-product.qty_requested>0 && <p className="text-sm text-gray-500">Ultima quotazione</p>}
 
                     </div>}
-                    <p className="uppercase font-semibold mb-4 text-slate-500 text-sm">{product.category.name+" / "+product.subcategory.name}</p>
+                    <p className="uppercase font-semibold mb-4 text-slate-500 text-sm">{product.categories.map((c,i)=>{
+                        return <span>{i!==0&&<span className="mx-2">/</span>}{c.ancestors_and_self.map((a,j)=>{
+                            return <span>{j!==0&&<span className="mx-1">-</span>}{a.name}</span>
+                        })}</span>
+                    })}</p>
                     <p className="mb-4">{product.desc}</p>
                     {children}
                 </div>

@@ -9,15 +9,18 @@ use App\Models\Company;
 use App\Models\Lot;
 use App\Models\LotLocation;
 use App\Models\Product;
+use App\Models\CategoryProduct;
 use App\Models\Protocol;
 use App\Models\ProtocolLot;
 use App\Models\Subcategory;
 use App\Models\WarehouseSlot;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
+use Symfony\Component\ErrorHandler\Debug;
 
 class AdminProductController extends Controller
 {
@@ -61,21 +64,24 @@ class AdminProductController extends Controller
      */
     public function store(Request $request)
     {
+        Log::debug(print_r($request->all(),true));
         $product=new Product;
         $product->name=$request->input('name');
         $product->sku=$request->input('sku');
         $product->desc=$request->input('desc');
-        $product->company_id=$request->input('company_id');
+        $product->company_id=$request->input('company.id');
         $product->category_id=$request->input('category_id');
         $product->subcategory_id=$request->input('subcategory_id');
         if($request->has('image') && $request->hasFile('image')){
             $file=$request->file('image');
-            $file->move(storage_path('app/public/'.$request->user()->company->id.'/uploads'),$product->sku.".".$file->extension());
+            $file->move(storage_path('app/public/'.$request->input('company')["id"].'/uploads'),$product->sku.".".$file->extension());
         }
         $product->save();
 
+        $product->categories()->attach(collect($request->input("categories"))->reject(function($e){return !$e;})->map(function($e,$i){return $i;}));
 
-        return Redirect::route('admin.products.index');
+
+        return Redirect::route('admin.products.manage',$product->id);
     }
 
     /**
@@ -100,6 +106,7 @@ class AdminProductController extends Controller
      */
     public function edit(Product $product)
     {
+        $product->load(['company','category','subcategory','categories:id']);
         $companies=Company::all();
         $categories=Category::all();
         $subcategories=Subcategory::all();
@@ -107,7 +114,7 @@ class AdminProductController extends Controller
             'companies'=>$companies,
             'categories'=>$categories,
             'subcategories'=>$subcategories,
-            'default'=>$product->load(['company','category','subcategory']),
+            'product'=>$product,
         ]);
     }
 
@@ -116,22 +123,32 @@ class AdminProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
+        Log::debug($product->sku.'!='.$request->sku);
+        if($product->sku!=$request->sku && !is_null($product->image)){
+            Log::debug("ok");
+            Log::debug(Storage::exists('public/'.$product->image));
+            $chunk = explode(".", $product->image);
+            $extension=end($chunk);
+                Storage::move('public/'.$product->image,'public/'.$request->company["id"].'/uploads/'.$request->sku.'.'.$extension);
+        }
         $product->name=$request->name;
         $product->desc=$request->desc;
         $product->sku=$request->sku;
-        $product->company_id=$request->company_id;
+        $product->company_id=$request->company["id"];
         $product->category_id=$request->category_id;
         $product->subcategory_id=$request->subcategory_id;
         if($request->has('image')){
             if($request->hasFile('image')){
                 $file=$request->file('image');
-                $file->move(storage_path('app/public/'.$request->user()->company->id.'/uploads'),$product->sku.".".$file->extension());
+                $file->move(storage_path('app/public/'.$request->company_id.'/uploads'),$request->sku.".".$file->extension());
             }
-        }else{
-            if(Storage::exists('public/uploads/'.$product->image))
-            Storage::delete('public/uploads/'.$product->image);
+        }else if(!is_null($product->image)){
+            Storage::delete(storage_path('public/'.$product->image));
         }
         $product->save();
+
+        $product->categories()->sync(collect($request->input("categories"))->reject(function($e){return !$e;})->map(function($e,$i){return $i;}));
+
 
         return Redirect::route('admin.products.index');
     }

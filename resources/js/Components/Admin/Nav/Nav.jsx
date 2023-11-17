@@ -10,7 +10,7 @@ import NavDropdown from "@/Components/Admin/Nav/NavDropdown";
 export default function Nav({auth}){
 
     return(
-            <nav className="group z-50 bg-gray-900 fixed flex-shrink-0 max-w-xs hover:w-full h-screen top-0 left-0 w-20 transition-all overflow-hidden duration-500">
+            <nav className="z-50 bg-gray-900 fixed flex-shrink-0 max-w-xs w-full h-screen top-0 left-0 w-20 transition-all overflow-hidden duration-500">
                 <div className="px-4 py-4">
                     <div className="flex flex-col justify-between h-16">
                         <div className="mb-4">
@@ -37,9 +37,6 @@ export default function Nav({auth}){
                                     </NavDropdown.Link>*/}
                                     <NavDropdown.Link href={route('admin.categories.index')} method="get" as="button">
                                         Categorie
-                                    </NavDropdown.Link>
-                                    <NavDropdown.Link href={route('admin.subcategories.index')} method="get" as="button">
-                                        Sottocategorie
                                     </NavDropdown.Link>
                                 </NavDropdown.Content>
                             </NavDropdown>

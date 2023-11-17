@@ -42,7 +42,6 @@ class AuthenticatedSessionController extends Controller
         if(Auth::user()->role!=0)
         {
             $request->session()->put('cart',New Cart);
-
             return redirect()->intended(RouteServiceProvider::HOME);
         }
             return redirect()->to(RouteServiceProvider::ADMIN);

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::table('product_locations', function (Blueprint $table) {
             $table->dropForeign('product_location_product_id_foreign');
-            $table->foreign('product_id', 'lot_location_lot_id_foreign')->references('id')->on('lots');
+            $table->foreign('product_id', 'lot_location_lot_id_foreign')->references('id')->on('lots')->onDelete("cascade")->onDelete("cascade");
         });
         Schema::rename('product_locations','lot_locations');
         Schema::table('lot_locations', function (Blueprint $table) {

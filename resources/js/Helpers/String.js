@@ -19,4 +19,4 @@ export const Placeholder=(value)=>{
     return value||value===0?value:'---'
 }
 
-export const getTypeText=(value)=>(value?"Conto aperto":"Conto deposito")
+export const getTypeText=(value)=>(value?"Conto aperto":"Conto depostio")

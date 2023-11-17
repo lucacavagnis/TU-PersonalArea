@@ -3,7 +3,7 @@ import Nav from "@/Components/Admin/Nav/Nav";
 
 
 
-export default function Admin({ auth, header, children }) {
+export default function Admin({ auth, header, children, breadcrumbs }) {
 
 
 
@@ -14,6 +14,7 @@ export default function Admin({ auth, header, children }) {
                 {header && (
                     <header className="bg-white shadow">
                         <div className="max-w-8xl mx-auto py-6 px-4 sm:px-6 lg:px-8">{header}</div>
+                        {breadcrumbs && <div className="max-w-8xl mx-auto py-3 px-4 sm:px-6 lg:px-8 border-t">{breadcrumbs}</div>}
                     </header>
                 )}
 

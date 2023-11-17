@@ -19,9 +19,7 @@ export default function Create(props) {
 
             <div className="py-12">
                 <div className="max-w-8xl mx-auto sm:px-6 lg:px-8">
-                    <Tab>
                         <ProductsForm companies={props.companies} categories={props.categories} subcategories={props.subcategories} />
-                    </Tab>
                 </div>
             </div>
         </Admin>

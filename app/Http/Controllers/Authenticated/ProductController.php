@@ -63,7 +63,7 @@ class ProductController extends Controller
             $product->load(['lots'=> function($query)
                 {
                     $query->orderBy('date', 'asc');
-                },'lots.protocolLot.protocol','category','subcategory','lots.locations'])->append(['last_price','last_original_price','qty_available','qty_requested','qty_total']);
+                },'lots.protocolLot.protocol','category','subcategory','lots.locations',"categories.ancestorsAndSelf"])->append(['last_price','last_original_price','qty_available','qty_requested','qty_total']);
 
             foreach ($product->lots as $lot){
                 $lot->append(['qty_requested']);
