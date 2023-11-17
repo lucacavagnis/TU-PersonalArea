@@ -16,7 +16,7 @@ class InCart implements ValidationRule
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        if(!Session::has('cart') || !Session::get('cart')->has($this->route('cart'))){
+        if(!Session::has('cart') || !Session::get('cart')->has($value)){
                 $fail('Il prodotto non è nel carrello');
             }
     }

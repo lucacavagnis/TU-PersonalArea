@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Authenticated\Controller;
 use App\Models\Lot;
+use App\Models\LotLocation;
 use App\Models\Product;
 use App\Models\ProtocolLot;
 use Carbon\Carbon;
@@ -98,6 +99,11 @@ class AdminLotController extends Controller
     public function destroy(Lot $lot)
     {
         $lot->delete();
+        return back();
+    }
+
+    public function destroyLocation(LotLocation $location){
+        $location->delete();
         return back();
     }
 }

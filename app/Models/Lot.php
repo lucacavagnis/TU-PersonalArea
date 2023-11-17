@@ -21,17 +21,17 @@ class Lot extends Model
 {
     use HasFactory;
 
-    public function cartProductLot() : BelongsTo
-    {
-        return $this->belongsTo(CartProductLot::class);
-    }
+
     public function company(): BelongsTo
     {
         return $this->belongsTo(Company::class);
     }
-    public function protocolLot(): HasOne{
-        return $this->hasOne(ProtocolLot::class,'lot_id');
+
+    public function protocolLot(): HasOne
+    {
+        return $this->hasOne(ProtocolLot::class, 'lot_id');
     }
+
     public function protocol(): HasOneThrough
     {
         return $this->through('protocolProduct')->has('protocol');
@@ -42,6 +42,11 @@ class Lot extends Model
         return $this->belongsTo(Product::class);
     }
 
+    public function locations(): HasMany
+    {
+        return $this->hasMany(LotLocation::class, 'lot_id', 'id');
+    }
+
     public function orderProducts(): HasMany
     {
         return $this->hasMany(OrderProduct::class);
@@ -49,46 +54,48 @@ class Lot extends Model
 
     public function orders(): BelongsToMany
     {
-        return $this->belongsToMany(Order::class,'order_products')->withPivot('quantity')->as('orderProduct');
-    }
-
-    public function warehouseSlots(): BelongsToMany
-    {
-        return $this->belongsToMany(WarehouseSlot::class,'product_locations','product_id','warehouse_id')->withPivot('qty')->as('product_location');
+        return $this->belongsToMany(Order::class, 'order_products')->withPivot('quantity')->as('orderProduct');
     }
 
     protected function qtyRequested(): Attribute
     {
         return Attribute::make(
-            get: fn ($value, $attributes) =>  $this->getQtyRequested($attributes),
+            get: fn($value, $attributes) => $this->getQtyRequested($attributes),
         );
     }
 
-    private function getQtyRequested($attributes){
-        if(!Session::has('cart'))
+    private function getQtyRequested($attributes)
+    {
+        if (!Session::has('cart'))
             return null;
 
-        $cart=Session::get('cart');
-        $product_id=$attributes['product_id'];
-        $lot_id=$attributes['id'];
-        if($cart->has($product_id) && $cart->get($product_id)->has($lot_id))
-        {
+        $cart = Session::get('cart');
+        $product_id = $attributes['product_id'];
+        $lot_id = $attributes['id'];
+        if ($cart->has($product_id) && $cart->get($product_id)->has($lot_id)) {
             return $cart->get($product_id)->get($lot_id)->qty;
-        }else
+        } else
             return 0;
     }
 
     protected function date(): Attribute
     {
         return Attribute::make(
-            get: function($value){
-                if($this->protocolLot)
-                    return $this->protocolLot->protocol->date;
-                else
-                    return $value;
+            get: function ($value) {
+                return $value;
             },
         );
     }
 
     //protected $appends=['qty_requested'];
+    public static function findOrCreate($id)
+    {
+        $obj = static::find($id);
+        return $obj ?: new static;
+    }
+
+    protected $casts = [
+        'date' => 'datetime'
+    ];
 }
+

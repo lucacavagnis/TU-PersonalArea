@@ -144,6 +144,25 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+        "*.protocol"=>"Protocollo",
+        "*.warehouse"=>"Magazzino",
+        "*.discount"=>"Sconto",
+        "*.product_id"=>"Id prodotto",
+        "*.qty_available"=>"Quantità disponibile",
+        "*.qty_total"=>"Quantità totale",
+        "*.date"=>"Data",
+        "*.protocol_lot"=>"Lotto protcollo",
+        "*.protocol_lot.id"=>"Id lotto protocollo",
+        "*.protocol_lot.protocol_id"=>"Protocollo",
+        "*.protocol_lot.original_price"=>"Prezzo",
+        "*.protocol_lot.price"=>"Prezzo scontato",
+        "*.locations"=>"Poszioni magazzino magazzino",
+        "*.locations.*.slot.rack"=>"Armadio",
+        "*.locations.*.slot.shelf"=>"Scaffale",
+        "*.locations.*.slot.pallet"=>"Bancale",
+        "*.locations.*.location_id"=>"Id poszione magazzino",
+        "*.locations.*.qty"=>"Quantità",
+    ],
 
 ];

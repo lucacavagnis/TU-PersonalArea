@@ -4,12 +4,11 @@ namespace App\Http\Controllers\Authenticated;
 
 use App\Enums\OrderFilterValues;
 use App\Events\Product\QuotationRequest;
-use App\Http\Requests\StoreProductRequest;
-use App\Http\Requests\UpdateProductRequest;
+use App\Http\Requests\Authenticated\StoreProductRequest;
+use App\Http\Requests\Authenticated\UpdateProductRequest;
 use App\Models\Company;
 use App\Models\Lot;
 use App\Models\Product;
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -45,7 +44,7 @@ class ProductController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StoreProductRequest  $request
+     * @param  \App\Http\Requests\Authenticated\StoreProductRequest  $request
      * @return \Illuminate\Http\Response
      */
     public function store(StoreProductRequest $request)
@@ -64,7 +63,7 @@ class ProductController extends Controller
             $product->load(['lots'=> function($query)
                 {
                     $query->orderBy('date', 'asc');
-                },'lots.protocolLot.protocol','category','subcategory','locations'])->append(['last_price','last_original_price','qty_available','qty_requested','qty_total']);
+                },'lots.protocolLot.protocol','category','subcategory','lots.locations',"categories.ancestorsAndSelf"])->append(['last_price','last_original_price','qty_available','qty_requested','qty_total']);
 
             foreach ($product->lots as $lot){
                 $lot->append(['qty_requested']);
@@ -89,7 +88,7 @@ class ProductController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdateProductRequest  $request
+     * @param  \App\Http\Requests\Authenticated\UpdateProductRequest  $request
      * @param  \App\Models\Lot  $product
      * @return \Illuminate\Http\Response
      */

@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Lot;
 use App\Models\Product;
-use App\Models\ProductLocation;
+use App\Models\LotLocation;
 use App\Models\Protocol;
 use App\Models\ProtocolLot;
 use App\Models\WarehouseSlot;
@@ -56,23 +56,25 @@ class ProductSeeder extends Seeder
         $warehouse_slot=new WarehouseSlot;
         $warehouse_slot->rack='Q';
         $warehouse_slot->shelf='3';
+        $warehouse_slot->pallet='1';
         $warehouse_slot->save();
 
 
         $warehouse_slot=new WarehouseSlot;
         $warehouse_slot->rack='Q';
         $warehouse_slot->shelf='2';
+        $warehouse_slot->pallet='1';
         $warehouse_slot->save();
 
-        $product_location = new ProductLocation;
-        $product_location->warehouse_id=1;
-        $product_location->product_id=1;
+        $product_location = new LotLocation;
+        $product_location->slot_id=1;
+        $product_location->lot_id=1;
         $product_location->qty=20;
         $product_location->save();
 
-        $product_location = new ProductLocation;
-        $product_location->warehouse_id=2;
-        $product_location->product_id=1;
+        $product_location = new LotLocation;
+        $product_location->slot_id=2;
+        $product_location->lot_id=1;
         $product_location->qty=10;
         $product_location->save();
 
@@ -83,15 +85,15 @@ class ProductSeeder extends Seeder
         $product->save();
 
 
-        $product_location = new ProductLocation;
-        $product_location->warehouse_id=1;
-        $product_location->product_id=2;
+        $product_location = new LotLocation;
+        $product_location->slot_id=1;
+        $product_location->lot_id=2;
         $product_location->qty=10;
         $product_location->save();
 
-        $product_location = new ProductLocation;
-        $product_location->warehouse_id=2;
-        $product_location->product_id=2;
+        $product_location = new LotLocation;
+        $product_location->slot_id=2;
+        $product_location->lot_id=2;
         $product_location->qty=18;
         $product_location->save();
 

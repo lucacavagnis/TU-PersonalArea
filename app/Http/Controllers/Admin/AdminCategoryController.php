@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Authenticated\Controller;
+use App\Http\Requests\Admin\CreateOrUpdateCategoryRequest;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -17,17 +18,9 @@ class AdminCategoryController extends Controller
      */
     public function index(Request $request)
     {
-        $categories=Category::when($request->input('search'),function($query) use ($request){
-                return $query
-                    ->where('id','like','%'.$request->input('search').'%')
-                    ->orWhere('name','like','%'.$request->input('search').'%');
-
-            })
-            ->orderBy($request->input('orderBy','id'),$request->input('orderDir',"desc"))
-            ->paginate(10,page:$request->input('search')==""?null:1)->appends($request->except('page'));
+        $categories=Category::all();
         return Inertia::render('Admin/Category/Index',[
             'categories'=>$categories,
-            'inputs'=>$request->input(),
         ]);
     }
 
@@ -42,13 +35,14 @@ class AdminCategoryController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CreateOrUpdateCategoryRequest $request)
     {
-        $category = new Category;
-        $category->name=$request->input('name');
-        $category->save();
-
-        return Redirect::route('admin.categories.index');
+        Log::debug(print_r($request->parent_id,true));
+        $category= Category::updateOrCreate(
+            ['id' =>  $request->id],
+            ['name' => $request->name,'parent_id'=>$request->parent_id]
+        );
+        return response()->json(['category' => $category], 200);
     }
 
     /**
@@ -72,9 +66,7 @@ class AdminCategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-        $category->{$request->input('prop')}=$request->input('value');
-        $category->save();
-        return back();
+        return back()->withErrors(["erroreProva"=>"prova"]);
     }
 
     /**

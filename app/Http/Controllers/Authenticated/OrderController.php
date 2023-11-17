@@ -8,8 +8,8 @@ use App\Events\Order\OrderPending;
 use App\Events\Order\OrderRejected;
 use App\Events\Product\ProductOutOfStock;
 use App\Events\Product\ProductUnderEscort;
-use App\Http\Requests\StoreOrderRequest;
-use App\Http\Requests\UpdateOrderRequest;
+use App\Http\Requests\Authenticated\StoreOrderRequest;
+use App\Http\Requests\Authenticated\UpdateOrderRequest;
 use App\Models\Lot;
 use App\Models\Order;
 use App\Models\OrderProduct;
@@ -65,7 +65,7 @@ class OrderController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StoreOrderRequest  $request
+     * @param  \App\Http\Requests\Authenticated\StoreOrderRequest  $request
      * @return \Illuminate\Http\RedirectResponse | \Inertia\Response
      */
     public function store(StoreOrderRequest $request)
@@ -139,7 +139,7 @@ class OrderController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdateOrderRequest  $request
+     * @param  \App\Http\Requests\Authenticated\UpdateOrderRequest  $request
      * @param  \App\Models\Order  $order
      * @return \Illuminate\Http\RedirectResponse
      */

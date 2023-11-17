@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Authenticated;
 
-use App\Http\Requests\UpdateOrderProductRequest;
+use App\Http\Requests\Authenticated\UpdateOrderProductRequest;
 use App\Models\OrderProduct;
 
 class OrderProductController extends Controller
@@ -30,7 +30,7 @@ class OrderProductController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StoreOrderProductRequest  $request
+     * @param  \App\Http\Requests\Authenticated\StoreOrderProductRequest  $request
      * @return \Illuminate\Http\Response
      */
     public function store()
@@ -63,7 +63,7 @@ class OrderProductController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdateOrderProductRequest  $request
+     * @param  \App\Http\Requests\Authenticated\UpdateOrderProductRequest  $request
      * @param  \App\Models\OrderProduct  $orderProduct
      * @return \Illuminate\Http\Response
      */

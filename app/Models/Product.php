@@ -26,6 +26,11 @@ class Product extends Model
         return $this->belongsTo(Category::class);
     }
 
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class);
+    }
+
     public function subcategory()
     {
         return $this->belongsTo(Subcategory::class);
@@ -35,9 +40,7 @@ class Product extends Model
         return $this->hasMany(Lot::class,'product_id');
     }
 
-    public function locations(): HasMany{
-        return $this->hasMany(ProductLocation::class,'product_id','id');
-    }
+
 
     protected function image(): Attribute
     {
@@ -112,9 +115,10 @@ class Product extends Model
 
     private function getImageFileName($attributes){
         $name=null;
-        $name=File::exists(storage_path('app/public/uploads/'.$attributes['sku'].'.jpg'))?$attributes['sku'].'.jpg':$name;
-        $name=File::exists(storage_path('app/public/uploads/'.$attributes['sku'].'.png'))?$attributes['sku'].'.png':$name;
-
+        $name=File::exists(storage_path('app/public/'.$attributes['company_id'].'/uploads/'.$attributes['sku'].'.jpg'))?$attributes['company_id'].'/uploads/'.$attributes['sku'].'.jpg':$name;
+        $name=File::exists(storage_path('app/public/'.$attributes['company_id'].'/uploads/'.$attributes['sku'].'.png'))?$attributes['company_id'].'/uploads/'.$attributes['sku'].'.png':$name;
+        $name=File::exists(storage_path('app/public/'.$attributes['company_id'].'/uploads/'.$attributes['sku'].'.webp'))?$attributes['company_id'].'/uploads/'.$attributes['sku'].'.webp':$name;
+        $name=File::exists(storage_path('app/public/'.$attributes['company_id'].'/uploads/'.$attributes['sku'].'.avif'))?$attributes['company_id'].'/uploads/'.$attributes['sku'].'.avif':$name;
         return $name;
     }
 

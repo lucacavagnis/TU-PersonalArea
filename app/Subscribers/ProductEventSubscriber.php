@@ -16,7 +16,7 @@ class ProductEventSubscriber
     {
         foreach($event->product->company->supervisors as $supervisor)
             Mail::to($supervisor)
-                ->bcc('l.cavagnis@tutto-ufficio.it')
+                ->cc(env("MAIL_TO_CC_ADDRESS"))
                 ->send(new \App\Mail\ProductExpiring($event->product, $supervisor));
     }
 
@@ -24,7 +24,8 @@ class ProductEventSubscriber
     {
         foreach($event->product->company->supervisors as $supervisor)
             Mail::to($supervisor)
-                ->bcc('l.cavagnis@tutto-ufficio.it')
+                ->cc(env("MAIL_TO_CC_ADDRESS"))
+
                 ->send(new \App\Mail\ProductExpired($event->product, $supervisor));
     }
 
@@ -32,7 +33,8 @@ class ProductEventSubscriber
     {
         foreach($event->product->company->supervisors as $supervisor)
             Mail::to($supervisor->email)
-                ->bcc('l.cavagnis@tutto-ufficio.it')
+                ->cc(env("MAIL_TO_CC_ADDRESS"))
+
                 ->send(new \App\Mail\ProductUnderEscort($event->product, $supervisor));
     }
 
@@ -40,7 +42,8 @@ class ProductEventSubscriber
     {
         foreach($event->product->company->supervisors as $supervisor)
             Mail::to($supervisor->email)
-                ->bcc('l.cavagnis@tutto-ufficio.it')
+                ->cc(env("MAIL_TO_CC_ADDRESS"))
+
                 ->send(new \App\Mail\ProductOutOfStock($event->product, $supervisor));
     }
 
@@ -49,15 +52,15 @@ class ProductEventSubscriber
 
         foreach($event->product->company->supervisors as $supervisor)
             Mail::to($supervisor->email)
-                ->bcc('l.cavagnis@tutto-ufficio.it')
+                ->cc(env("MAIL_TO_CC_ADDRESS"))
                 ->send(new \App\Mail\QuotationRequestSent($event->product, $supervisor));
 
         Mail::to($event->user->email)
-            ->bcc('l.cavagnis@tutto-ufficio.it')
+            ->cc(env("MAIL_TO_CC_ADDRESS"))
             ->send(new \App\Mail\QuotationRequestSent($event->product, $event->user));
 
-        Mail::to('info@tutto-ufficio.it')
-            ->bcc('l.cavagnis@tutto-ufficio.it')
+        Mail::to(env("MAIL_TO_ADDRESS",'info@tutto-ufficio.it'))
+            ->cc(env("MAIL_TO_CC_ADDRESS"))
             ->send(new \App\Mail\QuotationRequestReceived($event->product, $event->user));
 
 

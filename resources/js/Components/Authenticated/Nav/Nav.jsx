@@ -10,6 +10,8 @@ import {CartContext} from "@/Layouts/AuthenticatedLayout";
 
 export default function Nav({auth}){
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
+
+    console.log(auth)
     const cartProductNumber = () => {
             var qty_total=0;
 

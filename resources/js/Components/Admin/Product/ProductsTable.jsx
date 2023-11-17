@@ -68,7 +68,7 @@ export const ProductsTable=(props)=>{
                                         <Table.Field>
                                             {p.subcategory.name}
                                         </Table.Field>
-                                        <ActionColumn read={route('admin.products.show',p.id)} update={route('admin.products.edit',p.id)} del={route('admin.products.destroy',p.id)}/>
+                                        <ActionColumn read={route('admin.products.manage',p.id)} update={route('admin.products.edit',p.id)} del={route('admin.products.destroy',p.id)}/>
                                     </Table.Row>
                                 )
                             })}

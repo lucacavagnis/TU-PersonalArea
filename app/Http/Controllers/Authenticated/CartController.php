@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers\Authenticated;
 
-use App\Http\Requests\StoreCartRequest;
-use App\Http\Requests\UpdateCartRequest;
+use App\Http\Requests\Authenticated\StoreCartRequest;
+use App\Http\Requests\Authenticated\UpdateCartRequest;
 use App\Models\Cart;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Inertia\Inertia;
 

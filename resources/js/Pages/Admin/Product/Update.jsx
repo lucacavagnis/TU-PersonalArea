@@ -6,6 +6,7 @@ import {ProductsForm} from "@/Components/Admin/Product/ProductsForm";
 
 
 export default function Update(props) {
+    console.log(props)
     return (
         <Admin
             auth={props.auth}
@@ -16,9 +17,7 @@ export default function Update(props) {
 
             <div className="py-12">
                 <div className="max-w-8xl mx-auto sm:px-6 lg:px-8">
-                    <Tab>
-                        <ProductsForm companies={props.companies} categories={props.categories} subcategories={props.subcategories} default_value={props.default} />
-                    </Tab>
+                        <ProductsForm companies={props.companies} categories={props.categories} subcategories={props.subcategories} product={props.product} />
                 </div>
             </div>
         </Admin>    );

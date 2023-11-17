@@ -19,18 +19,9 @@ class AdminProtocolController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index()
     {
-        $protocols=Protocol::with(['company'])
-        ->when($request->input('search'),function($query) use ($request){
-                return $query
-                    ->where('date','like','%'.$request->input('search').'%')
-                    ->orWhere('expiring_date','like','%'.$request->input('search').'%')
-                    ->orWhere('referral','like','%'.$request->input('search').'%');
-
-            })
-            ->orderBy($request->input('orderBy','id'),$request->input('orderDir',"desc"))
-            ->paginate(10,page:$request->input('search')==""?null:1)->appends($request->except('page'));
+        $protocols=Protocol::with(['company'])->get();
         return Inertia::render('Admin/Protocol/Index',[
             'protocols'=>$protocols,
         ]);
@@ -113,6 +104,21 @@ class AdminProtocolController extends Controller
     public function destroy(Protocol $protocol)
     {
         $protocol->delete();
+        return Redirect::route('admin.protocols.index');
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function compile(Request $request, Protocol $protocol)
+    {
+        $protocol->referral=$request->input('referral');
+        $protocol->date=$request->input('date');
+        $protocol->expiring_date=$request->input('expiring_date');
+        $protocol->company_id=$request->input('company_id');
+        $protocol->type=$request->input('type');
+        $protocol->save();
+
         return Redirect::route('admin.protocols.index');
     }
 }
