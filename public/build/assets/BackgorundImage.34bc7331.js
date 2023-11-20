@@ -1,0 +1,1 @@
+import{j as o}from"./app.363ed9f1.js";function n({name:s,className:r,defaultClassName:a}){const e=r+" "+(s?"":a);return o("div",{className:e,style:{backgroundImage:"url("+t(s)+")"}})}const t=s=>encodeURI(s?"/storage/"+s:"");export{n as B,t as i};
