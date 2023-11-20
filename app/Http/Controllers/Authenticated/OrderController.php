@@ -28,7 +28,7 @@ class OrderController extends Controller
      */
     public function index(Request $request)
     {
-        if(Auth::user()->role==1)
+        /*if(Auth::user()->role==1)
             $orders=Order::whereHas('user',function($q){
                 $q->where('company_id',Auth::user()->company_id);
             })
@@ -43,8 +43,15 @@ class OrderController extends Controller
                 ->orWhere('ioc','like','%'.$request->input('search').'%')
                 ->orWhere('status','like','%'.$request->input('search').'%');
         })
-            ->orderBy($request->input('orderBy','date'),$request->input('orderDir',"desc"))
-            ->paginate(10,page:$request->input('search')==""?null:1)->appends($request->except('page'));
+            ->orderBy($request->input('orderBy','date'),$request->input('orderDir',"desc"))->with('orderProducts')
+            ->paginate(10,page:$request->input('search')==""?null:1)->appends($request->except('page'));*/
+
+        if(Auth::user()->role==1)
+            $orders=Order::whereHas('user',function($q){
+                $q->where('company_id',Auth::user()->company_id);
+            })->with(['user','place','orderProducts'])->get();
+        else
+            $orders=Order::where('user_id',Auth::id())->with(['place','orderProducts'])->get();
 
         return Inertia::render('Authenticated/Order/Index',[
             'orders'=>$orders,

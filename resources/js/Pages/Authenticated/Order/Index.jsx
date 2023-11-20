@@ -4,10 +4,11 @@ import Tab from "@/Components/Tab";
 import { Head } from '@inertiajs/inertia-react';
 import OrdersTable from "@/Components/Authenticated/Order/OrdersTable";
 import SupervisorOrdersTable from "@/Components/Authenticated/Order/SupervisoOrdersTable";
+import {MUIOrdersTable} from "@/Components/Authenticated/Order/MUIOrdersTable";
 
 export default function Index(props) {
-    console.log(props);
-    let orders=props.orders;
+
+    const orders=props.orders;
 
     return (
         <AuthenticatedLayout
@@ -21,10 +22,11 @@ export default function Index(props) {
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
                 <Tab>
-                    {((props.auth.user.role===1 && props.auth.user.company.supervision)?
+                    {/*((props.auth.user.role===1 && props.auth.user.company.supervision)?
                         <SupervisorOrdersTable orders={orders} inputs={props.inputs}/>:
                         <OrdersTable orders={orders} inputs={props.inputs}/>
-                    )}
+                    )*/
+                    <MUIOrdersTable orders={orders} isSupervisor={props.auth.user.role===1 && props.auth.user.company.supervision}/>}
                 </Tab>
                 </div>
             </div>

@@ -4,10 +4,12 @@ import Button from "@/Components/Buttons/Button";
 import Status from "@/Components/Authenticated/Order/Status";
 import {upperCase} from "lodash/string";
 
-export default function SupervisorOrdersTable({orders}){
+export default function SupervisorOrdersTable(props){
+    let orders=props.orders.data
     const fieldsWidth=["w-1/6","w-1/6","w-1/6","w-1/3","w-1/6","w-1/12","w-1/6"];
     const rowClasses="pt-4 pb-4";
 
+    console.log(orders)
     return(
         <Table>
             <Table.Row className={"text-slate-500 pb-2 pt-2 border-b border-t border-slate-100"}>
