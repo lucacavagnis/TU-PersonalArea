@@ -9,6 +9,7 @@ import Status from "@/Components/Authenticated/Order/Status";
 import Button from "@/Components/Buttons/Button";
 import {ProductListDetails} from "@/Components/Admin/Product/ProductListDetails";
 import Protocol from "@/Helpers/Protocol";
+import moment from "moment";
 
 export default function Show(props) {
     console.log(props)
@@ -41,7 +42,7 @@ export default function Show(props) {
                                         <h2 className="font-bold mb-4">Stato</h2>
                                         <DataParagraph title="stato attuale" >{<Status status={order.status}/>}</DataParagraph>
                                         <DataParagraph title="gestito da" >{order.approver.name}</DataParagraph>
-                                        <DataParagraph title="Data gestione" >{order.approved_at}</DataParagraph>
+                                        <DataParagraph title="Data gestione" >{moment(order.approved_at).format("DD/MM/YYYY HH:mm:ss")}</DataParagraph>
                                     </>
                                 )
                             }

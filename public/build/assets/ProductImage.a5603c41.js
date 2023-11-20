@@ -1,1 +1,0 @@
-import{j as e}from"./app.b45b0f29.js";import{B as o}from"./BackgorundImage.d3e17cbc.js";import{t as m}from"./tw-merge.25811ea8.js";function c({name:t,className:a,defaultClassName:r}){return e(o,{className:m("w-full mb-4 bg-no-repeat bg-contain bg-center",a),defaultClassName:"bg-slate-300 "+(r||""),name:t})}export{c as P};

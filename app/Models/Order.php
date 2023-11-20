@@ -41,26 +41,6 @@ class Order extends Model
         return $this->belongsToMany(Lot::class);
     }
 
-    protected function date(): Attribute
-    {
-        return Attribute::make(
-            get: fn ($value, $attributes) =>  $this->serializeDate(new DateTime($value)),
-        );
-    }
-
-    protected function approvedAt(): Attribute
-    {
-        return Attribute::make(
-            get: fn ($value, $attributes) =>  $this->serializeDate(new DateTime($value)),
-        );
-    }
-    protected function expiredDate(): Attribute
-    {
-        return Attribute::make(
-            get: fn ($value, $attributes) =>  $this->serializeDate(new DateTime($value)),
-        );
-    }
-
     private function approvalNeeded($attributes){
         $productsUnpayed=false;
         $user=$attributes['user'];
@@ -72,13 +52,13 @@ class Order extends Model
         return $user->company->supervision && $user->role!=1 && count($user->company->supervisors)>0 && $productsUnpayed;
     }
 
-    protected function serializeDate(DateTimeInterface $date)
-    {
-        return $date->setTimezone(new DateTimeZone('Europe/Rome'))->format('d/m/Y H:i:s');
-    }
-
     protected $with=['place'];
 
+    protected $casts=[
+        'date'=>'datetime',
+        'approved_at'=>'datetime',
+        'expired_at'=>'datetime',
+    ];
 
 
 }

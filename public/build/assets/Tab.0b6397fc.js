@@ -1,1 +1,0 @@
-import{j as r}from"./app.b45b0f29.js";import{t as e}from"./tw-merge.25811ea8.js";function t({className:s,containerClassName:o,children:a}){return r("div",{className:e("bg-white shadow-sm sm:rounded-lg ",o),children:r("div",{className:e("p-6 bg-white border-b border-gray-200  sm:rounded-lg h-full ",s),children:a})})}export{t as T};
